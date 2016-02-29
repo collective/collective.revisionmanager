@@ -14,7 +14,7 @@ Features
 - Sorted listing of histories storage (portal_historiesstorage) contents. Sort by: history id, number of versions, history size, size state, portal type or path
 - Purge revisions or delete entire histories
 - Maintain a cache for the statistics
-- Plone controlpanel interface fpr portal_purgepolicy
+- Plone controlpanel interface for portal_purgepolicy
 
 Translations
 ------------
