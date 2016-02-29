@@ -6,7 +6,7 @@
 collective.revisionmanager
 ==============================================================================
 
-collective.revisionmanager is a Plone Add-On that let's you manage Products.CMFEditions histories.
+collective.revisionmanager is a Plone Add-On that lets you manage Products.CMFEditions histories.
 
 Features
 --------
