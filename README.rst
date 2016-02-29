@@ -6,34 +6,20 @@
 collective.revisionmanager
 ==============================================================================
 
-Tell me what your product does
+collective.revisionmanager is a Plone Add-On that let's you manage Products.CMFEditions histories.
 
 Features
 --------
 
-- Can be bullet points
-
-
-Examples
---------
-
-This add-on can be seen in action at the following sites:
-- Is there a page on the internet where everybody can see the features?
-
-
-Documentation
--------------
-
-Full documentation for end users can be found in the "docs" folder, and is also available online at http://docs.plone.org/foo/bar
-
+- Sorted listing of histories storage (portal_historiesstorage) contents. Sort by: history id, number of versions, history size, size state, portal type or path
+- Purge revisions or delete entire histories
+- Maintain a cache for the statistics
+- Plone controlpanel interface fpr portal_purgepolicy
 
 Translations
 ------------
 
-This product has been translated into
-
-- Klingon (thanks, K'Plai)
-
+This product has not yet been translated.
 
 Installation
 ------------
@@ -50,21 +36,12 @@ Install collective.revisionmanager by adding it to your buildout::
 
 and then running ``bin/buildout``
 
-
 Contribute
 ----------
 
 - Issue Tracker: https://github.com/collective/collective.revisionmanager/issues
 - Source Code: https://github.com/collective/collective.revisionmanager
-- Documentation: https://docs.plone.org/foo/bar
-
-
-Support
--------
-
-If you are having issues, please let us know.
-We have a mailing list located at: project@example.com
-
+- Documentation: tbd
 
 License
 -------
