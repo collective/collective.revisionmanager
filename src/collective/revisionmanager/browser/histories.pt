@@ -1,0 +1,125 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xml:lang="en" lang="en"
+      tal:omit-tag=""
+      i18n:domain="plone">
+
+<metal:block use-macro="context/prefs_main_template/macros/master">
+
+<body>
+
+    <metal:content fill-slot="prefs_configlet_content">
+
+  <div class="documentEditable">
+
+      <div id="edit-bar">
+          <ul class="contentViews" id="content-views">
+            <li>
+              <a href=""
+                 tal:attributes="href string:$portal_url/@@revisions-controlpanel"
+                 i18n:translate="label_revisions_settings">Settings</a>
+            </li>
+            <li class="selected">
+              <a href=""
+                 tal:attributes="href string:$portal_url/@@histories"
+                 i18n:translate="label_histories">List histories</a>
+            </li>
+            <li>
+              <a href=""
+                 tal:attributes="href string:$portal_url/@@refresh-histstats"
+                 i18n:translate="label_refresh_stats">Update history statistics</a>
+            </li>
+          </ul>
+          <div class="contentActions">&nbsp;</div>
+      </div>
+
+      <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+        Portal status message
+      </div>
+
+      <div id="content">
+
+        <a href=""
+           id="setup-link"
+           tal:attributes="href string:$portal_url/plone_control_panel"
+           i18n:translate="">
+            Site Setup
+        </a>
+
+        <h1 class="documentFirstHeading"
+            i18n:translate="heading_histstorage_contents">Histories Storage Contents</h1>
+
+        <div id="content-core">
+           <form action="."
+                  metal:define-macro="master"
+                  tal:attributes="action request/URL;"
+                  method="post"
+                  class="default"
+                  enctype="multipart/form-data"
+                  id="zc.page.browser_form">
+
+    <div tal:define="batch view/batch;">
+  <p tal:condition="not:batch">None</p>
+    <tal:batchnavigation
+        define="batchnavigation nocall:context/@@batchnavigation"
+        replace="structure python:batchnavigation(batch)" />
+
+  <table border="1" cellspacing="0" tal:condition="batch">
+
+    <tr>
+        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=history_id&reverse=${view/reverse}">history id</a></th>
+        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=length&reverse=${view/reverse}">versions</a></th>
+        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=size&reverse=${view/reverse}">size</a></th>
+        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=size_state&reverse=${view/reverse}">size state</a></th>
+        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=portal_type&reverse=${view/reverse}">portal type</a></th>
+        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=wcinfos&reverse=${view/reverse}">current path (counting from the portals root)</a></th>
+    </tr>
+
+    <tr tal:repeat="histData batch">
+        <td>
+            <input type="checkbox" name="" tal:attributes="name string:check${histData/history_id}" />
+            <span tal:omit-tag="" tal:content="histData/history_id">history id</span>
+        </td>
+        <td tal:content="histData/length">length</td>
+        <td align="right" tal:content="histData/size">size</td>
+        <td align="right" tal:content="histData/size_state">size state</td>
+        <td>
+          <tal:wcinfos repeat="wcinfo histData/wcinfos">
+            <tal:portaltype content="wcinfo/portal_type">portal_type</tal:portaltype>
+            <br tal:condition="python:repeat['wcinfo'].length > 1"/>
+          </tal:wcinfos>
+        </td>
+        <td>
+          <tal:wcinfos repeat="wcinfo histData/wcinfos">
+            <a tal:attributes="href wcinfo/url"
+              tal:content="wcinfo/path">current path</a>
+            <br tal:condition="python:repeat['wcinfo'].length > 1"/>
+          </tal:wcinfos>
+        </td>
+    </tr>
+
+  </table>
+    <span>Number of revisions to keep (0 to delete entire history):
+        <input type="text" name="keepnum" value="0" />
+        <input type="submit" name="del_histories" value="Purge selected histories" onclick="return window.confirm('Are you sure?')" />
+    </span>
+
+    <tal:batchnavigation
+        define="batchnavigation nocall:context/@@batchnavigation"
+        replace="structure python:batchnavigation(batch)" />
+    </div>
+
+                <input tal:replace="structure context/@@authenticator/authenticator" />
+
+            </form>
+        </div>
+
+        </div>
+        </div>
+    </metal:content>
+</body>
+
+</metal:block>
+</html>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+      name="collective.revisionmanager"
+      interface="collective.revisionmanager.interfaces.ICollectiveRevisionmanagerLayer"
+      />
+</layers>

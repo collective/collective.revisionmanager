@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="CMF Catalog">
+ <index name="cmf_uid" meta_type="FieldIndex">
+  <indexed_attr value="cmf_uid"/>
+ </index>
+ <column value="cmf_uid"/>
+</object>

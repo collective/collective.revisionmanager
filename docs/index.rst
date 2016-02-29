@@ -1,0 +1,5 @@
+====================
+collective.revisionmanager
+====================
+
+User documentation

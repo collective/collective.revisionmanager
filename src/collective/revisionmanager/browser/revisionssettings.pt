@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xml:lang="en" lang="en"
+      metal:use-macro="context/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:main fill-slot="prefs_configlet_content">
+
+  <div class="documentEditable">
+
+      <div id="edit-bar">
+          <ul class="contentViews" id="content-views">
+            <li class="selected">
+              <a href=""
+                 tal:attributes="href string:$portal_url/@@revisions-controlpanel"
+                 i18n:translate="label_revisions_settings">Settings</a>
+            </li>
+            <li>
+              <a href=""
+                 tal:attributes="href string:$portal_url/@@histories"
+                 i18n:translate="label_histories">List histories</a>
+            </li>
+            <li>
+              <a href=""
+                 tal:attributes="href string:$portal_url/@@refresh-histstats"
+                 i18n:translate="label_refresh_stats">Update history statistics</a>
+            </li>
+          </ul>
+          <div class="contentActions">&nbsp;</div>
+      </div>
+
+      <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+        Portal status message
+      </div>
+
+      <div id="content">
+        <metal:block use-macro="view/base_template/macros/header" />
+
+        <a href=""
+           id="setup-link"
+           tal:attributes="href string:$portal_url/plone_control_panel"
+           i18n:translate="">
+            Site Setup
+        </a>
+
+        <h1 class="documentFirstHeading"
+            i18n:translate="heading_revisions_settings">Revision Settings</h1>
+
+        <div id="content-core">
+            <metal:block use-macro="view/base_template/macros/master">
+                <metal:ab fill-slot="above_buttons">
+                    <tal:summary define="summaries view/summaries">
+                    <p>Calculating the statistics took <tal:time content="summaries/time">time</tal:time> seconds.</p>
+                    <table border="0" cellspacing="0">
+                        <tr>
+                            <th colspan="2" align="left">Number of Histories:</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td tal:content="summaries/total_histories">total_histories</td>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;&nbsp;&nbsp;</th>
+                            <th align="left">of existing items:</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td tal:content="summaries/exisiting_histories">exisiting_histories</td>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;&nbsp;&nbsp;</th>
+                            <th align="left">of deleted items:</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td tal:content="summaries/deleted_histories">deleted_histories</td>
+                        </tr>
+                        <tr>
+                            <th colspan="4"></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" align="left">Number of Versions:</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td tal:content="summaries/total_versions">total_versions</td>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;&nbsp;&nbsp;</th>
+                            <th align="left">of existing items:</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td tal:content="summaries/existing_versions">existing_versions</td>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;&nbsp;&nbsp;</th>
+                            <th align="left">of deleted items:</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td tal:content="summaries/deleted_versions">deleted_versions</td>
+                        </tr>
+                        <tr>
+                            <th colspan="4"></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" align="left">Average Versions per History:</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td tal:content="summaries/total_average">total_average</td>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;&nbsp;&nbsp;</th>
+                            <th align="left">of existing items:</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td tal:content="summaries/existing_average">existing_average</td>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;&nbsp;&nbsp;</th>
+                            <th align="left">of deleted items:</th>
+                            <td>&nbsp;&nbsp;</td>
+                            <td tal:content="summaries/deleted_average">deleted_average</td>
+                        </tr>
+                    </table>
+                    </tal:summary>
+                    <p>Statistics calculated <span tal:omit-tag="" tal:content="view/last_updated">last_updated</span></p>
+                </metal:ab>
+            </metal:block>
+        </div>
+      </div>
+  </div>
+</metal:main>
+</body>
+</html>

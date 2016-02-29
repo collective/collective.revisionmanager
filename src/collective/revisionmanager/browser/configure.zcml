@@ -1,0 +1,41 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="collective.revisionmanager">
+
+  <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
+  <include package="z3c.jbot" file="meta.zcml" />
+  <browser:jbot
+      directory="overrides"
+      layer="collective.revisionmanager.interfaces.ICollectiveRevisionmanagerLayer"
+      />
+
+  <!-- Publish static files -->
+  <browser:resourceDirectory
+      name="collective.revisionmanager"
+      directory="static"
+      />
+
+  <browser:page
+      name="revisions-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".views.RevisionsControlPanel"
+      permission="cmf.ManagePortal"
+      />
+
+  <browser:page
+      name="histories"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".views.HistoriesListView"
+      permission="cmf.ManagePortal"
+      />
+
+  <browser:view
+      name="refresh-histstats"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".views.RefreshStatsView"
+      permission="cmf.ManagePortal"
+      />
+
+</configure>
