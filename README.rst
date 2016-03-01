@@ -6,6 +6,9 @@
 collective.revisionmanager
 ==============================================================================
 
+.. image:: https://travis-ci.org/collective/collective.revisionmanager.svg?branch=master
+    :target: https://travis-ci.org/collective/collective.revisionmanager
+
 collective.revisionmanager is a Plone add-on that lets you manage Products.CMFEditions histories. It can be used with Plone 4.3.x at the moment.
 
 Features
