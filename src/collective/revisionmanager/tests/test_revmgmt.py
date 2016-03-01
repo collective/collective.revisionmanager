@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from time import time
 import unittest
 from DateTime.DateTime import DateTime

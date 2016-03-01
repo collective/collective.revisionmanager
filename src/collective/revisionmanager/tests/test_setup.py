@@ -26,7 +26,8 @@ class TestSetup(unittest.TestCase):
         from collective.revisionmanager.interfaces import (
             ICollectiveRevisionmanagerLayer)
         from plone.browserlayer import utils
-        self.assertIn(ICollectiveRevisionmanagerLayer, utils.registered_layers())
+        self.assertIn(ICollectiveRevisionmanagerLayer,
+                      utils.registered_layers())
 
 
 class TestUninstall(unittest.TestCase):

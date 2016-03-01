@@ -87,7 +87,7 @@ class HistoryStatsCache(PersistentMapping):
                     retrieved = wrapper.object
                     di.update({
                         'path': 'no working copy, object id: {}'.format(
-                                                      retrieved.getId()),
+                            retrieved.getId()),
                         'portal_type': retrieved.getPortalTypeName()})
                 wcinfos.append(di)
             histdata = {
