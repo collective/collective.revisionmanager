@@ -129,7 +129,6 @@ class HistoryStatsCacheTests(unittest.TestCase):
                 'existing_average': '1.8',
                 'exisiting_histories': 4,
                 'total_histories': 4,
-                'time': '0.00',
                 'deleted_average': 'n/a',
                 'total_average': '1.8'},
             'histories': [
@@ -165,7 +164,10 @@ class HistoryStatsCacheTests(unittest.TestCase):
                         'path': '/public',
                         'portal_type': 'Dummy'}],
                     'size_state': 'approximate'}]}
-        self.assertEqual(expected['summaries'], got['summaries'])
+        for k, v in expected['summaries'].items():
+            self.assertEqual(got['summaries'][k], v)
+        # the time needed to calculate stats may vary
+        self.failUnless(float(got['summaries']['time']) < 1)
         self.assertEqual(len(expected['histories']), len(got['histories']))
         for idx in range(len(expected['histories'])):
             e = expected['histories'][idx]
