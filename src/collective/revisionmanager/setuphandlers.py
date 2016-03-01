@@ -8,6 +8,8 @@ log = logging.getLogger(__name__)
 
 def post_install(context):
     """Post install script"""
+    if context.readDataFile('collectiverevisionmanager_default.txt') is None:
+        return
     catalog = getToolByName(context.getSite(), 'portal_catalog')
     if 'cmf_uid' in catalog.indexes():
         return
