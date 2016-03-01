@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
-from Products.CMFDefault.formlib.schema import SchemaAdapterBase
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -115,11 +114,14 @@ class RevisionsControlPanel(ControlPanelForm):
         return self.statscache.last_updated
 
 
-class RevisionsControlPanelAdapter(SchemaAdapterBase):
+class RevisionsControlPanelAdapter(object):
     """ Plone style schema adapter for CMFEditions configuration settings
     """
     adapts(IPloneSiteRoot)
     implements(IRevisionSettingsSchema)
+
+    def __init__(self, context):
+        self.context = context
 
     def _get_zvc_storage_tool_statistics(self):
         """ lazy calculate storage statistics
