@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-0.1dev (unreleased)
-------------------
+0.1 (2016-03-01)
+----------------
 
 - Initial release.
   [tschorr]
