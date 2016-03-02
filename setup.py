@@ -19,7 +19,7 @@ long_description = (
 
 setup(
     name='collective.revisionmanager',
-    version='0.2',
+    version='0.3.dev0',
     description="Manage CMFEditions Histories",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
