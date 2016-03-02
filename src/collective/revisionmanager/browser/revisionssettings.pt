@@ -33,7 +33,6 @@
       </div>
 
       <div id="content">
-        <!--metal:block use-macro="view/base_template/macros/header" /-->
 
         <a href=""
            id="setup-link"
@@ -53,7 +52,6 @@
                   class="edit-form"
                   enctype="multipart/form-data">
 
-              <metal:ab define-slot="above_buttons" />
                   <metal:define define-macro="widget_rendering">
                       <tal:widgets repeat="widget view/widgets/values">
                           <metal:field-slot define-slot="field">
