@@ -13,7 +13,7 @@ from plone.autoform.form import AutoExtensibleForm
 from plone.batching import Batch
 from zope.component import adapts, getUtility
 from zope.interface import implements
-from zope.publisher.browser import BrowserPage, BrowserView
+from zope.publisher.browser import BrowserPage
 from plone.protect import CheckAuthenticator
 
 
