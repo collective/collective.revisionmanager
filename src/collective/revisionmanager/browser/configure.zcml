@@ -31,11 +31,4 @@
       permission="cmf.ManagePortal"
       />
 
-  <browser:view
-      name="refresh-histstats"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      class=".views.RefreshStatsView"
-      permission="cmf.ManagePortal"
-      />
-
 </configure>

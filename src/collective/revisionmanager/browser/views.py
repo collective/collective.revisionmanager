@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
+from AccessControl import getSecurityManager
+from AccessControl.Permissions import view_management_screens
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.revisionmanager.interfaces import \
     IHistoryStatsCache, IRevisionSettingsSchema
-from plone.app.controlpanel.form import ControlPanelForm
+from z3c.form import form, button
+from plone.autoform.form import AutoExtensibleForm
 from plone.batching import Batch
 from zope.component import adapts, getUtility
-from zope.formlib.form import FormFields
 from zope.interface import implements
 from zope.publisher.browser import BrowserPage, BrowserView
+from plone.protect import CheckAuthenticator
 
 
 class HistoriesListView(BrowserPage):
@@ -82,36 +86,59 @@ class HistoriesListView(BrowserPage):
         return self.render()
 
 
-class RefreshStatsView(BrowserView):
-
-    def __call__(self):
-        stats = getUtility(IHistoryStatsCache)
-        stats.refresh()
-        self.request.response.redirect(
-            '{}/@@revisions-controlpanel'.format(self.context.portal_url()))
-
-
-class RevisionsControlPanel(ControlPanelForm):
+class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
     """ Revision settings
     """
-    base_template = ControlPanelForm.template
-    template = ViewPageTemplateFile('revisionssettings.pt')
-
-    form_fields = FormFields(IRevisionSettingsSchema)
-
+    schema = IRevisionSettingsSchema
+    id = "revisions-control-panel"
     label = _("Revision settings")
     description = _("Revision history settings for this site.")
     form_name = _("Revision settings")
+    control_panel_view = "revisions-controlpanel"
+    template = ViewPageTemplateFile('revisionssettings.pt')
 
     def __init__(self, *args, **kw):
         super(RevisionsControlPanel, self).__init__(*args, **kw)
         self.statscache = getUtility(IHistoryStatsCache)
+
+    def available(self):
+        root = aq_inner(self.context).getPhysicalRoot()
+        sm = getSecurityManager()
+        return sm.checkPermission(view_management_screens, root)
 
     def summaries(self):
         return self.statscache['summaries']
 
     def last_updated(self):
         return self.statscache.last_updated
+
+    @button.buttonAndHandler(_(u'Save'), name='save')
+    def handle_save_action(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        CheckAuthenticator(self.request)
+        if not self.available():
+            self.status = _(
+                u'text_not_allowed_manage_server',
+                default=u'You are not allowed to manage the Zope server.'
+            )
+            return
+        value = data.get('number_versions_to_keep', -1)
+        ptool = getToolByName(self.context, 'portal_purgepolicy')
+        ptool.maxNumberOfVersionsToKeep = value
+
+    @button.buttonAndHandler(_(u'Recalculate Statistics'), name='recalculate')
+    def handle_recalculate_stats(self, action):
+        CheckAuthenticator(self.request)
+        if not self.available():
+            self.status = _(
+                u'text_not_allowed_manage_server',
+                default=u'You are not allowed to manage the Zope server.'
+            )
+            return
+        self.statscache.refresh()
 
 
 class RevisionsControlPanelAdapter(object):
