@@ -46,6 +46,7 @@ setup(
         'plone.api',
         'setuptools',
         'z3c.jbot',
+        'Products.CMFEditions>=2.2.16'
     ],
     extras_require={
         'test': [
