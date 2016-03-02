@@ -24,11 +24,6 @@
                  tal:attributes="href string:$portal_url/@@histories"
                  i18n:translate="label_histories">List histories</a>
             </li>
-            <li>
-              <a href=""
-                 tal:attributes="href string:$portal_url/@@refresh-histstats"
-                 i18n:translate="label_refresh_stats">Update history statistics</a>
-            </li>
           </ul>
           <div class="contentActions">&nbsp;</div>
       </div>
