@@ -37,7 +37,7 @@ Install collective.revisionmanager by adding it to your buildout::
         collective.revisionmanager
 
 
-and then running ``bin/buildout``
+and then running ``bin/buildout``. During installation, ``collective.revisionmanager`` will check wether the ``cmf_uid`` catalog index is there - if not, the index will be added and indexed. Also, a cache for the statistics will be created and the statistics will be calculated initially. Both these steps may require a considerable amount of time depending on the number of objects and object revisions in your database.
 
 Contribute
 ----------
