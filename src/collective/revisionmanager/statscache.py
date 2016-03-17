@@ -34,7 +34,13 @@ class HistoryStatsCache(PersistentMapping):
 
         catalog = api.portal.get_tool('portal_catalog')
         brains = catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid})
-        return [brain.getObject() for brain in brains]
+        objects = []
+        for brain in brains:
+            try:
+                objects.append(brain.getObject())
+            except AttributeError:
+                log.info('Item not found: {0}'.format(brain.getURL()))
+        return objects
 
     @staticmethod
     def _save_retrieve(htool, hid, length):
