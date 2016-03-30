@@ -53,6 +53,7 @@ setup(
             'plone.app.testing',
             'plone.app.contenttypes',
             'plone.app.robotframework[debug]',
+            'testfixtures',
         ],
     },
     entry_points="""

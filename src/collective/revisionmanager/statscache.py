@@ -9,6 +9,7 @@ from Products.CMFEditions.ZVCStorageTool import Removed
 from .interfaces import IHistoryStatsCache
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
+from ZODB.POSException import POSKeyError
 from time import time
 from zope.component import getUtility
 from zope.interface import implements
@@ -34,6 +35,28 @@ class HistoryStatsCache(PersistentMapping):
         catalog = getToolByName(context, 'portal_catalog')
         brains = catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid})
         return [brain.getObject() for brain in brains]
+
+    @staticmethod
+    def _save_retrieve(htool, hid, length):
+        """ we sometimes encounter inconsistent histories that raise
+        POSKeyErrors because of missing blobs.
+        In this case, try wether we can use a previous version for statistics
+        """
+        try:
+            wrapper = htool.retrieve(hid).object
+        except POSKeyError:
+            log.warn('POSKeyError encountered trying to retrieve history {}'.format(hid))  # noqa
+            wrapper = {
+                'path': 'POSKeyError encountered!',
+                'portal_type': '-'
+                }
+            for selector in range(length-1, -1, -1):
+                try:
+                    wrapper = htool.retrieve(hid, str(selector)).object
+                except POSKeyError:
+                    # bad luck - use previously defined fallback
+                    pass
+        return wrapper
 
     def _calculate_storage_statistics(self):
         """
@@ -78,7 +101,7 @@ class HistoryStatsCache(PersistentMapping):
                         ))
             else:
                 di = {'url': None, }
-                wrapper = htool.retrieve(hid).object
+                wrapper = self._save_retrieve(htool, hid, length)
                 if isinstance(wrapper, Removed):
                     di.update({
                         'path': 'All revisions have been purged',

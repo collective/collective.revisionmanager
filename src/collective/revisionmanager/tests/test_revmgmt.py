@@ -3,8 +3,11 @@ from time import time
 import unittest
 from DateTime.DateTime import DateTime
 from OFS.SimpleItem import SimpleItem
+from ZODB.POSException import POSKeyError
 from zope.component import getUtility
 from Products.CMFEditions.ArchivistTool import ObjectData
+from logging import WARN
+from testfixtures import LogCapture
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from collective.revisionmanager.testing import \
     COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
@@ -31,6 +34,12 @@ class CMFDummy(SimpleItem):
         return 'Dummy'
 
 
+def build_metadata(comment):
+    """ helper - builds a metadata dict
+    """
+    return {'sys_metadata': {'comment': comment}}
+
+
 class HistoryStatsCacheTests(unittest.TestCase):
 
     layer = COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
@@ -46,21 +55,21 @@ class HistoryStatsCacheTests(unittest.TestCase):
         self.portal_storage.register(
             cmf_uid,
             ObjectData(obj1),
-            metadata=self.build_metadata('saved v1'))
+            metadata=build_metadata('saved v1'))
 
         obj2 = CMFDummy('obj', cmf_uid)
         obj2.text = 'v2 of text'
         self.portal_storage.save(
             cmf_uid,
             ObjectData(obj2),
-            metadata=self.build_metadata('saved v2'))
+            metadata=build_metadata('saved v2'))
 
         obj3 = CMFDummy('obj', cmf_uid)
         obj3.text = 'v3 of text'
         self.portal_storage.save(
             cmf_uid,
             ObjectData(obj3),
-            metadata=self.build_metadata('saved v3'))
+            metadata=build_metadata('saved v3'))
 
         obj4 = CMFDummy('obj', cmf_uid)
         obj4.text = 'v4 of text'
@@ -69,7 +78,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
         self.portal_storage.save(
             cmf_uid,
             ObjectData(obj4),
-            metadata=self.build_metadata('saved v4'))
+            metadata=build_metadata('saved v4'))
 
         cmf_uid = 2
         tomorrow = DateTime() + 1
@@ -80,7 +89,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
         self.portal_storage.register(
             cmf_uid,
             ObjectData(obj5),
-            metadata=self.build_metadata('effective tomorrow'))
+            metadata=build_metadata('effective tomorrow'))
 
         cmf_uid = 3
         yesterday = DateTime() - 1
@@ -91,7 +100,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
         self.portal_storage.register(
             cmf_uid,
             ObjectData(obj6),
-            metadata=self.build_metadata('expired yesterday'))
+            metadata=build_metadata('expired yesterday'))
 
         cmf_uid = 4
         obj7 = CMFDummy('public', cmf_uid)
@@ -102,10 +111,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
         self.portal_storage.register(
             cmf_uid,
             ObjectData(obj7),
-            metadata=self.build_metadata('saved public'))
-
-    def build_metadata(self, comment):
-        return {'sys_metadata': {'comment': comment}}
+            metadata=build_metadata('saved public'))
 
     def test_interface(self):
         cache = getUtility(IHistoryStatsCache)
@@ -186,13 +192,13 @@ class HistoryStatsCacheTests(unittest.TestCase):
         cache = getUtility(IHistoryStatsCache)
         self.portal.portal_catalog.unindexObject(self.portal.obj)
         self.portal._delOb('obj')
-        self.portal_storage.purge(1, 3, self.build_metadata('purged v4'))
+        self.portal_storage.purge(1, 3, build_metadata('purged v4'))
         cache.refresh()
-        self.portal_storage.purge(1, 2, self.build_metadata('purged v3'))
+        self.portal_storage.purge(1, 2, build_metadata('purged v3'))
         cache.refresh()
-        self.portal_storage.purge(1, 1, self.build_metadata('purged v2'))
+        self.portal_storage.purge(1, 1, build_metadata('purged v2'))
         cache.refresh()
-        self.portal_storage.purge(1, 0, self.build_metadata('purged v1'))
+        self.portal_storage.purge(1, 0, build_metadata('purged v1'))
         cache.refresh()
         got = \
             [hist for hist in cache['histories'] if hist['history_id'] == 1][0]
@@ -200,3 +206,103 @@ class HistoryStatsCacheTests(unittest.TestCase):
         wcinfo = got['wcinfos'][0]
         self.failUnless(wcinfo['portal_type'] == '-')
         self.failUnless(wcinfo['path'] == 'All revisions have been purged')
+
+
+def mock_retrieve_pke(args):
+    """ Very specific decorator to make ZVCStorageTool.retrieve
+    raise a POSKeyError if called with <args>.
+
+    Maybe we could use some mock library for this ...
+    """
+    def decorate(m):
+        def wrapped_m(*passedargs, **kwds):
+            """ so far <history_id> and <selector> are
+            the only arguments to ZVCStorageTool.retrieve we are
+            interested in. We expect them to be passed in as non kw
+            args (looking at HistoryStatsCache._calculate_storage_statistics)
+            """
+            if passedargs == args and not kwds:
+                raise POSKeyError('No blob file')
+            return m(*passedargs, **kwds)
+            wrapped_m.func_name = m.func_name
+        return wrapped_m
+    return decorate
+
+
+class POSKeyErrorTests(unittest.TestCase):
+
+    layer = COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+        self.portal_storage = self.portal.portal_historiesstorage
+
+        cmf_uid = 1
+        obj1 = CMFDummy('obj', cmf_uid)
+        obj1.text = 'v1 of text'
+        self.portal_storage.register(
+            cmf_uid,
+            ObjectData(obj1),
+            metadata=build_metadata('saved v1'))
+
+        obj2 = CMFDummy('obj', cmf_uid)
+        obj2.text = 'v2 of text'
+        self.portal_storage.save(
+            cmf_uid,
+            ObjectData(obj2),
+            metadata=build_metadata('saved v2'))
+
+        obj3 = CMFDummy('obj', cmf_uid)
+        obj3.text = 'v3 of text'
+        self.portal_storage.save(
+            cmf_uid,
+            ObjectData(obj3),
+            metadata=build_metadata('saved v3'))
+
+    def test_retrieve_histories_with_poskeyerror_no_blob_file(self):
+        """ The histories storage might be inconsistent at times and
+        retrieve() might raise POSKeyErrors. Test this case.
+        """
+        # decorate portal_historiesstorage retrieve method with mock
+        self.portal_storage.retrieve = \
+            mock_retrieve_pke((1,))(self.portal_storage.retrieve)
+        cache = getUtility(IHistoryStatsCache)
+        with LogCapture(level=WARN) as log:
+            cache.refresh()
+            log.check(
+                ('collective.revisionmanager.statscache', 'WARNING',
+                 'POSKeyError encountered trying to retrieve history 1'),
+                )
+        expected = {
+            'summaries': {
+                'existing_versions': 0,
+                'total_average': '3.0',
+                'deleted_versions': 3,
+                'existing_average': 'n/a',
+                'total_versions': 3,
+                'deleted_average': '3.0',
+                'exisiting_histories': 0,
+                'total_histories': 1,
+                'deleted_histories': 1},
+            'histories': [{
+                'history_id': 1,
+                'length': 3,
+                'wcinfos': [{
+                    'url': None,
+                    'path': 'no working copy, object id: obj',
+                    'portal_type': 'Dummy'}],
+                'size_state': 'approximate'}]}
+        got = cache
+        for k, v in expected['summaries'].items():
+            self.assertEqual(got['summaries'][k], v)
+        # the time needed to calculate stats may vary
+        self.failUnless(float(got['summaries']['time']) < 1)
+        self.assertEqual(len(expected['histories']), len(got['histories']))
+        for idx in range(len(expected['histories'])):
+            e = expected['histories'][idx]
+            g = got['histories'][idx]
+            for k, v in e.items():
+                self.assertEqual(g[k], v)
+            # The actual size is not important and we want robust tests,
+            self.failUnless(g['size'] > 0)
