@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       xml:lang="en" lang="en"
       metal:use-macro="context/prefs_main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="collective.revisionmanager">
 
 <body>
 
@@ -76,22 +76,22 @@
                 <input tal:replace="structure context/@@authenticator/authenticator" />
 
             <tal:summary define="summaries view/summaries">
-              <p>Calculating the statistics took <tal:time content="summaries/time">time</tal:time> seconds.</p>
+              <p i18n:translate="calculation_time_label">Calculating the statistics took <tal:time i18n:name="calculation_time" content="summaries/time">time</tal:time> seconds.</p>
                 <table border="0" cellspacing="0">
                   <tr>
-                    <th colspan="2" align="left">Number of Histories:</th>
+                    <th colspan="2" align="left" i18n:translate="heading_num_histories">Number of Histories:</th>
                     <td>&nbsp;&nbsp;</td>
                     <td tal:content="summaries/total_histories">total_histories</td>
                   </tr>
                   <tr>
                     <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left">of existing items:</th>
+                    <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
                     <td>&nbsp;&nbsp;</td>
                     <td tal:content="summaries/exisiting_histories">exisiting_histories</td>
                   </tr>
                   <tr>
                     <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left">of deleted items:</th>
+                    <th align="left" i18n:translate="heading_deleted_items">of deleted items:</th>
                     <td>&nbsp;&nbsp;</td>
                     <td tal:content="summaries/deleted_histories">deleted_histories</td>
                   </tr>
@@ -99,19 +99,19 @@
                     <th colspan="4"></th>
                   </tr>
                   <tr>
-                    <th colspan="2" align="left">Number of Versions:</th>
+                    <th colspan="2" align="left" i18n:translate="heading_num_versions">Number of Versions:</th>
                     <td>&nbsp;&nbsp;</td>
                     <td tal:content="summaries/total_versions">total_versions</td>
                   </tr>
                   <tr>
                     <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left">of existing items:</th>
+                    <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
                     <td>&nbsp;&nbsp;</td>
                     <td tal:content="summaries/existing_versions">existing_versions</td>
                   </tr>
                   <tr>
                     <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left">of deleted items:</th>
+                    <th align="left" i18n:translate="heading_deleted_items">of deleted items:</th>
                     <td>&nbsp;&nbsp;</td>
                     <td tal:content="summaries/deleted_versions">deleted_versions</td>
                   </tr>
@@ -119,25 +119,25 @@
                     <th colspan="4"></th>
                   </tr>
                   <tr>
-                    <th colspan="2" align="left">Average Versions per History:</th>
+                    <th colspan="2" align="left" i18n:translate="heading_average_versions">Average Versions per History:</th>
                     <td>&nbsp;&nbsp;</td>
                     <td tal:content="summaries/total_average">total_average</td>
                   </tr>
                   <tr>
                     <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left">of existing items:</th>
+                    <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
                     <td>&nbsp;&nbsp;</td>
                     <td tal:content="summaries/existing_average">existing_average</td>
                   </tr>
                   <tr>
                     <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left">of deleted items:</th>
+                    <th align="left" i18n:translate="heading_deleted_items">of deleted items:</th>
                     <td>&nbsp;&nbsp;</td>
                     <td tal:content="summaries/deleted_average">deleted_average</td>
                   </tr>
               </table>
             </tal:summary>
-            <p>Statistics calculated <span tal:omit-tag="" tal:content="view/last_updated">last_updated</span></p>
+            <p i18n:translate="last_updated_label">Statistics calculated <span tal:omit-tag="" i18n:name="last_updated_timestamp" tal:content="view/last_updated">last_updated</span></p>
             <div id="actionsView" class="formControls">
               <span class="actionButtons">
                 <input type="submit"

@@ -1,12 +1,9 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2016-04-04 12:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Thomas Schorr <t_schorr@gmx.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -15,38 +12,38 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: collective.revisionmanager\n"
+"Domain: DOMAIN\n"
 
 #: ../configure.zcml:21
 msgid "Installs the collective.revisionmanager add-on."
-msgstr ""
+msgstr "collective.revisionmanager Add-On installieren."
 
 #: ../browser/revisionssettings.pt:143
 #: ../browser/views.py:132
 msgid "Recalculate Statistics"
-msgstr ""
+msgstr "Statistik neu berechnen"
 
 #: ../browser/views.py:95
 msgid "Revision history settings for this site."
-msgstr ""
+msgstr "Versionierungseinstellungen für diese Site."
 
 #: ../browser/views.py:94
 msgid "Revision settings"
-msgstr ""
+msgstr "Versionierungseinstellungen"
 
 #: ../browser/revisionssettings.pt:67
 #: ../browser/views.py:115
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: ../browser/revisionssettings.pt:37
 msgid "Site Setup"
-msgstr ""
+msgstr "Konfiguration"
 
 #. Default: "Calculating the statistics took ${calculation_time} seconds."
 #: ../browser/revisionssettings.pt:79
 msgid "calculation_time_label"
-msgstr ""
+msgstr "Die Berechnung der Statistik erfolgte in ${calculation_time} Sekunden."
 
 #: ../configure.zcml:21
 msgid "collective.revisionmanager"
@@ -55,55 +52,55 @@ msgstr ""
 #. Default: "Average Versions per History:"
 #: ../browser/revisionssettings.pt:122
 msgid "heading_average_versions"
-msgstr ""
+msgstr "Mittlere Anzahl Versionen pro Historie:"
 
 #. Default: "of deleted items:"
 #: ../browser/revisionssettings.pt:94
 msgid "heading_deleted_items"
-msgstr ""
+msgstr "von gelöschten Dokumenten:"
 
 #. Default: "of existing items:"
 #: ../browser/revisionssettings.pt:88
 msgid "heading_existing_items"
-msgstr ""
+msgstr "von Dokumenten mit Arbeitskopie:"
 
 #. Default: "Number of Histories:"
 #: ../browser/revisionssettings.pt:82
 msgid "heading_num_histories"
-msgstr ""
+msgstr "Anzahl Historien:"
 
 #. Default: "Number of Versions:"
 #: ../browser/revisionssettings.pt:102
 msgid "heading_num_versions"
-msgstr ""
+msgstr "Anzahl Versionen:"
 
 #. Default: "Revision Settings"
 #: ../browser/revisionssettings.pt:44
 msgid "heading_revisions_settings"
-msgstr ""
+msgstr "Versionierungs-Einstellungen"
 
 #. Default: "List histories"
 #: ../browser/revisionssettings.pt:23
 msgid "label_histories"
-msgstr ""
+msgstr "Liste aller Historien"
 
 #. Default: "Settings"
 #: ../browser/revisionssettings.pt:18
 msgid "label_revisions_settings"
-msgstr ""
+msgstr "Versionierungs-Einstellungen"
 
 #. Default: "Statistics calculated ${last_updated_timestamp}"
 #: ../browser/revisionssettings.pt:140
 msgid "last_updated_label"
-msgstr ""
+msgstr "Zeitpunkt der letzten Aktualisierung der Statistik: ${last_updated_timestamp}"
 
 #: ../interfaces.py:30
 msgid "maximum number of versions to keep in the storage (set to -1 for infinite)"
-msgstr ""
+msgstr "maximale Anzahl an Versionen, die aufbewahrt werden sollen (-1: es werden unbegrenzt neue Versionen angelegt)"
 
 #: ../interfaces.py:29
 msgid "number of versions to keep"
-msgstr ""
+msgstr "Anzahl Versionen, die aufbewahrt werden sollen"
 
 #. Default: "You are not allowed to manage the Zope server."
 #: ../browser/views.py:123
