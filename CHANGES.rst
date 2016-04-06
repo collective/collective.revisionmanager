@@ -1,12 +1,16 @@
 Changelog
 =========
 
+0.4.dev0 (unreleased)
+---------------------
+
+- ...
 
 0.3 (2016-04-06)
 ----------------
 
 - add some german translations
-- handle POSKeyError when accessing inconsitent histories storage
+- handle POSKeyError when accessing inconsistent histories storage
 
 0.2 (2016-03-02)
 ----------------
