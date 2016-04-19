@@ -19,7 +19,7 @@ long_description = (
 
 setup(
     name='collective.revisionmanager',
-    version='0.4.dev0',
+    version='0.4',
     description="Manage CMFEditions Histories",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -27,6 +27,8 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: 4.3",
+        "Framework :: Plone :: 5.0",
+        "Intended Audience :: System Administrators",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
         "Operating System :: OS Independent",
