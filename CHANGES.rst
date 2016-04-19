@@ -4,7 +4,8 @@ Changelog
 0.4.dev0 (unreleased)
 ---------------------
 
-- ...
+- introducing subtransactions to save memory
+- more work on german translations
 
 0.3 (2016-04-06)
 ----------------

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-04-04 12:36+0000\n"
+"POT-Creation-Date: 2016-04-19 08:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Thomas Schorr <t_schorr@gmx.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,14 +12,18 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: DOMAIN\n"
+"Domain: collective.revisionmanager\n"
+
+#: ../interfaces.py:35
+msgid "Depending on the number of objects in your database, calculating the statistics can consume a lot of memory. Setting a subtransaction threshold will reduce memory requirements at the expense of speed. The default (0) is to not use subtransactions."
+msgstr "Bei vielen Objekten in der Datenbank ist die Berechnung der Statistik mit hohem Speicherverbrauch verbunden. Subtransaktionen reduzieren den Speicherverbrauch, die Berechnung dauert dann aber länger. Standardmäßig (0) werden keine Subtransaktionen verwendet."
 
 #: ../configure.zcml:21
 msgid "Installs the collective.revisionmanager add-on."
 msgstr "collective.revisionmanager Add-On installieren."
 
 #: ../browser/revisionssettings.pt:143
-#: ../browser/views.py:132
+#: ../browser/views.py:135
 msgid "Recalculate Statistics"
 msgstr "Statistik neu berechnen"
 
@@ -39,6 +43,10 @@ msgstr "Speichern"
 #: ../browser/revisionssettings.pt:37
 msgid "Site Setup"
 msgstr "Konfiguration"
+
+#: ../interfaces.py:34
+msgid "Subtransaction threshold for statistics calculation"
+msgstr "Anzahl Historien, bei denen jeweils eine Subtransaktion abgeschlossen wird"
 
 #. Default: "Calculating the statistics took ${calculation_time} seconds."
 #: ../browser/revisionssettings.pt:79

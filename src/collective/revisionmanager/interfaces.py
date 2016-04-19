@@ -3,7 +3,7 @@
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.schema import Int
-from Products.CMFPlone import PloneMessageFactory as _
+from collective.revisionmanager import _
 
 
 class ICollectiveRevisionmanagerLayer(IDefaultBrowserLayer):
