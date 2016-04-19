@@ -10,6 +10,7 @@ from .interfaces import IHistoryStatsCache
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
 from ZODB.POSException import POSKeyError
+import transaction
 from time import time
 from zope.component import getUtility
 from zope.interface import implements
@@ -22,6 +23,7 @@ class HistoryStatsCache(PersistentMapping):
     implements(IHistoryStatsCache)
 
     last_updated = None
+    subtransaction_threshold = 0
 
     def _unrestricted_query_objects(self, context, cmf_uid):
         """ return all catalogued objects with a given cmf_uid -
@@ -121,6 +123,10 @@ class HistoryStatsCache(PersistentMapping):
                 "size_state": size_state,
             }
             histories.append(histdata)
+            if self.subtransaction_threshold and \
+                    (len(histories) % self.subtransaction_threshold == 0):
+                log.info('committing subtransaction')
+                transaction.savepoint(optimistic=True)
 
         # collect history ids with still existing working copies
         exisiting_histories = 0

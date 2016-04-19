@@ -6,7 +6,7 @@ from OFS.SimpleItem import SimpleItem
 from ZODB.POSException import POSKeyError
 from zope.component import getUtility
 from Products.CMFEditions.ArchivistTool import ObjectData
-from logging import WARN
+from logging import WARN, INFO
 from testfixtures import LogCapture
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from collective.revisionmanager.testing import \
@@ -183,6 +183,20 @@ class HistoryStatsCacheTests(unittest.TestCase):
             # The actual size is not important and we want robust tests,
             # s. https://github.com/plone/Products.CMFEditions/issues/31
             self.failUnless(g['size'] > 0)
+
+    def test_subtransaction_threshold(self):
+        with LogCapture(level=INFO) as log:
+            cache = getUtility(IHistoryStatsCache)
+            cache.subtransaction_threshold = 2
+            cache.refresh()
+            log.check(
+                ('collective.revisionmanager.statscache', 'INFO', 'processing history 1'),  # noqa
+                ('collective.revisionmanager.statscache', 'INFO', 'processing history 2'),  # noqa
+                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction'),  # noqa
+                ('collective.revisionmanager.statscache', 'INFO', 'processing history 3'),  # noqa
+                ('collective.revisionmanager.statscache', 'INFO', 'processing history 4'),  # noqa
+                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction')  # noqa
+                )
 
     def test_stats_for_purged_revisions(self):
         """ stats calculation should work if all version of an object

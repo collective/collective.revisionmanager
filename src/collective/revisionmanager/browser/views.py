@@ -128,6 +128,9 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
         value = data.get('number_versions_to_keep', -1)
         ptool = getToolByName(self.context, 'portal_purgepolicy')
         ptool.maxNumberOfVersionsToKeep = value
+        value = data.get('subtransaction_threshold', 0)
+        cache = getUtility(IHistoryStatsCache)
+        cache.subtransaction_threshold = value
 
     @button.buttonAndHandler(_(u'Recalculate Statistics'), name='recalculate')
     def handle_recalculate_stats(self, action):
@@ -165,3 +168,11 @@ class RevisionsControlPanelAdapter(object):
         return ptool.maxNumberOfVersionsToKeep
     number_versions_to_keep = property(
         _get_number_versions_to_keep, _set_number_versions_to_keep)
+
+    def _set_subtransaction_threshold(self, val):
+        self.zvc_storage_tool_statistics.subtransaction_threshold = val
+
+    def _get_subtransaction_threshold(self):
+        return self.zvc_storage_tool_statistics.subtransaction_threshold
+    subtransaction_threshold = property(
+        _get_subtransaction_threshold, _set_subtransaction_threshold)
