@@ -22,7 +22,7 @@ Features
 Translations
 ------------
 
-This product has not yet been translated.
+So far only the settings page has been translated to german.
 
 Installation
 ------------
