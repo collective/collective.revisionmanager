@@ -96,10 +96,13 @@
     </tr>
 
   </table>
-    <span>Number of revisions to keep (0 to delete entire history):
-        <input type="text" name="keepnum" value="0" />
-        <input type="submit" name="del_histories" value="Purge selected histories" onclick="return window.confirm('Are you sure?')" />
-    </span>
+    <div>Number of revisions to keep (0 to delete entire history):
+      <input type="text" name="keepnum" value="0" />
+      <input type="submit" name="del_histories" value="Purge selected histories" onclick="return window.confirm('Are you sure?')" />
+    </div>
+    <div>Delete all histories without working copy:
+      <input type="submit" name="del_orphans" value="Delete orphans" onclick="return window.confirm('Are you sure?')" />
+    </div>
 
     <tal:batchnavigation
         define="batchnavigation nocall:context/@@batchnavigation"

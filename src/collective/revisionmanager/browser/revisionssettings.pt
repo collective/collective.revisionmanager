@@ -75,83 +75,88 @@
 
                 <input tal:replace="structure context/@@authenticator/authenticator" />
 
-            <tal:summary define="summaries view/summaries">
-              <p i18n:translate="calculation_time_label">Calculating the statistics took <tal:time i18n:name="calculation_time" content="summaries/time">time</tal:time> seconds.</p>
-                <table border="0" cellspacing="0">
-                  <tr>
-                    <th colspan="2" align="left" i18n:translate="heading_num_histories">Number of Histories:</th>
-                    <td>&nbsp;&nbsp;</td>
-                    <td tal:content="summaries/total_histories">total_histories</td>
-                  </tr>
-                  <tr>
-                    <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
-                    <td>&nbsp;&nbsp;</td>
-                    <td tal:content="summaries/exisiting_histories">exisiting_histories</td>
-                  </tr>
-                  <tr>
-                    <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left" i18n:translate="heading_deleted_items">of deleted items:</th>
-                    <td>&nbsp;&nbsp;</td>
-                    <td tal:content="summaries/deleted_histories">deleted_histories</td>
-                  </tr>
-                  <tr>
-                    <th colspan="4"></th>
-                  </tr>
-                  <tr>
-                    <th colspan="2" align="left" i18n:translate="heading_num_versions">Number of Versions:</th>
-                    <td>&nbsp;&nbsp;</td>
-                    <td tal:content="summaries/total_versions">total_versions</td>
-                  </tr>
-                  <tr>
-                    <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
-                    <td>&nbsp;&nbsp;</td>
-                    <td tal:content="summaries/existing_versions">existing_versions</td>
-                  </tr>
-                  <tr>
-                    <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left" i18n:translate="heading_deleted_items">of deleted items:</th>
-                    <td>&nbsp;&nbsp;</td>
-                    <td tal:content="summaries/deleted_versions">deleted_versions</td>
-                  </tr>
-                  <tr>
-                    <th colspan="4"></th>
-                  </tr>
-                  <tr>
-                    <th colspan="2" align="left" i18n:translate="heading_average_versions">Average Versions per History:</th>
-                    <td>&nbsp;&nbsp;</td>
-                    <td tal:content="summaries/total_average">total_average</td>
-                  </tr>
-                  <tr>
-                    <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
-                    <td>&nbsp;&nbsp;</td>
-                    <td tal:content="summaries/existing_average">existing_average</td>
-                  </tr>
-                  <tr>
-                    <th>&nbsp;&nbsp;&nbsp;</th>
-                    <th align="left" i18n:translate="heading_deleted_items">of deleted items:</th>
-                    <td>&nbsp;&nbsp;</td>
-                    <td tal:content="summaries/deleted_average">deleted_average</td>
-                  </tr>
-              </table>
-            </tal:summary>
-            <p i18n:translate="last_updated_label">Statistics calculated <span tal:omit-tag="" i18n:name="last_updated_timestamp" tal:content="view/last_updated">last_updated</span></p>
-            <div id="actionsView" class="formControls">
-              <span class="actionButtons">
-                <input type="submit"
+                <tal:summary define="summaries view/summaries">
+                  <tal:hassummary condition="python:summaries is not None">
+                    <p i18n:translate="calculation_time_label">Calculating the statistics took <tal:time i18n:name="calculation_time" content="summaries/time">time</tal:time> seconds.</p>
+                    <table border="0" cellspacing="0">
+                      <tr>
+                        <th colspan="2" align="left" i18n:translate="heading_num_histories">Number of Histories:</th>
+                        <td>&nbsp;&nbsp;</td>
+                        <td tal:content="summaries/total_histories">total_histories</td>
+                      </tr>
+                      <tr>
+                        <th>&nbsp;&nbsp;&nbsp;</th>
+                        <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
+                        <td>&nbsp;&nbsp;</td>
+                        <td tal:content="summaries/exisiting_histories">exisiting_histories</td>
+                      </tr>
+                      <tr>
+                        <th>&nbsp;&nbsp;&nbsp;</th>
+                        <th align="left" i18n:translate="heading_deleted_items">of deleted items:</th>
+                        <td>&nbsp;&nbsp;</td>
+                        <td tal:content="summaries/deleted_histories">deleted_histories</td>
+                      </tr>
+                      <tr>
+                        <th colspan="4"></th>
+                      </tr>
+                      <tr>
+                        <th colspan="2" align="left" i18n:translate="heading_num_versions">Number of Versions:</th>
+                        <td>&nbsp;&nbsp;</td>
+                        <td tal:content="summaries/total_versions">total_versions</td>
+                      </tr>
+                      <tr>
+                        <th>&nbsp;&nbsp;&nbsp;</th>
+                        <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
+                        <td>&nbsp;&nbsp;</td>
+                        <td tal:content="summaries/existing_versions">existing_versions</td>
+                      </tr>
+                      <tr>
+                        <th>&nbsp;&nbsp;&nbsp;</th>
+                        <th align="left" i18n:translate="heading_deleted_items">of deleted items:</th>
+                        <td>&nbsp;&nbsp;</td>
+                        <td tal:content="summaries/deleted_versions">deleted_versions</td>
+                      </tr>
+                      <tr>
+                        <th colspan="4"></th>
+                      </tr>
+                      <tr>
+                        <th colspan="2" align="left" i18n:translate="heading_average_versions">Average Versions per History:</th>
+                        <td>&nbsp;&nbsp;</td>
+                        <td tal:content="summaries/total_average">total_average</td>
+                      </tr>
+                      <tr>
+                        <th>&nbsp;&nbsp;&nbsp;</th>
+                        <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
+                        <td>&nbsp;&nbsp;</td>
+                        <td tal:content="summaries/existing_average">existing_average</td>
+                      </tr>
+                      <tr>
+                        <th>&nbsp;&nbsp;&nbsp;</th>
+                        <th align="left" i18n:translate="heading_deleted_items">of deleted items:</th>
+                        <td>&nbsp;&nbsp;</td>
+                        <td tal:content="summaries/deleted_average">deleted_average</td>
+                      </tr>
+                    </table>
+                  </tal:hassummary>
+                  <tal:nosummary condition="python:summaries is None">
+                    <p i18n:translate="no_summary_label">No statistics available. Press button below to calculate the statistics.</p>
+                  </tal:nosummary>
+                </tal:summary>
+                <p i18n:translate="last_updated_label">Statistics calculated <span tal:omit-tag="" i18n:name="last_updated_timestamp" tal:content="view/last_updated">last_updated</span></p>
+                <div id="actionsView" class="formControls">
+                  <span class="actionButtons">
+                    <input type="submit"
                        id="form.buttons.recalculate"
                        name="form.buttons.recalculate"
                        value="Recalculate Statistics"
                        i18n:attributes="value"
                        class="standalone" />
-              </span>
+                  </span>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
-  </div>
-</metal:main>
-</body>
+      </metal:main>
+    </body>
 </html>

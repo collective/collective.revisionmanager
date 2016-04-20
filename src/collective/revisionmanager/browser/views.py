@@ -71,11 +71,22 @@ class HistoriesListView(BrowserPage):
 
     def __call__(self):
         form = self.request.form
+        stats = getUtility(IHistoryStatsCache)
         if 'del_histories' in form:
             keys = [int(k[5:]) for k in form.keys() if k.startswith('check')]
             self._purge_n_revisions(keys, int(form['keepnum']))
-        stats = getUtility(IHistoryStatsCache)
-        histories = stats['histories']
+        elif 'del_orphans' in form:
+            keys = []
+            histories = stats.get('histories', [])
+            for history in histories:
+                if len(history['wcinfos']) > 1:
+                    continue
+                wcinfo = history['wcinfos'][0]
+                if (wcinfo['url'] is None) and \
+                        wcinfo['path'].startswith('no working copy'):
+                    keys.append(history['history_id'])
+            self._del_histories(keys)
+        histories = stats.get('histories', [])
         sortkey = lambda d: d[self.request.get('sortby', 'history_id')]
         reverse = bool(int(self.request.get('reverse', 0)))
         self.batch = Batch(
@@ -107,7 +118,7 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
         return sm.checkPermission(view_management_screens, root)
 
     def summaries(self):
-        return self.statscache['summaries']
+        return self.statscache.get('summaries')
 
     def last_updated(self):
         return self.statscache.last_updated
