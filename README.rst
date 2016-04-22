@@ -41,7 +41,7 @@ and then running ``bin/buildout``. During installation, ``collective.revisionman
 
 **Dealing with catalog inconsistencies**
 
-If the installation fails with an ``AttributeError`` in ``Products.ZCatalog.CatalogBrains``, your ``portal_catalog`` is inconsistent and you need to `rebuild <http://docs.plone.org/develop/plone/searching_and_indexing/catalog.html>`_ it. As a quick workaround, you can also simply clear (or even delete) the `cmf_uid` catalog index - `collective.revisionmanager` will rebuild it during installation. But be aware that your `portal_catalog` is still inconsistent and needs rebuilding.
+If the installation fails with an ``AttributeError`` in ``Products.ZCatalog.CatalogBrains``, your ``portal_catalog`` is inconsistent and you need to `rebuild <http://docs.plone.org/develop/plone/searching_and_indexing/catalog.html>`_ it. As a quick workaround, you can also simply clear (or even delete) the ``cmf_uid`` catalog index - ``collective.revisionmanager`` will rebuild it during installation. But be aware that your ``portal_catalog`` is still inconsistent and needs rebuilding.
 
 Contribute
 ----------
