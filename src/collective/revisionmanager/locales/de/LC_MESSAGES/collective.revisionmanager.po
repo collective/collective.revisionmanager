@@ -94,7 +94,7 @@ msgstr "Historien-ID"
 #. Default: "Histories Storage Contents"
 #: ./browser/histories.pt:46
 msgid "heading_histstorage_contents"
-msgstr ""
+msgstr "Historien"
 
 #. Default: "Number of Histories:"
 #: ./browser/revisionssettings.pt:83
