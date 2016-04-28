@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       xml:lang="en" lang="en"
       tal:omit-tag=""
-      i18n:domain="plone">
+      i18n:domain="collective.revisionmanager">
 
 <metal:block use-macro="context/prefs_main_template/macros/master">
 
@@ -64,12 +64,12 @@
   <table border="1" cellspacing="0" tal:condition="batch">
 
     <tr>
-        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=history_id&reverse=${view/reverse}">history id</a></th>
-        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=length&reverse=${view/reverse}">versions</a></th>
-        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=size&reverse=${view/reverse}">size</a></th>
-        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=size_state&reverse=${view/reverse}">size state</a></th>
-        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=portal_type&reverse=${view/reverse}">portal type</a></th>
-        <th align="left"><a href="" tal:attributes="href string:${request/URL}?sortby=wcinfos&reverse=${view/reverse}">current path (counting from the portals root)</a></th>
+        <th align="left"><a href="" i18n:translate="heading_history_id" tal:attributes="href string:${request/URL}?sortby=history_id&reverse=${view/reverse}">history id</a></th>
+        <th align="left"><a href="" i18n:translate="heading_versions" tal:attributes="href string:${request/URL}?sortby=length&reverse=${view/reverse}">versions</a></th>
+        <th align="left"><a href="" i18n:translate="heading_size" tal:attributes="href string:${request/URL}?sortby=size&reverse=${view/reverse}">size</a></th>
+        <th align="left"><a href="" i18n:translate="heading_size_state" tal:attributes="href string:${request/URL}?sortby=size_state&reverse=${view/reverse}">size state</a></th>
+        <th align="left"><a href="" i18n:translate="heading_portal_type" tal:attributes="href string:${request/URL}?sortby=portal_type&reverse=${view/reverse}">portal type</a></th>
+        <th align="left"><a href="" i18n:translate="heading_current_path" tal:attributes="href string:${request/URL}?sortby=wcinfos&reverse=${view/reverse}">current path (counting from the portals root)</a></th>
     </tr>
 
     <tr tal:repeat="histData batch">
@@ -79,7 +79,7 @@
         </td>
         <td tal:content="histData/length">length</td>
         <td align="right" tal:content="histData/size">size</td>
-        <td align="right" tal:content="histData/size_state">size state</td>
+        <td align="right" tal:content="python:view.size_state(histData['size_state'])">size state</td>
         <td>
           <tal:wcinfos repeat="wcinfo histData/wcinfos">
             <tal:portaltype content="wcinfo/portal_type">portal_type</tal:portaltype>
@@ -96,12 +96,14 @@
     </tr>
 
   </table>
-    <div>Number of revisions to keep (0 to delete entire history):
+  <div>
+      <label for="keepnum" i18n:translate="label_num_revisions_to_keep">Number of revisions to keep (0 to delete entire history):</label>
       <input type="text" name="keepnum" value="0" />
-      <input type="submit" name="del_histories" value="Purge selected histories" onclick="return window.confirm('Are you sure?')" />
+      <input i18n:attributes="value" type="submit" name="del_histories" value="Purge selected histories" tal:attributes="onclick string:return window.confirm('${view/js_confirmation}')" onclick="return window.confirm('Are you sure?')" />
     </div>
-    <div>Delete all histories without working copy:
-      <input type="submit" name="del_orphans" value="Delete orphans" onclick="return window.confirm('Are you sure?')" />
+    <div>
+      <label for="del_orphans" i18n:translate="label_delete_orphans">Delete all histories without working copy:</label>
+      <input i18n:attributes="value" type="submit" name="del_orphans" value="Delete orphans" tal:attributes="onclick string:return window.confirm('${view/js_confirmation}')" onclick="return window.confirm('Are you sure?')" />
     </div>
 
     <tal:batchnavigation

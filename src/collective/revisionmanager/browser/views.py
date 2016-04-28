@@ -21,6 +21,14 @@ class HistoriesListView(BrowserPage):
 
     render = ViewPageTemplateFile('histories.pt')
 
+    # i18n
+    size_states = {
+        'approximate': _(u'approximate'),
+        'inaccurate': _(u'inaccurate'),
+        None: _(u'unknown')
+        }
+    js_confirm = _('Are you sure?')
+
     def _del_histories(self, keys):
         # necessary information for ZVC access
         hs = getToolByName(self.context, 'portal_historiesstorage')
@@ -65,6 +73,16 @@ class HistoriesListView(BrowserPage):
             cached = [h for h in cache['histories']
                       if h['history_id'] == history_id][0]
             cached['size'] = '???'
+
+    def size_state(self, sizestateid):
+        """ return translated size state
+        sizestateid is either 'approximate' or 'inaccurate',
+        defined in Products.CMFEditions.ZVCStorageTool.ShadowHistory.getSize
+        """
+        return self.context.translate(self.size_states.get(sizestateid))
+
+    def js_confirmation(self):
+        return self.context.translate(self.js_confirm)
 
     def reverse(self):
         return '1' if self.request.get('reverse', '0') == '0' else '0'
