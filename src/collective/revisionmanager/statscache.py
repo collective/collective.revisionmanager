@@ -88,6 +88,9 @@ class HistoryStatsCache(PersistentMapping):
             if shadow_storage is not None:
                 size, size_state = shadow_storage.getSize()
 
+            # There might be multiple possible working copies for a
+            # given history, e.g. a discussion item will have the same cmf_uid
+            # as the document being discussed. Determine all candidates.
             potential_working_copies = \
                 self._unrestricted_query_objects(context, hid)
             wcinfos = []

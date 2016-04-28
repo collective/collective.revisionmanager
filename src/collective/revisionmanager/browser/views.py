@@ -69,6 +69,23 @@ class HistoriesListView(BrowserPage):
     def reverse(self):
         return '1' if self.request.get('reverse', '0') == '0' else '0'
 
+    def _determine_sortkey(self):
+        """ Which table column do we want to use for sorting?
+        This is straightforward with the exception of the portal_type
+        column (because there might be multiple possible working copies for a
+        given history)
+
+        return a function that can be used as the 'key' argument to 'sorted()'
+        """
+        sortby = self.request.get('sortby', 'history_id')
+        if sortby != 'portal_type':
+            sortkey = lambda d: d[sortby]
+        else:
+            # XXX use the first candidate's portal_type, which
+            # might not always be what the user expects
+            sortkey = lambda d: d['wcinfos'][0]['portal_type']
+        return sortkey
+
     def __call__(self):
         form = self.request.form
         stats = getUtility(IHistoryStatsCache)
@@ -87,7 +104,7 @@ class HistoriesListView(BrowserPage):
                     keys.append(history['history_id'])
             self._del_histories(keys)
         histories = stats.get('histories', [])
-        sortkey = lambda d: d[self.request.get('sortby', 'history_id')]
+        sortkey = self._determine_sortkey()
         reverse = bool(int(self.request.get('reverse', 0)))
         self.batch = Batch(
             sequence=sorted(histories, key=sortkey, reverse=reverse),
