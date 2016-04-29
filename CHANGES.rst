@@ -4,8 +4,13 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- do not calculate statistics during installation. This allows to
+  configure subtransactions (and thereby memory consumption) before
+  calculating statistics initially
+- add more german translations
+- more work on i18n
+- fix KeyError when sorting by portal_type
+- add button to delete all histories without working copy at once
 
 0.4 (2016-04-19)
 ----------------
