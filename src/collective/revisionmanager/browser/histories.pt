@@ -56,7 +56,7 @@
                   id="zc.page.browser_form">
 
     <div tal:define="batch view/batch;">
-  <p tal:condition="not:batch">None</p>
+  <p tal:condition="not:batch">--</p>
     <tal:batchnavigation
         define="batchnavigation nocall:context/@@batchnavigation"
         replace="structure python:batchnavigation(batch)" />

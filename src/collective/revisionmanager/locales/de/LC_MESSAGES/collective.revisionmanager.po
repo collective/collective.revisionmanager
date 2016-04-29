@@ -169,7 +169,7 @@ msgstr "maximale Anzahl an Versionen, die aufbewahrt werden sollen (-1: es werde
 #. Default: "No statistics available. Press button below to calculate the statistics."
 #: ./browser/revisionssettings.pt:142
 msgid "no_summary_label"
-msgstr "Keine Statistik verfügbar. Schaltfläche betätigen, um die Statistik zu berechnen."
+msgstr "Keine Statistik verfügbar. Betätigen Sie die Schaltfläche unten, um die Statistik zu berechnen."
 
 #: ./interfaces.py:29
 msgid "number of versions to keep"

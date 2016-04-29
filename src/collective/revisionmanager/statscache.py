@@ -194,5 +194,4 @@ class HistoryStatsCache(PersistentMapping):
 
 def cache_factory():
     c = HistoryStatsCache()
-    c.refresh()
     return c

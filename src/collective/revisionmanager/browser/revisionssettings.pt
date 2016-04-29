@@ -137,12 +137,12 @@
                         <td tal:content="summaries/deleted_average">deleted_average</td>
                       </tr>
                     </table>
+                    <p i18n:translate="last_updated_label">Statistics calculated <span tal:omit-tag="" i18n:name="last_updated_timestamp" tal:content="view/last_updated">last_updated</span></p>
                   </tal:hassummary>
                   <tal:nosummary condition="python:summaries is None">
                     <p i18n:translate="no_summary_label">No statistics available. Press button below to calculate the statistics.</p>
                   </tal:nosummary>
                 </tal:summary>
-                <p i18n:translate="last_updated_label">Statistics calculated <span tal:omit-tag="" i18n:name="last_updated_timestamp" tal:content="view/last_updated">last_updated</span></p>
                 <div id="actionsView" class="formControls">
                   <span class="actionButtons">
                     <input type="submit"
