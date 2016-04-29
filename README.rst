@@ -36,8 +36,16 @@ Install collective.revisionmanager by adding it to your buildout::
     eggs =
         collective.revisionmanager
 
+and then running ``bin/buildout``. During installation, ``collective.revisionmanager`` will check wether the ``cmf_uid`` catalog index is there - if not, the index will be added and indexed. This step may require a considerable amount of time depending on the number of objects and object revisions in your database. Also, a cache for the statistics will be created.
 
-and then running ``bin/buildout``. During installation, ``collective.revisionmanager`` will check wether the ``cmf_uid`` catalog index is there - if not, the index will be added and indexed. Also, a cache for the statistics will be created and the statistics will be calculated initially. Both these steps may require a considerable amount of time depending on the number of objects and object revisions in your database.
+After installation, you will have to calculate the statistics initially before you can see anything. Statistics calculation was done automatically during installation in earlier releases, but for sites with large databases and limited memory it may be necessary to configure subtransactions prior to updating the cache.
+
+Calculating Statistics
+----------------------
+
+Before you can use `collective.revisionmanager` you need to fill its history statistics cache. You can do so by visting Plone Control Panel -> Addon Configuration -> Manage Revisions and then clicking on the ``Recalculate Statistics`` button. Calculation may take a lot of time if you have lots of objects and object revisions in your database.
+
+You will have to recalculate statistics from time to time to keep them up to date at intervals depending on database activity.
 
 **Dealing with catalog inconsistencies**
 
