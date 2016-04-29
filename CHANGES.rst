@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5 (unreleased)
+0.5 (2016-04-29)
 ----------------
 
 - do not calculate statistics during installation. This allows to
