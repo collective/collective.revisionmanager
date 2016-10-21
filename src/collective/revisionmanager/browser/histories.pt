@@ -14,22 +14,6 @@
 
   <div class="documentEditable">
 
-      <div id="edit-bar">
-          <ul class="contentViews" id="content-views">
-            <li>
-              <a href=""
-                 tal:attributes="href string:$portal_url/@@revisions-controlpanel"
-                 i18n:translate="label_revisions_settings">Settings</a>
-            </li>
-            <li class="selected">
-              <a href=""
-                 tal:attributes="href string:$portal_url/@@histories"
-                 i18n:translate="label_histories">List histories</a>
-            </li>
-          </ul>
-          <div class="contentActions">&nbsp;</div>
-      </div>
-
       <div metal:use-macro="context/global_statusmessage/macros/portal_message">
         Portal status message
       </div>
@@ -47,6 +31,18 @@
             i18n:translate="heading_histstorage_contents">Histories Storage Contents</h1>
 
         <div id="content-core">
+
+          <div class="autotabs">
+            <div class="autotoc-nav">
+              <a href=""
+                 tal:attributes="href string:$portal_url/@@revisions-controlpanel"
+                 i18n:translate="label_revisions_settings">Settings</a>
+              <a class="active" href=""
+                 tal:attributes="href string:$portal_url/@@histories"
+                 i18n:translate="label_histories">List histories</a>
+            </div>
+          </div>
+
            <form action="."
                   metal:define-macro="master"
                   tal:attributes="action request/URL;"
