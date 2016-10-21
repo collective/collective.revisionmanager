@@ -97,11 +97,11 @@ class HistoriesListView(BrowserPage):
         """
         sortby = self.request.get('sortby', 'history_id')
         if sortby != 'portal_type':
-            sortkey = lambda d: d[sortby]
+            sortkey = lambda d: d[sortby]  # noqa
         else:
             # XXX use the first candidate's portal_type, which
             # might not always be what the user expects
-            sortkey = lambda d: d['wcinfos'][0]['portal_type']
+            sortkey = lambda d: d['wcinfos'][0]['portal_type']  # noqa
         return sortkey
 
     def __call__(self):
