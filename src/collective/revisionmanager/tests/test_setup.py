@@ -2,6 +2,7 @@
 """Setup tests for this package."""
 from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa
 from plone import api
+from plone.browserlayer.utils import registered_layers
 
 import unittest
 
@@ -22,12 +23,8 @@ class TestSetup(unittest.TestCase):
             'collective.revisionmanager'))
 
     def test_browserlayer(self):
-        """Test that ICollectiveRevisionmanagerLayer is registered."""
-        from collective.revisionmanager.interfaces import (
-            ICollectiveRevisionmanagerLayer)
-        from plone.browserlayer import utils
-        self.assertIn(ICollectiveRevisionmanagerLayer,
-                      utils.registered_layers())
+        layers = [l.getName() for l in registered_layers()]
+        self.assertIn('ICollectiveRevisionmanagerLayer', layers)
 
 
 class TestUninstall(unittest.TestCase):
@@ -43,3 +40,7 @@ class TestUninstall(unittest.TestCase):
         """Test if collective.revisionmanager is cleanly uninstalled."""
         self.assertFalse(self.installer.isProductInstalled(
             'collective.revisionmanager'))
+
+    def test_addon_layer_removed(self):
+        layers = [l.getName() for l in registered_layers()]
+        self.assertNotIn('ICollectiveRevisionmanagerLayer', layers)

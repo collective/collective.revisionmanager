@@ -5,6 +5,7 @@ Changelog
 ----------------
 
 - Fix package dependencies.
+- Fix package uninstall.
   [hvelarde]
 
 

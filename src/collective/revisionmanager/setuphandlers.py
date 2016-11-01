@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 import logging
 from plone import api
+from Products.CMFPlone.interfaces import INonInstallable
 from Products.ZCatalog.ProgressHandler import ZLogHandler
+from zope.interface import implementer
 
 log = logging.getLogger(__name__)
+
+
+@implementer(INonInstallable)
+class HiddenProfiles(object):
+
+    def getNonInstallableProfiles(self):
+        """Do not show on Plone's list of installable profiles."""
+        return [
+            u'collective.revisionmanager:uninstall',
+        ]
 
 
 def post_install(context):
