@@ -4,7 +4,8 @@ Changelog
 0.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix package dependencies.
+  [hvelarde]
 
 
 0.5 (2016-04-29)
