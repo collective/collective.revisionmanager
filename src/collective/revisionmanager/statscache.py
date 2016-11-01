@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 from DateTime.DateTime import DateTime
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
+from plone import api
 from Products.CMFUid.interfaces import IUniqueIdGenerator
 from Products.CMFUid.UniqueIdHandlerTool import UID_ATTRIBUTE_NAME
 from Products.CMFEditions.ZVCStorageTool import Removed
@@ -25,7 +24,7 @@ class HistoryStatsCache(PersistentMapping):
     last_updated = None
     subtransaction_threshold = 0
 
-    def _unrestricted_query_objects(self, context, cmf_uid):
+    def _unrestricted_query_objects(self, cmf_uid):
         """ return all catalogued objects with a given cmf_uid -
         CMFUid's UniqueHandlerTool will only return the first match.
         In theory, cmf_uid should be unique, but it sometimes isn't.
@@ -34,7 +33,7 @@ class HistoryStatsCache(PersistentMapping):
         generator = getUtility(IUniqueIdGenerator)
         uid = generator.convert(cmf_uid)
 
-        catalog = getToolByName(context, 'portal_catalog')
+        catalog = api.portal.get_tool('portal_catalog')
         brains = catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid})
         return [brain.getObject() for brain in brains]
 
@@ -65,9 +64,8 @@ class HistoryStatsCache(PersistentMapping):
         we calculate our own stats, because
         ZVCStorageTool.zmi_getStorageStatistics is not exactly what we need.
         """
-        context = getUtility(IPloneSiteRoot)
-        siteid = context.getId()
-        htool = getToolByName(context, 'portal_historiesstorage')
+        siteid = api.portal.get().getId()
+        htool = api.portal.get_tool('portal_historiesstorage')
         starttime = time()
         # get all history ids (incl. such that were deleted in the portal)
         storage = htool._getShadowStorage(autoAdd=False)
@@ -92,7 +90,7 @@ class HistoryStatsCache(PersistentMapping):
             # given history, e.g. a discussion item will have the same cmf_uid
             # as the document being discussed. Determine all candidates.
             potential_working_copies = \
-                self._unrestricted_query_objects(context, hid)
+                self._unrestricted_query_objects(hid)
             wcinfos = []
             if potential_working_copies:
                 for working_copy in potential_working_copies:

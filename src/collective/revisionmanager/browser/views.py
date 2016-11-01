@@ -2,7 +2,7 @@
 from AccessControl import getSecurityManager
 from AccessControl.Permissions import view_management_screens
 from Acquisition import aq_inner
-from Products.CMFCore.utils import getToolByName
+from plone import api
 from collective.revisionmanager import _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -31,7 +31,7 @@ class HistoriesListView(BrowserPage):
 
     def _del_histories(self, keys):
         # necessary information for ZVC access
-        hs = getToolByName(self.context, 'portal_historiesstorage')
+        hs = api.portal.get_tool('portal_historiesstorage')
         zvcr = hs._getZVCRepo()
         storage = hs._getShadowStorage(autoAdd=False)
         cached_stats = getUtility(IHistoryStatsCache)
@@ -54,7 +54,7 @@ class HistoriesListView(BrowserPage):
             # we delete the entire history because it's faster and
             # produces less footprint than purging
             return self._del_histories(keys)
-        storage = getToolByName(self.context, 'portal_historiesstorage')
+        storage = api.portal.get_tool('portal_historiesstorage')
         cache = getUtility(IHistoryStatsCache)
         for history_id in keys:
             # currentVersion = len(storage.getHistory(history_id))
@@ -172,7 +172,7 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
             )
             return
         value = data.get('number_versions_to_keep', -1)
-        ptool = getToolByName(self.context, 'portal_purgepolicy')
+        ptool = api.portal.get_tool('portal_purgepolicy')
         ptool.maxNumberOfVersionsToKeep = value
         value = data.get('subtransaction_threshold', 0)
         cache = getUtility(IHistoryStatsCache)
@@ -206,11 +206,11 @@ class RevisionsControlPanelAdapter(object):
     zvc_storage_tool_statistics = property(_get_zvc_storage_tool_statistics)
 
     def _set_number_versions_to_keep(self, val):
-        ptool = getToolByName(self.context, 'portal_purgepolicy')
+        ptool = api.portal.get_tool('portal_purgepolicy')
         ptool.maxNumberOfVersionsToKeep = val
 
     def _get_number_versions_to_keep(self):
-        ptool = getToolByName(self.context, 'portal_purgepolicy')
+        ptool = api.portal.get_tool('portal_purgepolicy')
         return ptool.maxNumberOfVersionsToKeep
     number_versions_to_keep = property(
         _get_number_versions_to_keep, _set_number_versions_to_keep)
