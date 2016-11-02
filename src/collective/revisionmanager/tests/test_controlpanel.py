@@ -36,7 +36,7 @@ class ControlPanelTestCase(unittest.TestCase):
                    for a in self.controlpanel.listActions()]
         self.assertIn('RevisionsControlPanel', actions)
 
-    @unittest.expectedFailure  # FIXME
+    @unittest.skipIf(api.env.plone_version() < '5.0', 'FIXME')
     def test_controlpanel_removed_on_uninstall(self):
         qi = self.portal['portal_quickinstaller']
 
