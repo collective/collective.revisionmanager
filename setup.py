@@ -59,7 +59,6 @@ setup(
         'setuptools',
         'transaction',
         'z3c.form',
-        'z3c.jbot',
         'zope.component',
         'zope.i18nmessageid',
         'zope.interface',
