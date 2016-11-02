@@ -7,10 +7,7 @@
 
   <i18n:registerTranslations directory="locales" />
 
-  <includeDependencies package="." />
-
   <include package=".browser" />
-
 
   <genericsetup:registerProfile
       name="default"

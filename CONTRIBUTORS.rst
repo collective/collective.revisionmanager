@@ -1,1 +1,2 @@
 - tschorr, t_schorr@gmx.de
+- Hector Velarde
