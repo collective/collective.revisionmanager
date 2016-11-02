@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel" purge="False">
+  <configlet
+      remove="True"
+      title="Manage Revisions"
+      action_id="RevisionsControlPanel"
+      appId="RevisionsControlPanel"
+      category="Products"
+      />
+</object>

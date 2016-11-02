@@ -4,6 +4,9 @@ Changelog
 0.6 (unreleased)
 ----------------
 
+- Fix package uninstall.
+  [hvelarde]
+
 - Fix package dependencies.
   [hvelarde]
 

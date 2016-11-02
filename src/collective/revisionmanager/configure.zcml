@@ -5,6 +5,7 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="collective.revisionmanager">
 
+  <five:registerPackage package="." />
   <i18n:registerTranslations directory="locales" />
 
   <include package=".browser" />
@@ -16,6 +17,17 @@
       description="Installs the collective.revisionmanager add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="collective.revisionmanager: uninstall"
+      directory="profiles/uninstall"
+      description="Uninstall collective.revisionmanager."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
+  <utility factory=".setuphandlers.HiddenProfiles" name="collective.revisionmanager" />
 
   <genericsetup:importStep
       name="collective.revisionmanager-postInstall"
