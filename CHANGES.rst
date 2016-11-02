@@ -4,6 +4,9 @@ Changelog
 0.6 (unreleased)
 ----------------
 
+- Add Brazilian Portuguese and Spanish translations.
+  [hvelarde]
+
 - Fix package uninstall.
   [hvelarde]
 
