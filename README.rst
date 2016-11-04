@@ -28,7 +28,7 @@ Features
 Translations
 ------------
 
-So far only the settings page has been translated to german.
+Brazilian Portuguese, German and Spanish translations are available.
 
 Installation
 ------------
