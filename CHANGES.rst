@@ -11,6 +11,7 @@ Changelog
   [hvelarde]
 
 - Fix package dependencies.
+  Remove needless dependency on z3c.jbot.
   [hvelarde]
 
 
