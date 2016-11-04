@@ -6,8 +6,14 @@
 collective.revisionmanager
 ==============================================================================
 
-.. image:: https://travis-ci.org/collective/collective.revisionmanager.svg?branch=master
-    :target: https://travis-ci.org/collective/collective.revisionmanager
+.. image:: http://img.shields.io/pypi/v/collective.revisionmanager.svg
+    :target: https://pypi.python.org/pypi/collective.revisionmanager
+
+.. image:: https://img.shields.io/travis/collective/collective.revisionmanager/master.svg
+    :target: http://travis-ci.org/collective/collective.revisionmanager
+
+.. image:: https://img.shields.io/coveralls/collective/collective.revisionmanager/master.svg
+    :target: https://coveralls.io/r/collective/collective.revisionmanager
 
 collective.revisionmanager is a Plone add-on that lets you manage Products.CMFEditions histories. It can be used with Plone 5.0 and Plone 4.3. You will need Products.CMFEditions version >= 2.2.16.
 

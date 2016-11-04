@@ -1,6 +1,2 @@
 [report]
-include =
-    src/collective/*
-omit =
-    */test*
-    */upgrades/*
+include = src/collective/revisionmanager/*
