@@ -83,7 +83,7 @@
                         <th>&nbsp;&nbsp;&nbsp;</th>
                         <th align="left" i18n:translate="heading_existing_items">of existing items:</th>
                         <td>&nbsp;&nbsp;</td>
-                        <td tal:content="summaries/exisiting_histories">exisiting_histories</td>
+                        <td tal:content="summaries/existing_histories">existing_histories</td>
                       </tr>
                       <tr>
                         <th>&nbsp;&nbsp;&nbsp;</th>

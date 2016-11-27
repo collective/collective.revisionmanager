@@ -109,6 +109,8 @@ class HistoryStatsCache(PersistentMapping):
                     di.update({
                         'path': 'All revisions have been purged',
                         'portal_type': '-'})
+                elif isinstance(wrapper, dict):
+                    di.update(wrapper)
                 else:
                     retrieved = wrapper.object
                     di.update({
@@ -130,7 +132,7 @@ class HistoryStatsCache(PersistentMapping):
                 transaction.savepoint(optimistic=True)
 
         # collect history ids with still existing working copies
-        exisiting_histories = 0
+        existing_histories = 0
         existing_versions = 0
         deleted_histories = 0
         deleted_versions = 0
@@ -139,11 +141,11 @@ class HistoryStatsCache(PersistentMapping):
                 deleted_histories += 1
                 deleted_versions += histdata["length"]
             else:
-                exisiting_histories += 1
+                existing_histories += 1
                 existing_versions += histdata["length"]
 
         processingtime = "{:.2f}".format(time() - starttime)
-        numhistories = exisiting_histories+deleted_histories
+        numhistories = existing_histories+deleted_histories
         versions = existing_versions+deleted_versions
 
         if numhistories:
@@ -151,9 +153,9 @@ class HistoryStatsCache(PersistentMapping):
         else:
             total_average = "n/a"
 
-        if exisiting_histories:
+        if existing_histories:
             existing_average = "{:.1f}".format(
-                float(existing_versions)/exisiting_histories)
+                float(existing_versions)/existing_histories)
         else:
             existing_average = "n/a"
 
@@ -170,7 +172,7 @@ class HistoryStatsCache(PersistentMapping):
                 "total_histories": numhistories,
                 "total_versions": versions,
                 "total_average": total_average,
-                "exisiting_histories": exisiting_histories,
+                "existing_histories": existing_histories,
                 "existing_versions": existing_versions,
                 "existing_average": existing_average,
                 "deleted_histories": deleted_histories,

@@ -133,7 +133,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
                 'deleted_histories': 0,
                 'total_versions': 7,
                 'existing_average': '1.8',
-                'exisiting_histories': 4,
+                'existing_histories': 4,
                 'total_histories': 4,
                 'deleted_average': 'n/a',
                 'total_average': '1.8'},
@@ -243,6 +243,20 @@ def mock_retrieve_pke(args):
     return decorate
 
 
+def mock_retrieve_pke_all_versions(args):
+    """ Another version of the above decorator
+    that raises POSKeyError for all stored version
+    """
+    def decorate(m):
+        def wrapped_m(*passedargs, **kwds):
+            if passedargs[0] == args[0] and not kwds:
+                raise POSKeyError('No blob file')
+            return m(*passedargs, **kwds)
+            wrapped_m.func_name = m.func_name
+        return wrapped_m
+    return decorate
+
+
 class POSKeyErrorTests(unittest.TestCase):
 
     layer = COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
@@ -296,7 +310,7 @@ class POSKeyErrorTests(unittest.TestCase):
                 'existing_average': 'n/a',
                 'total_versions': 3,
                 'deleted_average': '3.0',
-                'exisiting_histories': 0,
+                'existing_histories': 0,
                 'total_histories': 1,
                 'deleted_histories': 1},
             'histories': [{
@@ -320,3 +334,34 @@ class POSKeyErrorTests(unittest.TestCase):
                 self.assertEqual(g[k], v)
             # The actual size is not important and we want robust tests,
             self.failUnless(g['size'] > 0)
+
+    def test_working_copy_deleted_and_poskeyerror(self):
+        """ see
+        https://github.com/collective/collective.revisionmanager/issues/9
+        """
+        cmf_uid = 2
+        obj4 = CMFDummy('no_working_copy', cmf_uid)
+        obj4.text = 'test the case when the working copy was deleted'
+        self.portal._setObject('obj4', obj4)
+        self.portal.portal_catalog.indexObject(self.portal.obj4)
+        self.portal_storage.register(
+            cmf_uid,
+            ObjectData(obj4),
+            metadata=build_metadata('v1'))
+        self.portal.portal_catalog.unindexObject(self.portal.obj4)
+        self.portal.manage_delObjects(['obj4'])
+        self.portal_storage.retrieve = \
+            mock_retrieve_pke_all_versions((2,))(self.portal_storage.retrieve)
+        cache = getUtility(IHistoryStatsCache)
+        with LogCapture(level=WARN) as log:
+            cache.refresh()
+            log.check(
+                ('collective.revisionmanager.statscache', 'WARNING',
+                 'POSKeyError encountered trying to retrieve history 2'),
+                )
+        expected = [{
+            'url': None,
+            'path': 'POSKeyError encountered!',
+            'portal_type': '-'}]
+        got = [h for h in cache['histories'] if h['history_id'] == 2][0]['wcinfos']  # noqa
+        self.assertEqual(expected, got)
