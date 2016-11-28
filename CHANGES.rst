@@ -4,7 +4,9 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fixed https://github.com/collective/collective.revisionmanager/issues/8,
+  https://github.com/collective/collective.revisionmanager/issues/9
+  [tschorr]
 
 
 0.6 (2016-11-04)
