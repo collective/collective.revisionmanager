@@ -221,6 +221,25 @@ class HistoryStatsCacheTests(unittest.TestCase):
         self.failUnless(wcinfo['portal_type'] == '-')
         self.failUnless(wcinfo['path'] == 'All revisions have been purged')
 
+    def test_absolute_url_rewritten_by_proxy(self):
+        """ see
+        https://github.com/collective/collective.revisionmanager/issues/8
+        """
+        cmf_uid = 999
+        obj = CMFDummy('test_rewritten_url', cmf_uid)
+        obj.text = 'test test'
+        obj.allowedRolesAndUsers = ['Anonymous']
+        self.portal._setObject('test_rewritten_url', obj)
+        self.portal.portal_catalog.indexObject(self.portal.test_rewritten_url)
+        self.portal_storage.register(
+            cmf_uid,
+            ObjectData(obj),
+            metadata=build_metadata('saved v1'))
+        obj.absolute_url = \
+            lambda: 'http://staging.example.com/test_rewritten_url'
+        cache = getUtility(IHistoryStatsCache)
+        cache.refresh()
+
 
 def mock_retrieve_pke(args):
     """ Very specific decorator to make ZVCStorageTool.retrieve

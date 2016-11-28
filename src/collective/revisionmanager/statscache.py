@@ -94,11 +94,10 @@ class HistoryStatsCache(PersistentMapping):
             wcinfos = []
             if potential_working_copies:
                 for working_copy in potential_working_copies:
-                    url = working_copy.absolute_url()
-                    parts = url.split('/')
+                    parts = working_copy.getPhysicalPath()
                     start = parts.index(siteid) + 1
                     wcinfos.append(dict(
-                        url=url,
+                        url=working_copy.absolute_url(),
                         path='/{}'.format('/'.join(parts[start:])),
                         portal_type=working_copy.getPortalTypeName()
                         ))
