@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 from zope.component import getUtility
 from zope.location.interfaces import LocationError
