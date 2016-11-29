@@ -57,6 +57,8 @@ You will have to recalculate statistics from time to time to keep them up to dat
 
 If the installation fails with an ``AttributeError`` in ``Products.ZCatalog.CatalogBrains``, your ``portal_catalog`` is inconsistent and you need to `rebuild <http://docs.plone.org/develop/plone/searching_and_indexing/catalog.html>`_ it. As a quick workaround, you can also simply clear (or even delete) the ``cmf_uid`` catalog index - ``collective.revisionmanager`` will rebuild it during installation. But be aware that your ``portal_catalog`` is still inconsistent and needs rebuilding.
 
+Always make sure the ``cmf_uid`` index is consistent because it is used to determine the working copy of a history. Incorrectly indexed content will show up as having no working copy in the histories list!
+
 Contribute
 ----------
 
