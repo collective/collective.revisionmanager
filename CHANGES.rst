@@ -8,6 +8,10 @@ Changelog
   https://github.com/collective/collective.revisionmanager/issues/9
   [tschorr]
 
+- Fix a typo. This requires an update step (see
+  https://github.com/collective/collective.revisionmanager/issues/10).
+  [tschorr]
+
 
 0.6 (2016-11-04)
 ----------------
