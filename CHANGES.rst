@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7 (unreleased)
+0.7 (2016-11-29)
 ----------------
 
 - Fixed https://github.com/collective/collective.revisionmanager/issues/8,
