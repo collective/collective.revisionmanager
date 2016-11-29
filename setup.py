@@ -35,7 +35,7 @@ setup(
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
     keywords='Python Plone',
-    author='tschorr',
+    author='Thomas Schorr',
     author_email='t_schorr@gmx.de',
     url='https://pypi.python.org/pypi/collective.revisionmanager',
     license='GPL version 2',
