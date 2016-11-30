@@ -1,15 +1,22 @@
 Changelog
 =========
 
-0.7 (unreleased)
+0.8 (unreleased)
 ----------------
 
-- Fixed https://github.com/collective/collective.revisionmanager/issues/8,
-  https://github.com/collective/collective.revisionmanager/issues/9
+- Nothing changed yet.
+
+
+0.7 (2016-11-29)
+----------------
+
+- Do not fail on ``POSKeyError`` while calculating storage statistics (fixes `#9 <https://github.com/collective/collective.revisionmanager/issues/9>`_).
   [tschorr]
 
-- Fix a typo. This requires an update step (see
-  https://github.com/collective/collective.revisionmanager/issues/10).
+- Storage statistics calculation now works behind a proxy (fixes `#8 <https://github.com/collective/collective.revisionmanager/issues/8>`_).
+  [tschorr]
+
+- Fix a typo. This requires to run an update step (see `#10 <https://github.com/collective/collective.revisionmanager/issues/10>`_).
   [tschorr]
 
 
