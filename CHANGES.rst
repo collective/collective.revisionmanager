@@ -10,12 +10,6 @@ Changelog
 0.7 (2016-11-29)
 ----------------
 
-- Nothing changed yet.
-
-
-0.7 (2016-11-29)
-----------------
-
 - Do not fail on ``POSKeyError`` while calculating storage statistics (fixes `#9 <https://github.com/collective/collective.revisionmanager/issues/9>`_).
   [tschorr]
 
