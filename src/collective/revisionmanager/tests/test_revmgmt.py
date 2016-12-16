@@ -320,7 +320,7 @@ class POSKeyErrorTests(unittest.TestCase):
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
                  'POSKeyError encountered trying to retrieve history 1'),
-                )
+            )
         expected = {
             'summaries': {
                 'existing_versions': 0,
@@ -377,7 +377,7 @@ class POSKeyErrorTests(unittest.TestCase):
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
                  'POSKeyError encountered trying to retrieve history 2'),
-                )
+            )
         expected = [{
             'url': None,
             'path': 'POSKeyError encountered!',

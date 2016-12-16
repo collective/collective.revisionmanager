@@ -26,7 +26,7 @@ class HistoriesListView(BrowserPage):
         'approximate': _(u'approximate'),
         'inaccurate': _(u'inaccurate'),
         None: _(u'unknown')
-        }
+    }
     js_confirm = _('Are you sure?')
 
     def _del_histories(self, keys):

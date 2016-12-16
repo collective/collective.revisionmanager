@@ -49,8 +49,8 @@ class HistoryStatsCache(PersistentMapping):
             wrapper = {
                 'path': 'POSKeyError encountered!',
                 'portal_type': '-'
-                }
-            for selector in range(length-1, -1, -1):
+            }
+            for selector in range(length - 1, -1, -1):
                 try:
                     wrapper = htool.retrieve(hid, str(selector)).object
                 except POSKeyError:
@@ -99,7 +99,7 @@ class HistoryStatsCache(PersistentMapping):
                         url=working_copy.absolute_url(),
                         path='/{0}'.format('/'.join(parts[start:])),
                         portal_type=working_copy.getPortalTypeName()
-                        ))
+                    ))
             else:
                 di = {'url': None, }
                 wrapper = self._save_retrieve(htool, hid, length)
@@ -143,23 +143,23 @@ class HistoryStatsCache(PersistentMapping):
                 existing_versions += histdata['length']
 
         processingtime = '{0:.2f}'.format(time() - starttime)
-        numhistories = existing_histories+deleted_histories
-        versions = existing_versions+deleted_versions
+        numhistories = existing_histories + deleted_histories
+        versions = existing_versions + deleted_versions
 
         if numhistories:
-            total_average = '{0:.1f}'.format(float(versions)/numhistories)
+            total_average = '{0:.1f}'.format(float(versions) / numhistories)
         else:
             total_average = 'n/a'
 
         if existing_histories:
             existing_average = '{0:.1f}'.format(
-                float(existing_versions)/existing_histories)
+                float(existing_versions) / existing_histories)
         else:
             existing_average = 'n/a'
 
         if deleted_histories:
             deleted_average = '{0:.1f}'.format(
-                float(deleted_versions)/deleted_histories)
+                float(deleted_versions) / deleted_histories)
         else:
             deleted_average = 'n/a'
 
