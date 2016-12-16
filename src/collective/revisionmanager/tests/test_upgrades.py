@@ -19,7 +19,7 @@ class UpgradeTo1001Tests(unittest.TestCase):
 
     def test_clear_cache(self):
         cache = getUtility(IHistoryStatsCache)
-        self.failUnless(len(cache) == 0)
+        self.assertTrue(len(cache) == 0)
         cache.refresh()
         # there's a typo in earlier versions, simulate it
         cache['summaries']['exisisting_histories'] = \
@@ -31,6 +31,6 @@ class UpgradeTo1001Tests(unittest.TestCase):
         self.assertRaises(LocationError, view)
         # now run the upgrade
         clear_cache(self.portal)
-        self.failUnless(len(cache) == 0)
+        self.assertTrue(len(cache) == 0)
         # the configlet should be accessible after the upgrade step
         self.assertTrue(view())

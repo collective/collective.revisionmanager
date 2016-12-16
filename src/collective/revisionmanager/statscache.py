@@ -12,14 +12,13 @@ from ZODB.POSException import POSKeyError
 import transaction
 from time import time
 from zope.component import getUtility
-from zope.interface import implements
+from zope.interface import implementer
 
 log = logging.getLogger(__name__)
 
 
+@implementer(IHistoryStatsCache)
 class HistoryStatsCache(PersistentMapping):
-
-    implements(IHistoryStatsCache)
 
     last_updated = None
     subtransaction_threshold = 0
@@ -77,12 +76,12 @@ class HistoryStatsCache(PersistentMapping):
         # collect interesting informations
         histories = []
         for hid in historyids.keys():
-            log.info('processing history {}'.format(hid))
+            log.info('processing history {0}'.format(hid))
             history = htool.getHistory(hid)
             length = len(history)
             shadow_storage = htool._getShadowHistory(hid)
             size = 0
-            size_state = "n/a"
+            size_state = 'n/a'
             if shadow_storage is not None:
                 size, size_state = shadow_storage.getSize()
 
@@ -98,7 +97,7 @@ class HistoryStatsCache(PersistentMapping):
                     start = parts.index(siteid) + 1
                     wcinfos.append(dict(
                         url=working_copy.absolute_url(),
-                        path='/{}'.format('/'.join(parts[start:])),
+                        path='/{0}'.format('/'.join(parts[start:])),
                         portal_type=working_copy.getPortalTypeName()
                         ))
             else:
@@ -113,16 +112,16 @@ class HistoryStatsCache(PersistentMapping):
                 else:
                     retrieved = wrapper.object
                     di.update({
-                        'path': 'no working copy, object id: {}'.format(
+                        'path': 'no working copy, object id: {0}'.format(
                             retrieved.getId()),
                         'portal_type': retrieved.getPortalTypeName()})
                 wcinfos.append(di)
             histdata = {
-                "history_id": hid,
-                "length": length,
-                "wcinfos": wcinfos,
-                "size": size,
-                "size_state": size_state,
+                'history_id': hid,
+                'length': length,
+                'wcinfos': wcinfos,
+                'size': size,
+                'size_state': size_state,
             }
             histories.append(histdata)
             if self.subtransaction_threshold and \
@@ -138,45 +137,45 @@ class HistoryStatsCache(PersistentMapping):
         for histdata in histories:
             if histdata['wcinfos'][0]['url'] is None:
                 deleted_histories += 1
-                deleted_versions += histdata["length"]
+                deleted_versions += histdata['length']
             else:
                 existing_histories += 1
-                existing_versions += histdata["length"]
+                existing_versions += histdata['length']
 
-        processingtime = "{:.2f}".format(time() - starttime)
+        processingtime = '{0:.2f}'.format(time() - starttime)
         numhistories = existing_histories+deleted_histories
         versions = existing_versions+deleted_versions
 
         if numhistories:
-            total_average = "{:.1f}".format(float(versions)/numhistories)
+            total_average = '{0:.1f}'.format(float(versions)/numhistories)
         else:
-            total_average = "n/a"
+            total_average = 'n/a'
 
         if existing_histories:
-            existing_average = "{:.1f}".format(
+            existing_average = '{0:.1f}'.format(
                 float(existing_versions)/existing_histories)
         else:
-            existing_average = "n/a"
+            existing_average = 'n/a'
 
         if deleted_histories:
-            deleted_average = "{:.1f}".format(
+            deleted_average = '{0:.1f}'.format(
                 float(deleted_versions)/deleted_histories)
         else:
-            deleted_average = "n/a"
+            deleted_average = 'n/a'
 
         return {
-            "histories": histories,
-            "summaries": {
-                "time": processingtime,
-                "total_histories": numhistories,
-                "total_versions": versions,
-                "total_average": total_average,
-                "existing_histories": existing_histories,
-                "existing_versions": existing_versions,
-                "existing_average": existing_average,
-                "deleted_histories": deleted_histories,
-                "deleted_versions": deleted_versions,
-                "deleted_average": deleted_average,
+            'histories': histories,
+            'summaries': {
+                'time': processingtime,
+                'total_histories': numhistories,
+                'total_versions': versions,
+                'total_average': total_average,
+                'existing_histories': existing_histories,
+                'existing_versions': existing_versions,
+                'existing_average': existing_average,
+                'deleted_histories': deleted_histories,
+                'deleted_versions': deleted_versions,
+                'deleted_average': deleted_average,
             }
         }
 

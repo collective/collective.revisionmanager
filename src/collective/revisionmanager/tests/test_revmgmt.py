@@ -173,7 +173,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
         for k, v in expected['summaries'].items():
             self.assertEqual(got['summaries'][k], v)
         # the time needed to calculate stats may vary
-        self.failUnless(float(got['summaries']['time']) < 1)
+        self.assertTrue(float(got['summaries']['time']) < 1)
         self.assertEqual(len(expected['histories']), len(got['histories']))
         for idx in range(len(expected['histories'])):
             e = expected['histories'][idx]
@@ -182,7 +182,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
                 self.assertEqual(g[k], v)
             # The actual size is not important and we want robust tests,
             # s. https://github.com/plone/Products.CMFEditions/issues/31
-            self.failUnless(g['size'] > 0)
+            self.assertTrue(g['size'] > 0)
 
     def test_subtransaction_threshold(self):
         with LogCapture(level=INFO) as log:
@@ -216,10 +216,10 @@ class HistoryStatsCacheTests(unittest.TestCase):
         cache.refresh()
         got = \
             [hist for hist in cache['histories'] if hist['history_id'] == 1][0]
-        self.failUnless(len(got['wcinfos']) == 1)
+        self.assertTrue(len(got['wcinfos']) == 1)
         wcinfo = got['wcinfos'][0]
-        self.failUnless(wcinfo['portal_type'] == '-')
-        self.failUnless(wcinfo['path'] == 'All revisions have been purged')
+        self.assertTrue(wcinfo['portal_type'] == '-')
+        self.assertTrue(wcinfo['path'] == 'All revisions have been purged')
 
     def test_absolute_url_rewritten_by_proxy(self):
         """ see
@@ -344,7 +344,7 @@ class POSKeyErrorTests(unittest.TestCase):
         for k, v in expected['summaries'].items():
             self.assertEqual(got['summaries'][k], v)
         # the time needed to calculate stats may vary
-        self.failUnless(float(got['summaries']['time']) < 1)
+        self.assertTrue(float(got['summaries']['time']) < 1)
         self.assertEqual(len(expected['histories']), len(got['histories']))
         for idx in range(len(expected['histories'])):
             e = expected['histories'][idx]
@@ -352,7 +352,7 @@ class POSKeyErrorTests(unittest.TestCase):
             for k, v in e.items():
                 self.assertEqual(g[k], v)
             # The actual size is not important and we want robust tests,
-            self.failUnless(g['size'] > 0)
+            self.assertTrue(g['size'] > 0)
 
     def test_working_copy_deleted_and_poskeyerror(self):
         """ see

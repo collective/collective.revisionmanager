@@ -11,8 +11,8 @@ from collective.revisionmanager.interfaces import \
 from z3c.form import form, button
 from plone.autoform.form import AutoExtensibleForm
 from plone.batching import Batch
-from zope.component import adapts, getUtility
-from zope.interface import implements
+from zope.component import adapter, getUtility
+from zope.interface import implementer
 from zope.publisher.browser import BrowserPage
 from plone.protect import CheckAuthenticator
 
@@ -62,7 +62,7 @@ class HistoriesListView(BrowserPage):
                 length = len(storage.getHistory(history_id, countPurged=False))
                 if length <= numrevs:
                     break
-                comment = "purged"
+                comment = 'purged'
                 storage.purge(
                     history_id,
                     0,
@@ -136,11 +136,11 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
     """ Revision settings
     """
     schema = IRevisionSettingsSchema
-    id = "revisions-control-panel"
-    label = _("Revision settings")
-    description = _("Revision history settings for this site.")
-    form_name = _("Revision settings")
-    control_panel_view = "revisions-controlpanel"
+    id = 'evisions-control-panel'
+    label = _('Revision settings')
+    description = _('Revision history settings for this site.')
+    form_name = _('Revision settings')
+    control_panel_view = 'revisions-controlpanel'
     template = ViewPageTemplateFile('revisionssettings.pt')
 
     def __init__(self, *args, **kw):
@@ -190,11 +190,11 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
         self.statscache.refresh()
 
 
+@implementer(IRevisionSettingsSchema)
+@adapter(IPloneSiteRoot)
 class RevisionsControlPanelAdapter(object):
     """ Plone style schema adapter for CMFEditions configuration settings
     """
-    adapts(IPloneSiteRoot)
-    implements(IRevisionSettingsSchema)
 
     def __init__(self, context):
         self.context = context
