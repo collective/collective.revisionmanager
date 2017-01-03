@@ -37,7 +37,7 @@ class CMFDummy(SimpleItem):
 
 
 def build_metadata(comment):
-    """ helper - builds a metadata dict
+    """helper - builds a metadata dict
     """
     return {'sys_metadata': {'comment': comment}}
 
@@ -125,8 +125,8 @@ class HistoryStatsCacheTests(unittest.TestCase):
         cache = getUtility(IHistoryStatsCache)
         cache.refresh()
         after = time()
-        self.assertTrue(cache.last_updated > before)
-        self.assertTrue(cache.last_updated < after)
+        self.assertGreater(cache.last_updated, before)
+        self.assertLess(cache.last_updated, after)
         got = cache
         expected = {
             'summaries': {
@@ -175,7 +175,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
         for k, v in expected['summaries'].items():
             self.assertEqual(got['summaries'][k], v)
         # the time needed to calculate stats may vary
-        self.assertTrue(float(got['summaries']['time']) < 1)
+        self.assertLess(float(got['summaries']['time']), 1)
         self.assertEqual(len(expected['histories']), len(got['histories']))
         for idx in range(len(expected['histories'])):
             e = expected['histories'][idx]
@@ -184,7 +184,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
                 self.assertEqual(g[k], v)
             # The actual size is not important and we want robust tests,
             # s. https://github.com/plone/Products.CMFEditions/issues/31
-            self.assertTrue(g['size'] > 0)
+            self.assertGreater(g['size'], 0)
 
     def test_subtransaction_threshold(self):
         with LogCapture(level=INFO) as log:
@@ -192,16 +192,16 @@ class HistoryStatsCacheTests(unittest.TestCase):
             cache.subtransaction_threshold = 2
             cache.refresh()
             log.check(
-                ('collective.revisionmanager.statscache', 'INFO', 'processing history 1'),  # noqa
-                ('collective.revisionmanager.statscache', 'INFO', 'processing history 2'),  # noqa
-                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction'),  # noqa
-                ('collective.revisionmanager.statscache', 'INFO', 'processing history 3'),  # noqa
-                ('collective.revisionmanager.statscache', 'INFO', 'processing history 4'),  # noqa
-                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction')  # noqa
+                ('collective.revisionmanager.statscache', 'INFO', 'processing history 1'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'INFO', 'processing history 2'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'INFO', 'processing history 3'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'INFO', 'processing history 4'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction')  # noqa: E501
                 )
 
     def test_stats_for_purged_revisions(self):
-        """ stats calculation should work if all version of an object
+        """Stats calculation should work if all version of an object
         have been purged and there is no working copy
         """
         self.maxDiff = None
@@ -224,7 +224,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
         self.assertTrue(wcinfo['path'] == 'All revisions have been purged')
 
     def test_absolute_url_rewritten_by_proxy(self):
-        """ see
+        """See
         https://github.com/collective/collective.revisionmanager/issues/8
         """
         cmf_uid = 999
@@ -244,14 +244,14 @@ class HistoryStatsCacheTests(unittest.TestCase):
 
 
 def mock_retrieve_pke(args):
-    """ Very specific decorator to make ZVCStorageTool.retrieve
+    """Very specific decorator to make ZVCStorageTool.retrieve
     raise a POSKeyError if called with <args>.
 
     Maybe we could use some mock library for this ...
     """
     def decorate(m):
         def wrapped_m(*passedargs, **kwds):
-            """ so far <history_id> and <selector> are
+            """So far <history_id> and <selector> are
             the only arguments to ZVCStorageTool.retrieve we are
             interested in. We expect them to be passed in as non kw
             args (looking at HistoryStatsCache._calculate_storage_statistics)
@@ -265,7 +265,7 @@ def mock_retrieve_pke(args):
 
 
 def mock_retrieve_pke_all_versions(args):
-    """ Another version of the above decorator
+    """Another version of the above decorator
     that raises POSKeyError for all stored version
     """
     def decorate(m):
@@ -279,13 +279,13 @@ def mock_retrieve_pke_all_versions(args):
 
 
 def mock_retrieve_with_brokenmodified(args):
-    """ Very specific decorator to make ZVCStorageTool.retrieve
+    """Very specific decorator to make ZVCStorageTool.retrieve
     raise BrokenModified.
     """
     def decorate(m):
         def wrapped_m(*passedargs, **kwds):
             if passedargs == args and not kwds:
-                raise BrokenModified("<persistent broken some.package.portlet.Assignment instance '\x00\x00\x00\x00\x00H\xf3\xc2'")  # noqa
+                raise BrokenModified("<persistent broken some.package.portlet.Assignment instance '\x00\x00\x00\x00\x00H\xf3\xc2'")  # noqa: E501
             return m(*passedargs, **kwds)
             wrapped_m.func_name = m.func_name
         return wrapped_m
@@ -324,7 +324,7 @@ class POSKeyErrorTests(unittest.TestCase):
             metadata=build_metadata('saved v3'))
 
     def test_retrieve_histories_with_poskeyerror_no_blob_file(self):
-        """ The histories storage might be inconsistent at times and
+        """The histories storage might be inconsistent at times and
         retrieve() might raise POSKeyErrors. Test this case.
         """
         # decorate portal_historiesstorage retrieve method with mock
@@ -335,7 +335,7 @@ class POSKeyErrorTests(unittest.TestCase):
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
-                 "POSKeyError encountered trying to retrieve history 1: 'No blob file'"),  # noqa
+                 "POSKeyError encountered trying to retrieve history 1: 'No blob file'"),  # noqa: E501
             )
         expected = {
             'summaries': {
@@ -360,7 +360,7 @@ class POSKeyErrorTests(unittest.TestCase):
         for k, v in expected['summaries'].items():
             self.assertEqual(got['summaries'][k], v)
         # the time needed to calculate stats may vary
-        self.assertTrue(float(got['summaries']['time']) < 1)
+        self.assertLess(float(got['summaries']['time']), 1)
         self.assertEqual(len(expected['histories']), len(got['histories']))
         for idx in range(len(expected['histories'])):
             e = expected['histories'][idx]
@@ -368,10 +368,10 @@ class POSKeyErrorTests(unittest.TestCase):
             for k, v in e.items():
                 self.assertEqual(g[k], v)
             # The actual size is not important and we want robust tests,
-            self.assertTrue(g['size'] > 0)
+            self.assertGreater(g['size'], 0)
 
     def test_working_copy_deleted_and_poskeyerror(self):
-        """ see
+        """See
         https://github.com/collective/collective.revisionmanager/issues/9
         """
         cmf_uid = 2
@@ -392,13 +392,13 @@ class POSKeyErrorTests(unittest.TestCase):
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
-                 "POSKeyError encountered trying to retrieve history 2: 'No blob file'"),  # noqa
+                 "POSKeyError encountered trying to retrieve history 2: 'No blob file'"),  # noqa: E501
             )
         expected = [{
             'url': None,
             'path': 'POSKeyError encountered!',
             'portal_type': '-'}]
-        got = [h for h in cache['histories'] if h['history_id'] == 2][0]['wcinfos']  # noqa
+        got = [h for h in cache['histories'] if h['history_id'] == 2][0]['wcinfos']  # noqa: E501
         self.assertEqual(expected, got)
 
     def test_retrieve_histories_with_brokenmodified(self):
@@ -407,13 +407,13 @@ class POSKeyErrorTests(unittest.TestCase):
         that was removed later) BrokenModified is Raised.
         """
         # decorate portal_historiesstorage retrieve method with mock
-        self.portal_storage.retrieve = mock_retrieve_with_brokenmodified((1,))(self.portal_storage.retrieve)  # noqa
+        self.portal_storage.retrieve = mock_retrieve_with_brokenmodified((1,))(self.portal_storage.retrieve)  # noqa: E501
         cache = getUtility(IHistoryStatsCache)
         with LogCapture(level=WARN) as log:
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
-                 "BrokenModified encountered trying to retrieve history 1: <persistent broken some.package.portlet.Assignment instance '\x00\x00\x00\x00\x00H\xf3\xc2'"),  # noqa
+                 "BrokenModified encountered trying to retrieve history 1: <persistent broken some.package.portlet.Assignment instance '\x00\x00\x00\x00\x00H\xf3\xc2'"),  # noqa: E501
             )
         expected = {
             'summaries': {
@@ -438,7 +438,7 @@ class POSKeyErrorTests(unittest.TestCase):
         for k, v in expected['summaries'].items():
             self.assertEqual(got['summaries'][k], v)
         # the time needed to calculate stats may vary
-        self.assertTrue(float(got['summaries']['time']) < 1)
+        self.assertLess(float(got['summaries']['time']), 1)
         self.assertEqual(len(expected['histories']), len(got['histories']))
         for idx in range(len(expected['histories'])):
             e = expected['histories'][idx]
@@ -446,4 +446,4 @@ class POSKeyErrorTests(unittest.TestCase):
             for k, v in e.items():
                 self.assertEqual(g[k], v)
             # The actual size is not important and we want robust tests,
-            self.assertTrue(g['size'] > 0)
+            self.assertGreater(g['size'], 0)

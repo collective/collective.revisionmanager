@@ -47,7 +47,7 @@ class HistoryStatsCache(PersistentMapping):
         try:
             wrapper = htool.retrieve(hid).object
         except POSKeyError as e:
-            log.warn('POSKeyError encountered trying to retrieve history {0}: {1}'.format(hid, e))  # noqa
+            log.warn('POSKeyError encountered trying to retrieve history {0}: {1}'.format(hid, e))  # noqa: E501
             wrapper = {
                 'path': 'POSKeyError encountered!',
                 'portal_type': '-'
@@ -60,7 +60,7 @@ class HistoryStatsCache(PersistentMapping):
                     pass
 
         except BrokenModified as e:
-            log.warn('BrokenModified encountered trying to retrieve history {0}: {1}'.format(hid, e))  # noqa
+            log.warn('BrokenModified encountered trying to retrieve history {0}: {1}'.format(hid, e))  # noqa: E501
             wrapper = {
                 'path': 'BrokenModified encountered!',
                 'portal_type': '-'
