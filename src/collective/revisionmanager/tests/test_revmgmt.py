@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
-from time import time
-import unittest
-from DateTime.DateTime import DateTime
-from OFS.SimpleItem import SimpleItem
-from ZODB.POSException import POSKeyError
-from zope.component import getUtility
-from Products.CMFEditions.ArchivistTool import ObjectData
-from logging import WARN, INFO
-from testfixtures import LogCapture
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from collective.revisionmanager.testing import \
     COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
+from DateTime.DateTime import DateTime
+from logging import WARN, INFO
+from OFS.SimpleItem import SimpleItem
+from Products.CMFEditions.ArchivistTool import ObjectData
+from testfixtures import LogCapture
+from time import time
+from ZODB.broken import BrokenModified
+from ZODB.POSException import POSKeyError
+from zope.component import getUtility
+
+import unittest
 
 
 class CMFDummy(SimpleItem):
@@ -276,6 +278,20 @@ def mock_retrieve_pke_all_versions(args):
     return decorate
 
 
+def mock_retrieve_with_brokenmodified(args):
+    """ Very specific decorator to make ZVCStorageTool.retrieve
+    raise BrokenModified.
+    """
+    def decorate(m):
+        def wrapped_m(*passedargs, **kwds):
+            if passedargs == args and not kwds:
+                raise BrokenModified("<persistent broken some.package.portlet.Assignment instance '\x00\x00\x00\x00\x00H\xf3\xc2'")  # noqa
+            return m(*passedargs, **kwds)
+            wrapped_m.func_name = m.func_name
+        return wrapped_m
+    return decorate
+
+
 class POSKeyErrorTests(unittest.TestCase):
 
     layer = COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
@@ -384,3 +400,50 @@ class POSKeyErrorTests(unittest.TestCase):
             'portal_type': '-'}]
         got = [h for h in cache['histories'] if h['history_id'] == 2][0]['wcinfos']  # noqa
         self.assertEqual(expected, got)
+
+    def test_retrieve_histories_with_brokenmodified(self):
+        """When a class is removed that a revision relies upon
+        (e.g. when a revision of a document has a Assignment for a portlet
+        that was removed later) BrokenModified is Raised.
+        """
+        # decorate portal_historiesstorage retrieve method with mock
+        self.portal_storage.retrieve = mock_retrieve_with_brokenmodified((1,))(self.portal_storage.retrieve)  # noqa
+        cache = getUtility(IHistoryStatsCache)
+        with LogCapture(level=WARN) as log:
+            cache.refresh()
+            log.check(
+                ('collective.revisionmanager.statscache', 'WARNING',
+                 "BrokenModified encountered trying to retrieve history 1: <persistent broken some.package.portlet.Assignment instance '\x00\x00\x00\x00\x00H\xf3\xc2'"),  # noqa
+            )
+        expected = {
+            'summaries': {
+                'existing_versions': 0,
+                'total_average': '3.0',
+                'deleted_versions': 3,
+                'existing_average': 'n/a',
+                'total_versions': 3,
+                'deleted_average': '3.0',
+                'existing_histories': 0,
+                'total_histories': 1,
+                'deleted_histories': 1},
+            'histories': [{
+                'history_id': 1,
+                'length': 3,
+                'wcinfos': [{
+                    'url': None,
+                    'path': 'no working copy, object id: obj',
+                    'portal_type': 'Dummy'}],
+                'size_state': 'approximate'}]}
+        got = cache
+        for k, v in expected['summaries'].items():
+            self.assertEqual(got['summaries'][k], v)
+        # the time needed to calculate stats may vary
+        self.assertTrue(float(got['summaries']['time']) < 1)
+        self.assertEqual(len(expected['histories']), len(got['histories']))
+        for idx in range(len(expected['histories'])):
+            e = expected['histories'][idx]
+            g = got['histories'][idx]
+            for k, v in e.items():
+                self.assertEqual(g[k], v)
+            # The actual size is not important and we want robust tests,
+            self.assertTrue(g['size'] > 0)
