@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
-import logging
+from collective.revisionmanager.interfaces import IHistoryStatsCache
 from DateTime.DateTime import DateTime
-from plone import api
-from Products.CMFUid.interfaces import IUniqueIdGenerator
-from Products.CMFUid.UniqueIdHandlerTool import UID_ATTRIBUTE_NAME
-from Products.CMFEditions.ZVCStorageTool import Removed
-from .interfaces import IHistoryStatsCache
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
-from ZODB.POSException import POSKeyError
-import transaction
+from plone import api
+from Products.CMFEditions.ZVCStorageTool import Removed
+from Products.CMFUid.interfaces import IUniqueIdGenerator
+from Products.CMFUid.UniqueIdHandlerTool import UID_ATTRIBUTE_NAME
 from time import time
+from ZODB.broken import BrokenModified
+from ZODB.POSException import POSKeyError
 from zope.component import getUtility
 from zope.interface import implementer
+
+import logging
+import transaction
 
 log = logging.getLogger(__name__)
 
@@ -44,8 +46,8 @@ class HistoryStatsCache(PersistentMapping):
         """
         try:
             wrapper = htool.retrieve(hid).object
-        except POSKeyError:
-            log.warn('POSKeyError encountered trying to retrieve history {}'.format(hid))  # noqa
+        except POSKeyError as e:
+            log.warn('POSKeyError encountered trying to retrieve history {0}: {1}'.format(hid, e))  # noqa
             wrapper = {
                 'path': 'POSKeyError encountered!',
                 'portal_type': '-'
@@ -54,6 +56,19 @@ class HistoryStatsCache(PersistentMapping):
                 try:
                     wrapper = htool.retrieve(hid, str(selector)).object
                 except POSKeyError:
+                    # bad luck - use previously defined fallback
+                    pass
+
+        except BrokenModified as e:
+            log.warn('BrokenModified encountered trying to retrieve history {0}: {1}'.format(hid, e))  # noqa
+            wrapper = {
+                'path': 'BrokenModified encountered!',
+                'portal_type': '-'
+            }
+            for selector in range(length - 1, -1, -1):
+                try:
+                    wrapper = htool.retrieve(hid, str(selector)).object
+                except BrokenModified:
                     # bad luck - use previously defined fallback
                     pass
         return wrapper

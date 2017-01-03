@@ -2,19 +2,20 @@
 from AccessControl import getSecurityManager
 from AccessControl.Permissions import view_management_screens
 from Acquisition import aq_inner
-from plone import api
 from collective.revisionmanager import _
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from collective.revisionmanager.interfaces import \
-    IHistoryStatsCache, IRevisionSettingsSchema
-from z3c.form import form, button
+from collective.revisionmanager.interfaces import IHistoryStatsCache
+from collective.revisionmanager.interfaces import IRevisionSettingsSchema
+from math import log
+from plone import api
 from plone.autoform.form import AutoExtensibleForm
 from plone.batching import Batch
+from plone.protect import CheckAuthenticator
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from z3c.form import form, button
 from zope.component import adapter, getUtility
 from zope.interface import implementer
 from zope.publisher.browser import BrowserPage
-from plone.protect import CheckAuthenticator
 
 
 class HistoriesListView(BrowserPage):
@@ -108,7 +109,7 @@ class HistoriesListView(BrowserPage):
         form = self.request.form
         stats = getUtility(IHistoryStatsCache)
         if 'del_histories' in form:
-            keys = [int(k[5:]) for k in form.keys() if k.startswith('check')]
+            keys = [int(k[5:]) for k in form.get('delete', []) if k.startswith('check')]  # noqa: E501
             self._purge_n_revisions(keys, int(form['keepnum']))
         elif 'del_orphans' in form:
             keys = []
@@ -126,10 +127,28 @@ class HistoriesListView(BrowserPage):
         reverse = bool(int(self.request.get('reverse', 0)))
         self.batch = Batch(
             sequence=sorted(histories, key=sortkey, reverse=reverse),
-            size=30,
+            size=int(self.request.get('b_size', 30)),
             start=int(self.request.get('b_start', 0)),
             orphan=1)
         return self.render()
+
+    def humanize_size(self, num):
+        """Transform bytes into a human readable format."""
+        if not num:
+            return '0 bytes'
+        if num == 1:
+            return '1 byte'
+        if num == '???':
+            return '???'
+        unit_list = zip(
+            ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+            [0, 0, 1, 2, 2, 2])
+        if num > 1:
+            exponent = min(int(log(num, 1024)), len(unit_list) - 1)
+            quotient = float(num) / 1024**exponent
+            unit, num_decimals = unit_list[exponent]
+            format_string = '{:.%sf} {}' % (num_decimals)
+            return format_string.format(quotient, unit)
 
 
 class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
@@ -166,10 +185,9 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
             return
         CheckAuthenticator(self.request)
         if not self.available():
-            self.status = _(
-                u'text_not_allowed_manage_server',
-                default=u'You are not allowed to manage the Zope server.'
-            )
+            msg = _(u'text_not_allowed_manage_server',
+                    default=u'You are not allowed to manage the Zope server.')
+            api.portal.show_message(msg, self.request, type='error')
             return
         value = data.get('number_versions_to_keep', -1)
         ptool = api.portal.get_tool('portal_purgepolicy')
@@ -182,10 +200,9 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
     def handle_recalculate_stats(self, action):
         CheckAuthenticator(self.request)
         if not self.available():
-            self.status = _(
-                u'text_not_allowed_manage_server',
-                default=u'You are not allowed to manage the Zope server.'
-            )
+            msg = _(u'text_not_allowed_manage_server',
+                    default=u'You are not allowed to manage the Zope server.')
+            api.portal.show_message(msg, self.request, type='error')
             return
         self.statscache.refresh()
 

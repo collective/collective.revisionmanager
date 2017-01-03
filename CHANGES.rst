@@ -4,7 +4,11 @@ Changelog
 0.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Do not fail on ``BrokenModified`` while calculating storage statistics.
+  [pbauer]
+
+- UX-Improvements: Display size in a human-readable format, allow to increase the batch-size with a query-string, allow selecting all items
+  [pbauer]
 
 
 0.7 (2016-11-29)
