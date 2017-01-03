@@ -59,8 +59,9 @@
         define="batchnavigation nocall:context/@@batchnavigation"
         replace="structure python:batchnavigation(batch)" />
 
-  <table border="1" cellspacing="0" tal:condition="batch">
+  <table class="listing" tal:condition="batch">
 
+    <thead>
     <tr>
         <th align="left"><a href="" i18n:translate="heading_history_id" tal:attributes="href string:${request/URL}?sortby=history_id&reverse=${view/reverse}">history id</a></th>
         <th align="left"><a href="" i18n:translate="heading_versions" tal:attributes="href string:${request/URL}?sortby=length&reverse=${view/reverse}">versions</a></th>
@@ -69,7 +70,8 @@
         <th align="left"><a href="" i18n:translate="heading_portal_type" tal:attributes="href string:${request/URL}?sortby=portal_type&reverse=${view/reverse}">portal type</a></th>
         <th align="left"><a href="" i18n:translate="heading_current_path" tal:attributes="href string:${request/URL}?sortby=wcinfos&reverse=${view/reverse}">current path (counting from the portals root)</a></th>
     </tr>
-
+    </thead>
+    <tbody>
     <tr tal:repeat="histData batch">
         <td>
             <label>
@@ -94,7 +96,7 @@
           </tal:wcinfos>
         </td>
     </tr>
-
+    </tbody>
   </table>
   <div>
       <label for="keepnum" i18n:translate="label_num_revisions_to_keep">Number of revisions to keep (0 to delete entire history):</label>
