@@ -4,6 +4,7 @@ from AccessControl.Permissions import view_management_screens
 from Acquisition import aq_inner
 from plone import api
 from collective.revisionmanager import _
+from math import log
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.revisionmanager.interfaces import \
@@ -130,6 +131,24 @@ class HistoriesListView(BrowserPage):
             start=int(self.request.get('b_start', 0)),
             orphan=1)
         return self.render()
+
+    def humanize_size(self, num):
+        """Transform bytes into a human readable format."""
+        if not num:
+            return '0 bytes'
+        unit_list = zip(
+            ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+            [0, 0, 1, 2, 2, 2])
+        if num > 1:
+            exponent = min(int(log(num, 1024)), len(unit_list) - 1)
+            quotient = float(num) / 1024**exponent
+            unit, num_decimals = unit_list[exponent]
+            format_string = '{:.%sf} {}' % (num_decimals)
+            return format_string.format(quotient, unit)
+        if num == 0:
+            return '0 bytes'
+        if num == 1:
+            return '1 byte'
 
 
 class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):

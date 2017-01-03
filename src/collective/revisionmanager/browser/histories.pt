@@ -80,7 +80,7 @@
             </label>
         </td>
         <td tal:content="histData/length">length</td>
-        <td align="right" tal:content="histData/size">size</td>
+        <td align="right" tal:content="python:view.humanize_size(histData['size'])">size</td>
         <td align="right" tal:content="python:view.size_state(histData['size_state'])">size state</td>
         <td>
           <tal:wcinfos repeat="wcinfo histData/wcinfos">
