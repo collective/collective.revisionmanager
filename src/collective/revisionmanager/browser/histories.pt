@@ -51,6 +51,8 @@
                   enctype="multipart/form-data"
                   id="zc.page.browser_form">
 
+    <a href="#" id="checkAll" i18n:translate="">Select all</a>
+
     <div tal:define="batch view/batch;">
   <p tal:condition="not:batch">--</p>
     <tal:batchnavigation
@@ -70,8 +72,10 @@
 
     <tr tal:repeat="histData batch">
         <td>
-            <input type="checkbox" name="" tal:attributes="name string:check${histData/history_id}" />
+            <label>
+            <input type="checkbox" name="delete:list" tal:attributes="value string:check${histData/history_id}" />
             <span tal:omit-tag="" tal:content="histData/history_id">history id</span>
+            </label>
         </td>
         <td tal:content="histData/length">length</td>
         <td align="right" tal:content="histData/size">size</td>
@@ -110,6 +114,10 @@
                 <input tal:replace="structure context/@@authenticator/authenticator" />
 
             </form>
+
+        <script type="text/javascript"
+                src="++resource++collective.revisionmanager/revisionmanager.js"></script>
+
         </div>
 
         </div>

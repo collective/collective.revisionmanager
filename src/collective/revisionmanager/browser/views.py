@@ -108,7 +108,7 @@ class HistoriesListView(BrowserPage):
         form = self.request.form
         stats = getUtility(IHistoryStatsCache)
         if 'del_histories' in form:
-            keys = [int(k[5:]) for k in form.keys() if k.startswith('check')]
+            keys = [int(k[5:]) for k in form.get('delete', []) if k.startswith('check')]
             self._purge_n_revisions(keys, int(form['keepnum']))
         elif 'del_orphans' in form:
             keys = []
