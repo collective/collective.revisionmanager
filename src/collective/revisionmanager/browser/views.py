@@ -109,7 +109,7 @@ class HistoriesListView(BrowserPage):
         form = self.request.form
         stats = getUtility(IHistoryStatsCache)
         if 'del_histories' in form:
-            keys = [int(k[5:]) for k in form.get('delete', []) if k.startswith('check')]
+            keys = [int(k[5:]) for k in form.get('delete', []) if k.startswith('check')]  # noqa: E501
             self._purge_n_revisions(keys, int(form['keepnum']))
         elif 'del_orphans' in form:
             keys = []
@@ -136,6 +136,10 @@ class HistoriesListView(BrowserPage):
         """Transform bytes into a human readable format."""
         if not num:
             return '0 bytes'
+        if num == 1:
+            return '1 byte'
+        if num == '???':
+            return '???'
         unit_list = zip(
             ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
             [0, 0, 1, 2, 2, 2])
@@ -145,10 +149,6 @@ class HistoriesListView(BrowserPage):
             unit, num_decimals = unit_list[exponent]
             format_string = '{:.%sf} {}' % (num_decimals)
             return format_string.format(quotient, unit)
-        if num == 0:
-            return '0 bytes'
-        if num == 1:
-            return '1 byte'
 
 
 class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
