@@ -126,7 +126,7 @@ class HistoriesListView(BrowserPage):
         reverse = bool(int(self.request.get('reverse', 0)))
         self.batch = Batch(
             sequence=sorted(histories, key=sortkey, reverse=reverse),
-            size=30,
+            size=int(self.request.get('b_size', 30)),
             start=int(self.request.get('b_start', 0)),
             orphan=1)
         return self.render()
