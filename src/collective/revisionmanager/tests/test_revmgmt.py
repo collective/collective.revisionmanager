@@ -319,7 +319,7 @@ class POSKeyErrorTests(unittest.TestCase):
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
-                 'POSKeyError encountered trying to retrieve history 1'),
+                 "POSKeyError encountered trying to retrieve history 1: 'No blob file'"),  # noqa
             )
         expected = {
             'summaries': {
@@ -376,7 +376,7 @@ class POSKeyErrorTests(unittest.TestCase):
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
-                 'POSKeyError encountered trying to retrieve history 2'),
+                 "POSKeyError encountered trying to retrieve history 2: 'No blob file'"),  # noqa
             )
         expected = [{
             'url': None,
