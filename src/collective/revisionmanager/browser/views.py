@@ -2,20 +2,20 @@
 from AccessControl import getSecurityManager
 from AccessControl.Permissions import view_management_screens
 from Acquisition import aq_inner
-from plone import api
 from collective.revisionmanager import _
+from collective.revisionmanager.interfaces import IHistoryStatsCache
+from collective.revisionmanager.interfaces import IRevisionSettingsSchema
 from math import log
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from collective.revisionmanager.interfaces import \
-    IHistoryStatsCache, IRevisionSettingsSchema
-from z3c.form import form, button
+from plone import api
 from plone.autoform.form import AutoExtensibleForm
 from plone.batching import Batch
+from plone.protect import CheckAuthenticator
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from z3c.form import form, button
 from zope.component import adapter, getUtility
 from zope.interface import implementer
 from zope.publisher.browser import BrowserPage
-from plone.protect import CheckAuthenticator
 
 
 class HistoriesListView(BrowserPage):
@@ -185,10 +185,9 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
             return
         CheckAuthenticator(self.request)
         if not self.available():
-            self.status = _(
-                u'text_not_allowed_manage_server',
-                default=u'You are not allowed to manage the Zope server.'
-            )
+            msg = _(u'text_not_allowed_manage_server',
+                    default=u'You are not allowed to manage the Zope server.')
+            api.portal.show_message(msg, self.request, type='error')
             return
         value = data.get('number_versions_to_keep', -1)
         ptool = api.portal.get_tool('portal_purgepolicy')
@@ -201,10 +200,9 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
     def handle_recalculate_stats(self, action):
         CheckAuthenticator(self.request)
         if not self.available():
-            self.status = _(
-                u'text_not_allowed_manage_server',
-                default=u'You are not allowed to manage the Zope server.'
-            )
+            msg = _(u'text_not_allowed_manage_server',
+                    default=u'You are not allowed to manage the Zope server.')
+            api.portal.show_message(msg, self.request, type='error')
             return
         self.statscache.refresh()
 
