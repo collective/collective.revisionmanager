@@ -147,7 +147,7 @@ class HistoriesListView(BrowserPage):
             exponent = min(int(log(num, 1024)), len(unit_list) - 1)
             quotient = float(num) / 1024**exponent
             unit, num_decimals = unit_list[exponent]
-            format_string = '{:.%sf} {}' % (num_decimals)
+            format_string = '{:.%sf} {}' % (num_decimals)  # noqa: S001,P103
             return format_string.format(quotient, unit)
 
 
