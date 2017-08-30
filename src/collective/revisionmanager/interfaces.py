@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
+from collective.revisionmanager import _
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.schema import Int
-from collective.revisionmanager import _
 
 
 class ICollectiveRevisionmanagerLayer(IDefaultBrowserLayer):

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from plone import api
 from Products.CMFPlone.interfaces import INonInstallable
 from Products.ZCatalog.ProgressHandler import ZLogHandler

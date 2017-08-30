@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_ACCEPTANCE_TESTING  # noqa
+import os
+import unittest
+
+import robotsuite
+from collective.revisionmanager.testing import \
+    COLLECTIVE_REVISIONMANAGER_ACCEPTANCE_TESTING  # noqa
 from plone.app.testing import ROBOT_TEST_LEVEL
 from plone.testing import layered
-
-import os
-import robotsuite
-import unittest
 
 
 def test_suite():
