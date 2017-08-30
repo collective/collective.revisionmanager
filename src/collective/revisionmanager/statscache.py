@@ -94,6 +94,8 @@ class HistoryStatsCache(PersistentMapping):
             log.info('processing history {0}'.format(hid))
             history = htool.getHistory(hid)
             length = len(history)
+            not_purged = htool.getHistory(hid, countPurged=False)
+            length_purged = length - len(not_purged)
             shadow_storage = htool._getShadowHistory(hid)
             size = 0
             size_state = 'n/a'
@@ -134,6 +136,7 @@ class HistoryStatsCache(PersistentMapping):
             histdata = {
                 'history_id': hid,
                 'length': length,
+                'purged': length_purged,
                 'wcinfos': wcinfos,
                 'size': size,
                 'size_state': size_state,

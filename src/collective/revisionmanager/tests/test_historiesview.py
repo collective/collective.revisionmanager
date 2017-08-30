@@ -40,7 +40,7 @@ class TestHistoriesView(unittest.TestCase):
             u'histories', self.portal, self.request)
         view = view.__of__(self.portal)
         html = view()
-        self.assertIn('<td>2</td>', html)
+        self.assertIn('<td>2 (0)</td>', html)
         self.assertIn('<td align="right">3 kB</td>', html)
         self.assertIn(
             '<a href="http://nohost/plone/some-document">/some-document</a>',
@@ -50,7 +50,7 @@ class TestHistoriesView(unittest.TestCase):
         self.statscache.refresh()
         html = view()
         self.assertEqual(view.batch[0]['length'], 3)
-        self.assertIn('<td>3</td>', html)
+        self.assertIn('<td>3 (0)</td>', html)
         self.assertIn('<td align="right">5 kB</td>', html)
 
     def test_view_is_protected(self):
@@ -105,7 +105,7 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.open(self.portal_url + '/@@revisions-controlpanel')
         self.browser.getControl(name='form.buttons.recalculate').click()
         self.browser.open(self.portal_url + '/@@histories')
-        self.assertIn('<td>2</td>', self.browser.contents)
+        self.assertIn('<td>2 (0)</td>', self.browser.contents)
         self.assertIn('<td align="right">3 kB</td>', self.browser.contents)
         self.doc1.text = RichTextValue(u'Changed!', 'text/plain', 'text/html')
         modified(self.doc1)
@@ -113,7 +113,7 @@ class TestViewsFunctional(unittest.TestCase):
         transaction.commit()
         self.browser.reload()
         # We have a item with 3 revisions
-        self.assertIn('<td>3</td>', self.browser.contents)
+        self.assertIn('<td>3 (0)</td>', self.browser.contents)
         self.assertIn('<td align="right">5 kB</td>', self.browser.contents)
 
         checkbox = self.browser.getControl(name='delete:list')
@@ -122,9 +122,12 @@ class TestViewsFunctional(unittest.TestCase):
         # we keep a revision
         self.browser.getControl(name='keepnum').value = '2'
         self.browser.getControl(name='del_histories').click()
+        self.statscache.refresh()
+        transaction.commit()
+        self.browser.reload()
 
         # The number of revisions is kept but the payload is purged
-        self.assertIn('<td>3</td>', self.browser.contents)
+        self.assertIn('<td>3 (1)</td>', self.browser.contents)
         # The size is not recalucated
         self.assertIn('<td align="right">???</td>', self.browser.contents)
         self.browser.getControl(name='keepnum').value = '0'
