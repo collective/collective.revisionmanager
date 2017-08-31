@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-from logging import INFO, WARN
+from logging import DEBUG, WARN
 from time import time
 
 from collective.revisionmanager.interfaces import IHistoryStatsCache
@@ -187,18 +187,18 @@ class HistoryStatsCacheTests(unittest.TestCase):
             self.assertGreater(g['size'], 0)
 
     def test_subtransaction_threshold(self):
-        with LogCapture('collective.revisionmanager.statscache', level=INFO) as log:
+        with LogCapture(
+                'collective.revisionmanager.statscache', level=DEBUG) as log:
             cache = getUtility(IHistoryStatsCache)
             cache.subtransaction_threshold = 2
             cache.refresh()
             log.check(
-                ('collective.revisionmanager.statscache', 'INFO', 'processing history 1'),  # noqa: E501
-                ('collective.revisionmanager.statscache', 'INFO', 'processing history 2'),  # noqa: E501
-                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction'),  # noqa: E501
-                ('collective.revisionmanager.statscache', 'INFO', 'processing history 3'),  # noqa: E501
-                ('collective.revisionmanager.statscache', 'INFO', 'processing history 4'),  # noqa: E501
-                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction')  # noqa: E501
-                )
+                ('collective.revisionmanager.statscache', 'DEBUG', 'processing history 1'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'DEBUG', 'processing history 2'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction: 2 histories processed.'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'DEBUG', 'processing history 3'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'DEBUG', 'processing history 4'),  # noqa: E501
+                ('collective.revisionmanager.statscache', 'INFO', 'committing subtransaction: 4 histories processed.'))  # noqa: E501
 
     def test_stats_for_purged_revisions(self):
         """Stats calculation should work if all version of an object
@@ -331,7 +331,8 @@ class POSKeyErrorTests(unittest.TestCase):
         self.portal_storage.retrieve = \
             mock_retrieve_pke((1,))(self.portal_storage.retrieve)
         cache = getUtility(IHistoryStatsCache)
-        with LogCapture('collective.revisionmanager.statscache', level=WARN) as log:
+        with LogCapture(
+                'collective.revisionmanager.statscache', level=WARN) as log:
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
@@ -388,7 +389,8 @@ class POSKeyErrorTests(unittest.TestCase):
         self.portal_storage.retrieve = \
             mock_retrieve_pke_all_versions((2,))(self.portal_storage.retrieve)
         cache = getUtility(IHistoryStatsCache)
-        with LogCapture('collective.revisionmanager.statscache', level=WARN) as log:
+        with LogCapture(
+                'collective.revisionmanager.statscache', level=WARN) as log:
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
@@ -409,7 +411,8 @@ class POSKeyErrorTests(unittest.TestCase):
         # decorate portal_historiesstorage retrieve method with mock
         self.portal_storage.retrieve = mock_retrieve_with_brokenmodified((1,))(self.portal_storage.retrieve)  # noqa: E501
         cache = getUtility(IHistoryStatsCache)
-        with LogCapture('collective.revisionmanager.statscache', level=WARN) as log:
+        with LogCapture(
+                'collective.revisionmanager.statscache', level=WARN) as log:
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',

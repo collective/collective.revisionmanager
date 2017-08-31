@@ -91,7 +91,7 @@ class HistoryStatsCache(PersistentMapping):
         # collect interesting informations
         histories = []
         for hid in historyids.keys():
-            log.info('processing history {0}'.format(hid))
+            log.debug('processing history {0}'.format(hid))
             history = htool.getHistory(hid)
             length = len(history)
             not_purged = htool.getHistory(hid, countPurged=False)
@@ -142,9 +142,12 @@ class HistoryStatsCache(PersistentMapping):
                 'size_state': size_state,
             }
             histories.append(histdata)
+            num_processed = len(histories)
             if self.subtransaction_threshold and \
-                    (len(histories) % self.subtransaction_threshold == 0):
-                log.info('committing subtransaction')
+                    (num_processed % self.subtransaction_threshold == 0):  # noqa: S001,E501 - code-analysis gets the modulo wrong
+                log.info(
+                        'committing subtransaction: {} histories processed.'.format(  # noqa: E501,P101
+                        num_processed))
                 transaction.savepoint(optimistic=True)
 
         # collect history ids with still existing working copies
