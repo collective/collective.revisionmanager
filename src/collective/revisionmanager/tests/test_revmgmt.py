@@ -187,7 +187,7 @@ class HistoryStatsCacheTests(unittest.TestCase):
             self.assertGreater(g['size'], 0)
 
     def test_subtransaction_threshold(self):
-        with LogCapture(level=INFO) as log:
+        with LogCapture('collective.revisionmanager.statscache', level=INFO) as log:
             cache = getUtility(IHistoryStatsCache)
             cache.subtransaction_threshold = 2
             cache.refresh()
@@ -331,7 +331,7 @@ class POSKeyErrorTests(unittest.TestCase):
         self.portal_storage.retrieve = \
             mock_retrieve_pke((1,))(self.portal_storage.retrieve)
         cache = getUtility(IHistoryStatsCache)
-        with LogCapture(level=WARN) as log:
+        with LogCapture('collective.revisionmanager.statscache', level=WARN) as log:
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
@@ -388,7 +388,7 @@ class POSKeyErrorTests(unittest.TestCase):
         self.portal_storage.retrieve = \
             mock_retrieve_pke_all_versions((2,))(self.portal_storage.retrieve)
         cache = getUtility(IHistoryStatsCache)
-        with LogCapture(level=WARN) as log:
+        with LogCapture('collective.revisionmanager.statscache', level=WARN) as log:
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
@@ -409,7 +409,7 @@ class POSKeyErrorTests(unittest.TestCase):
         # decorate portal_historiesstorage retrieve method with mock
         self.portal_storage.retrieve = mock_retrieve_with_brokenmodified((1,))(self.portal_storage.retrieve)  # noqa: E501
         cache = getUtility(IHistoryStatsCache)
-        with LogCapture(level=WARN) as log:
+        with LogCapture('collective.revisionmanager.statscache', level=WARN) as log:
             cache.refresh()
             log.check(
                 ('collective.revisionmanager.statscache', 'WARNING',
