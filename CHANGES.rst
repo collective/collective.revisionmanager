@@ -1,13 +1,7 @@
 Changelog
 =========
 
-0.9 (unreleased)
-----------------
-
-- Nothing changed yet.
-
-
-0.8 (2017-08-31)
+0.8 (unreleased)
 ----------------
 
 - Do not fail on ``BrokenModified`` while calculating storage statistics.
@@ -16,10 +10,10 @@ Changelog
 - UX-Improvements: Display size in a human-readable format, allow to increase the batch-size with a query-string, allow selecting all items.
   [pbauer]
 
-- In addition to the overall number of revisions, also display the number of purged revisions (fixes `#14 <https://github.com/collective/collective.revisionmanager/issues/14>`).
+- In addition to the overall number of revisions, also display the number of purged revisions (fixes `#14 <https://github.com/collective/collective.revisionmanager/issues/14>`_).
   [tschorr]
 
-- Decrease log level for logging processing of each history (fixes `#15 <https://github.com/collective/collective.revisionmanager/issues/15>`).
+- Decrease log level for logging processing of each history (fixes `#15 <https://github.com/collective/collective.revisionmanager/issues/15>`_).
   [tschorr]
 
 - Add script to rebuild i18n stuff and update translations.
