@@ -28,7 +28,7 @@ msgstr "Bei vielen Objekten in der Datenbank ist die Berechnung der Statistik mi
 
 #: collective/revisionmanager/configure.zcml:20
 msgid "Installs the collective.revisionmanager add-on."
-msgstr ""
+msgstr "Installiert collective.revisionmanager"
 
 #: collective/revisionmanager/browser/histories.pt:104
 msgid "Purge selected histories"
@@ -54,7 +54,7 @@ msgstr "Speichern"
 
 #: collective/revisionmanager/browser/histories.pt:54
 msgid "Select all"
-msgstr ""
+msgstr "Alle auswählen"
 
 #: collective/revisionmanager/browser/histories.pt:23
 #: collective/revisionmanager/browser/revisionssettings.pt:21
@@ -150,7 +150,7 @@ msgstr "Größenberechnung"
 #: collective/revisionmanager/browser/histories.pt:67
 #, fuzzy
 msgid "heading_versions"
-msgstr "Versionen"
+msgstr "Versionen (davon gelöscht)"
 
 #: collective/revisionmanager/browser/views.py:29
 msgid "inaccurate"

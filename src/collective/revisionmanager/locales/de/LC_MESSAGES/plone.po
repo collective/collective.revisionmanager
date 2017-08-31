@@ -16,4 +16,4 @@ msgstr ""
 
 #: collective/revisionmanager/profiles/default/controlpanel.xml
 msgid "Manage Revisions"
-msgstr ""
+msgstr "Revisionen verwalten"
