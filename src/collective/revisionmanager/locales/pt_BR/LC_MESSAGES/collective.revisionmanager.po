@@ -1,8 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: collective.revisionmanager\n"
-"POT-Creation-Date: 2016-04-28 14:17+0000\n"
-"PO-Revision-Date: 2016-12-02 13:57-0200\n"
+"POT-Creation-Date: 2017-08-31 13:26+0000\n"
+"PO-Revision-Date: 2017-08-31 10:31-0300\n"
+"Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
+"Language-Team: Héctor Velarde <hector.velarde@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,173 +13,196 @@ msgstr ""
 "Language-Name: Spanish\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
-"Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
-"Language-Team: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language: pt_BR\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: browser/views.py:30
+#: collective/revisionmanager/browser/views.py:32
 msgid "Are you sure?"
 msgstr "Tem certeza?"
 
-#: browser/histories.pt:106
+#: collective/revisionmanager/browser/histories.pt:108
 msgid "Delete orphans"
 msgstr "Apagar órfanos"
 
-#: interfaces.py:35
+#: collective/revisionmanager/interfaces.py:35
 msgid "Depending on the number of objects in your database, calculating the statistics can consume a lot of memory. Setting a subtransaction threshold will reduce memory requirements at the expense of speed. The default (0) is to not use subtransactions."
 msgstr "Dependendo do número de objetos no banco de dados, o cálculo das estadísticas pode consumir muita memória. Colocando um valor limite para sub-transações reduz os requerimentos de memória a expensas da velocidade. O valor padrão (0) evita o uso de sub-transações."
 
-#: browser/histories.pt:102
+#: collective/revisionmanager/configure.zcml:20
+msgid "Installs the collective.revisionmanager add-on."
+msgstr "Instalar collective.revisionmanager."
+
+#: collective/revisionmanager/browser/histories.pt:104
 msgid "Purge selected histories"
 msgstr "Purgar os históricos selecionados"
 
-#: browser/revisionssettings.pt:148 browser/views.py:181
+#: collective/revisionmanager/browser/revisionssettings.pt:143
+#: collective/revisionmanager/browser/views.py:200
 msgid "Recalculate Statistics"
 msgstr "Recalcular estadísticas"
 
-#: browser/views.py:141
+#: collective/revisionmanager/browser/views.py:161
 msgid "Revision history settings for this site."
 msgstr "Configuração do histórico de revisões do site."
 
-#: browser/views.py:140
+#: collective/revisionmanager/browser/views.py:160
 msgid "Revision settings"
 msgstr "Configuração de revisões"
 
-#: browser/revisionssettings.pt:67 browser/views.py:161
+#: collective/revisionmanager/browser/revisionssettings.pt:62
+#: collective/revisionmanager/browser/views.py:181
 msgid "Save"
 msgstr "Guardar"
 
-#: browser/histories.pt:39 browser/revisionssettings.pt:37
+#: collective/revisionmanager/browser/histories.pt:54
+msgid "Select all"
+msgstr "Selecionar tudo."
+
+#: collective/revisionmanager/browser/histories.pt:23
+#: collective/revisionmanager/browser/revisionssettings.pt:21
 msgid "Site Setup"
 msgstr "Configuração do site"
 
-#: interfaces.py:34
+#: collective/revisionmanager/interfaces.py:34
 msgid "Subtransaction threshold for statistics calculation"
 msgstr "Limite de sub-transações para o cálculo das estadísticas."
 
-#: browser/views.py:26
+#: collective/revisionmanager/configure.zcml:29
+msgid "Uninstall collective.revisionmanager."
+msgstr "Desinstalar collective.revisionmanager."
+
+#: collective/revisionmanager/browser/views.py:28
 msgid "approximate"
 msgstr "aproximado"
 
 #. Default: "Calculating the statistics took ${calculation_time} seconds."
-#: browser/revisionssettings.pt:80
+#: collective/revisionmanager/browser/revisionssettings.pt:75
 msgid "calculation_time_label"
 msgstr "O cálculo das estadísticas demorou ${calculation_time} segundos."
 
+#: collective/revisionmanager/configure.zcml:20
+msgid "collective.revisionmanager"
+msgstr ""
+
+#: collective/revisionmanager/configure.zcml:29
+msgid "collective.revisionmanager: uninstall"
+msgstr ""
+
 #. Default: "Average Versions per History:"
-#: browser/revisionssettings.pt:123
+#: collective/revisionmanager/browser/revisionssettings.pt:118
 msgid "heading_average_versions"
 msgstr "Número promédio de versões por histórico."
 
 #. Default: "current path (counting from the portals root)"
-#: browser/histories.pt:72
+#: collective/revisionmanager/browser/histories.pt:71
 msgid "heading_current_path"
 msgstr "path atual (começando pela raiz do site)\""
 
 #. Default: "of deleted items:"
-#: browser/revisionssettings.pt:95
+#: collective/revisionmanager/browser/revisionssettings.pt:90
 msgid "heading_deleted_items"
 msgstr "de itens eliminados."
 
 #. Default: "of existing items:"
-#: browser/revisionssettings.pt:89
+#: collective/revisionmanager/browser/revisionssettings.pt:84
 msgid "heading_existing_items"
 msgstr "de itens existentes."
 
 #. Default: "history id"
-#: browser/histories.pt:67
+#: collective/revisionmanager/browser/histories.pt:66
 msgid "heading_history_id"
 msgstr "ID do histórico"
 
 #. Default: "Histories Storage Contents"
-#: browser/histories.pt:46
+#: collective/revisionmanager/browser/histories.pt:30
 msgid "heading_histstorage_contents"
 msgstr "Conteúdo do storage de históricos"
 
 #. Default: "Number of Histories:"
-#: browser/revisionssettings.pt:83
+#: collective/revisionmanager/browser/revisionssettings.pt:78
 msgid "heading_num_histories"
 msgstr "Número de históricos."
 
 #. Default: "Number of Versions:"
-#: browser/revisionssettings.pt:103
+#: collective/revisionmanager/browser/revisionssettings.pt:98
 msgid "heading_num_versions"
 msgstr "Número de versões."
 
 #. Default: "portal type"
-#: browser/histories.pt:71
+#: collective/revisionmanager/browser/histories.pt:70
 msgid "heading_portal_type"
 msgstr "tipo de conteúdo"
 
 #. Default: "Revision Settings"
-#: browser/revisionssettings.pt:44
+#: collective/revisionmanager/browser/revisionssettings.pt:28
 msgid "heading_revisions_settings"
 msgstr "Configuração de revisões"
 
 #. Default: "size"
-#: browser/histories.pt:69
+#: collective/revisionmanager/browser/histories.pt:68
 msgid "heading_size"
 msgstr "tamanho"
 
 #. Default: "size state"
-#: browser/histories.pt:70
+#: collective/revisionmanager/browser/histories.pt:69
 msgid "heading_size_state"
 msgstr "estado do tamanho"
 
-#. Default: "versions"
-#: browser/histories.pt:68
+#. Default: "versions (purged)"
+#: collective/revisionmanager/browser/histories.pt:67
 msgid "heading_versions"
-msgstr "versões"
+msgstr "versões (purgadas)"
 
-#: browser/views.py:27
+#: collective/revisionmanager/browser/views.py:29
 msgid "inaccurate"
 msgstr "impreciso"
 
 #. Default: "Delete all histories without working copy:"
-#: browser/histories.pt:105
+#: collective/revisionmanager/browser/histories.pt:107
 msgid "label_delete_orphans"
 msgstr "Eliminar todos os históricos sem cópia de trabalho."
 
 #. Default: "List histories"
-#: browser/histories.pt:25 browser/revisionssettings.pt:23
+#: collective/revisionmanager/browser/histories.pt:40
+#: collective/revisionmanager/browser/revisionssettings.pt:38
 msgid "label_histories"
 msgstr "Listar históricos"
 
 #. Default: "Number of revisions to keep (0 to delete entire history):"
-#: browser/histories.pt:100
+#: collective/revisionmanager/browser/histories.pt:102
 msgid "label_num_revisions_to_keep"
 msgstr "Número de revisões que serão mantidas (0 para eliminar todo o histórico);"
 
 #. Default: "Settings"
-#: browser/histories.pt:20 browser/revisionssettings.pt:18
+#: collective/revisionmanager/browser/histories.pt:37
+#: collective/revisionmanager/browser/revisionssettings.pt:35
 msgid "label_revisions_settings"
 msgstr "Configurações"
 
 #. Default: "Statistics calculated ${last_updated_timestamp}"
-#: browser/revisionssettings.pt:145
+#: collective/revisionmanager/browser/revisionssettings.pt:135
 msgid "last_updated_label"
 msgstr "Estadísticas calculadas ${last_updated_timestamp}"
 
-#: interfaces.py:30
+#: collective/revisionmanager/interfaces.py:30
 msgid "maximum number of versions to keep in the storage (set to -1 for infinite)"
 msgstr "número máximo de versões que serão mantidas no storage (use -1 para infinitas)"
 
 #. Default: "No statistics available. Press button below to calculate the statistics."
-#: browser/revisionssettings.pt:142
+#: collective/revisionmanager/browser/revisionssettings.pt:138
 msgid "no_summary_label"
 msgstr "No ha estadísticas disponíveis. Pressione o botão para calculá-las."
 
-#: interfaces.py:29
+#: collective/revisionmanager/interfaces.py:29
 msgid "number of versions to keep"
 msgstr "número de versões que serão mantidas"
 
 #. Default: "You are not allowed to manage the Zope server."
-#: browser/views.py:169
+#: collective/revisionmanager/browser/views.py:189
 msgid "text_not_allowed_manage_server"
 msgstr "Você não tem permissão para gerenciar o servidor Zope."
 
-#: browser/views.py:28
+#: collective/revisionmanager/browser/views.py:30
 msgid "unknown"
 msgstr "desconhecido"
