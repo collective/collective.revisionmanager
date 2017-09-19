@@ -19,6 +19,8 @@ Changelog
 - Add script to rebuild i18n stuff and update translations.
   [hvelarde]
 
+- Don't fail, if catalog is out of sync.
+  [tomgross]
 
 0.7 (2016-11-29)
 ----------------

@@ -25,6 +25,14 @@ class HistoryStatsCache(PersistentMapping):
     last_updated = None
     subtransaction_threshold = 0
 
+    def _save_get_object(self, brain):
+        try:
+            obj = brain.getObject()
+        except (KeyError, AttributeError), e:
+            log.warn('Catalog not consistent! %s not found', e)
+            return None
+        return obj
+
     def _unrestricted_query_objects(self, cmf_uid):
         """ return all catalogued objects with a given cmf_uid -
         CMFUid's UniqueHandlerTool will only return the first match.
@@ -36,7 +44,8 @@ class HistoryStatsCache(PersistentMapping):
 
         catalog = api.portal.get_tool('portal_catalog')
         brains = catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid})
-        return [brain.getObject() for brain in brains]
+        objs = [self._save_get_object(brain) for brain in brains]
+        return [obj for obj in objs if obj is not None]
 
     @staticmethod
     def _save_retrieve(htool, hid, length):
