@@ -17,6 +17,7 @@ from z3c.form import button, form
 from zope.component import adapter, getUtility
 from zope.interface import implementer
 from zope.publisher.browser import BrowserPage
+from six.moves import zip
 
 
 class HistoriesListView(BrowserPage):
@@ -141,9 +142,9 @@ class HistoriesListView(BrowserPage):
             return '1 byte'
         if num == '???':
             return '???'
-        unit_list = zip(
+        unit_list = list(zip(
             ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
-            [0, 0, 1, 2, 2, 2])
+            [0, 0, 1, 2, 2, 2]))
         if num > 1:
             exponent = min(int(log(num, 1024)), len(unit_list) - 1)
             quotient = float(num) / 1024**exponent
