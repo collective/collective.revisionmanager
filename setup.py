@@ -68,11 +68,11 @@ setup(
     extras_require={
         'test': [
             'plone.app.contenttypes',
-            'plone.app.robotframework[debug]',
+            # robotframework needed because of ImportErrors for plone.app.contenttypes/event.
+            'plone.app.robotframework',
             'plone.app.testing',
             'plone.browserlayer',
             'plone.testing',
-            'robotsuite',
             'testfixtures',
         ],
     },
