@@ -4,6 +4,8 @@ Changelog
 0.8 (unreleased)
 ----------------
 
+- Fixed startup error by loading the CMFCore zcml.  [maurits]
+
 - Do not fail on ``BrokenModified`` while calculating storage statistics.
   [pbauer]
 
