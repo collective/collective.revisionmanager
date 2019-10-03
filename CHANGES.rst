@@ -1,10 +1,14 @@
 Changelog
 =========
 
-0.8 (unreleased)
+0.9 (unreleased)
 ----------------
 
 - Fixed startup error by loading the CMFCore zcml.  [maurits]
+
+
+0.8 (2017-08-31)
+----------------
 
 - Do not fail on ``BrokenModified`` while calculating storage statistics.
   [pbauer]
