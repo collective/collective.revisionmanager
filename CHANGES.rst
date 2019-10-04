@@ -4,6 +4,9 @@ Changelog
 0.9 (unreleased)
 ----------------
 
+- Fixed deleting orphans in Plone 5.1+ (CMFEditions 3).
+  Fixes `issue #19 <https://github.com/collective/collective.revisionmanager/issues/19>`_.  [maurits]
+
 - Fixed startup error by loading the CMFCore zcml.  [maurits]
 
 
