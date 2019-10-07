@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.9 (unreleased)
+0.9 (2019-10-07)
 ----------------
 
 - Fixed deleting orphans in Plone 5.1+ (CMFEditions 3).
