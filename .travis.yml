@@ -1,7 +1,9 @@
+dist: bionic
 language: python
 python: 2.7
 sudo: false
 cache:
+  pip: true
   directories:
     - eggs
 env:
@@ -11,19 +13,19 @@ env:
   - PLONE_VERSION=5.2
 matrix:
   fast_finish: true
+before_install:
+  - virtualenv -p `which python` .
+  - bin/pip install -r requirements.txt
+  - sed -ie "s#5.2-latest#$PLONE_VERSION-latest#" buildout.cfg
+  - bin/buildout -N annotate
 install:
-  - sed -ie "s#test-5.0#test-$PLONE_VERSION#" buildout.cfg
-  - python bootstrap.py
-  - bin/buildout annotate
-  - bin/buildout
+  - bin/buildout -N install test createcoverage
 script:
-  - bin/code-analysis
   - bin/test
 after_success:
-  - bin/createcoverage
+  - bin/createcoverage -d htmlcov
   - pip install coveralls
   - coveralls
-
 notifications:
   email:
     - t_schorr@gmx.de

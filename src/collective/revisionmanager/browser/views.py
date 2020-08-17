@@ -120,9 +120,10 @@ class HistoriesListView(BrowserPage):
                 if len(history['wcinfos']) > 1:
                     continue
                 wcinfo = history['wcinfos'][0]
-                if (wcinfo['url'] is None) and \
-                        wcinfo['path'].startswith('no working copy'):
-                    keys.append(history['history_id'])
+                if wcinfo['url'] is None:
+                    path = wcinfo['path']
+                    if path.startswith('no working copy') or path == 'All revisions have been purged':
+                        keys.append(history['history_id'])
             self._del_histories(keys)
         histories = stats.get('histories', [])
         sortkey = self._determine_sortkey()

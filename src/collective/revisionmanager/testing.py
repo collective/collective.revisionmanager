@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import collective.revisionmanager
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
-from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import (FunctionalTesting, IntegrationTesting,
                                PloneSandboxLayer, applyProfile)
 from plone.testing import z2
@@ -30,14 +29,4 @@ COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING = IntegrationTesting(
 COLLECTIVE_REVISIONMANAGER_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(COLLECTIVE_REVISIONMANAGER_FIXTURE,),
     name='CollectiveRevisionmanagerLayer:FunctionalTesting'
-)
-
-
-COLLECTIVE_REVISIONMANAGER_ACCEPTANCE_TESTING = FunctionalTesting(
-    bases=(
-        COLLECTIVE_REVISIONMANAGER_FIXTURE,
-        REMOTE_LIBRARY_BUNDLE_FIXTURE,
-        z2.ZSERVER_FIXTURE
-    ),
-    name='CollectiveRevisionmanagerLayer:AcceptanceTesting'
 )

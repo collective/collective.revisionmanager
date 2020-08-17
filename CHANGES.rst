@@ -1,7 +1,22 @@
 Changelog
 =========
 
-0.8 (unreleased)
+1.0 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
+0.9 (2019-10-07)
+----------------
+
+- Fixed deleting orphans in Plone 5.1+ (CMFEditions 3).
+  Fixes `issue #19 <https://github.com/collective/collective.revisionmanager/issues/19>`_.  [maurits]
+
+- Fixed startup error by loading the CMFCore zcml.  [maurits]
+
+
+0.8 (2017-08-31)
 ----------------
 
 - Do not fail on ``BrokenModified`` while calculating storage statistics.
