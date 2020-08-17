@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import six
 import unittest
 
 import transaction
@@ -39,7 +40,11 @@ class TestHistoriesView(unittest.TestCase):
             u'histories', self.portal, self.request)
         html = view()
         self.assertIn('<td>2 (0)</td>', html)
-        self.assertIn('<td align="right">4 kB</td>', html)
+        if six.PY2:
+            size = "3 kB"
+        else:
+            size = "4 kB"
+        self.assertIn('<td align="right">{}</td>'.format(size), html)
         self.assertIn(
             '<a href="http://nohost/plone/some-document">/some-document</a>',
             html)
@@ -49,7 +54,11 @@ class TestHistoriesView(unittest.TestCase):
         html = view()
         self.assertEqual(view.batch[0]['length'], 3)
         self.assertIn('<td>3 (0)</td>', html)
-        self.assertIn('<td align="right">6 kB</td>', html)
+        if six.PY2:
+            size = "5 kB"
+        else:
+            size = "6 kB"
+        self.assertIn('<td align="right">{}</td>'.format(size), html)
 
     def test_view_is_protected(self):
         from AccessControl import Unauthorized
@@ -103,7 +112,11 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.getControl(name='form.buttons.recalculate').click()
         self.browser.open(self.portal_url + '/@@histories')
         self.assertIn('<td>2 (0)</td>', self.browser.contents)
-        self.assertIn('<td align="right">4 kB</td>', self.browser.contents)
+        if six.PY2:
+            size = "3 kB"
+        else:
+            size = "4 kB"
+        self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)
         self.doc1.text = RichTextValue(u'Changed!', 'text/plain', 'text/html')
         modified(self.doc1)
         # Refresh the cache.  Could also be done by clicking on the recalculate
@@ -113,7 +126,11 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.reload()
         # We have a item with 3 revisions
         self.assertIn('<td>3 (0)</td>', self.browser.contents)
-        self.assertIn('<td align="right">6 kB</td>', self.browser.contents)
+        if six.PY2:
+            size = "5 kB"
+        else:
+            size = "6 kB"
+        self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)
 
         checkbox = self.browser.getControl(name='delete:list')
         self.assertEqual(checkbox.options, ['check1'])
