@@ -4,7 +4,8 @@ Changelog
 1.0 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add support for Python 3.
+  [pbauer,maurits,tschorr]
 
 
 0.9 (2019-10-07)
@@ -33,9 +34,6 @@ Changelog
 
 - Add script to rebuild i18n stuff and update translations.
   [hvelarde]
-
-- Add support for Python 3.
-  [pbauer]
 
 
 0.7 (2016-11-29)
