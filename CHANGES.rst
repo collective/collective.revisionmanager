@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0 (unreleased)
-----------------
+1.0.0 (2020-08-18)
+------------------
 
 - Add support for Python 3.
   [pbauer,maurits,tschorr]
