@@ -17,8 +17,6 @@ matrix:
       env: PLONE_VERSION="5.2"
     - python: "3.7"
       env: PLONE_VERSION="5.2"
-    - python: "3.8"
-      env: PLONE_VERSION="5.2"
 before_install:
   - virtualenv -p `which python` .
   - bin/pip install -r requirements.txt
