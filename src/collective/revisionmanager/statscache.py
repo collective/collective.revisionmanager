@@ -35,8 +35,14 @@ class HistoryStatsCache(PersistentMapping):
         uid = generator.convert(cmf_uid)
 
         catalog = api.portal.get_tool('portal_catalog')
-        brains = catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid})
-        return [brain.getObject() for brain in brains]
+        results = []
+        for brain in catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid}):
+            try:
+                results.append(brain.getObject())
+            except Exception as e:
+                log.info('Could not retrieve object for {}: {}'.format(
+                    brain.getPath(), e))
+        return results
 
     @staticmethod
     def _save_retrieve(htool, hid, length):

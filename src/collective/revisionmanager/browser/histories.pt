@@ -82,20 +82,23 @@
         <td tal:content="string:${histData/length} (${histData/purged})">length (purged)</td>
         <td align="right" tal:content="python:view.humanize_size(histData['size'])">size</td>
         <td align="right" tal:content="python:view.size_state(histData['size_state'])">size state</td>
+        <tal:wc define="wcinfos python:list(histData['wcinfos']);
+                        multi python:len(wcinfos) > 1">
         <td>
-          <tal:wcinfos repeat="wcinfo histData/wcinfos">
+          <tal:wcinfos repeat="wcinfo wcinfos">
             <tal:portaltype content="wcinfo/portal_type">portal_type</tal:portaltype>
-            <br tal:condition="python:repeat['wcinfo'].length > 1"/>
+            <br tal:condition="multi"/>
           </tal:wcinfos>
         </td>
         <td>
-          <tal:wcinfos repeat="wcinfo histData/wcinfos">
+          <tal:wcinfos repeat="wcinfo wcinfos">
             <a tal:attributes="href wcinfo/url"
               tal:content="wcinfo/path">current path</a>
-            <br tal:condition="python:repeat['wcinfo'].length > 1"/>
+            <br tal:condition="multi"/>
           </tal:wcinfos>
         </td>
-    </tr>
+      </tal:wc>
+      </tr>
     </tbody>
   </table>
   <div>

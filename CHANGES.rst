@@ -34,6 +34,9 @@ Changelog
 - Add script to rebuild i18n stuff and update translations.
   [hvelarde]
 
+- Add support for Python 3.
+  [pbauer]
+
 
 0.7 (2016-11-29)
 ----------------

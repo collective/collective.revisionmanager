@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import six
 import unittest
 
 import transaction
@@ -37,10 +38,13 @@ class TestHistoriesView(unittest.TestCase):
     def test_view_displays_info_on_revisions(self):
         view = api.content.get_view(
             u'histories', self.portal, self.request)
-        view = view.__of__(self.portal)
         html = view()
         self.assertIn('<td>2 (0)</td>', html)
-        self.assertIn('<td align="right">3 kB</td>', html)
+        if six.PY2:
+            size = "3 kB"
+        else:
+            size = "4 kB"
+        self.assertIn('<td align="right">{}</td>'.format(size), html)
         self.assertIn(
             '<a href="http://nohost/plone/some-document">/some-document</a>',
             html)
@@ -50,7 +54,11 @@ class TestHistoriesView(unittest.TestCase):
         html = view()
         self.assertEqual(view.batch[0]['length'], 3)
         self.assertIn('<td>3 (0)</td>', html)
-        self.assertIn('<td align="right">5 kB</td>', html)
+        if six.PY2:
+            size = "5 kB"
+        else:
+            size = "6 kB"
+        self.assertIn('<td align="right">{}</td>'.format(size), html)
 
     def test_view_is_protected(self):
         from AccessControl import Unauthorized
@@ -61,7 +69,6 @@ class TestHistoriesView(unittest.TestCase):
     def test_humanize(self):
         view = api.content.get_view(
             u'histories', self.portal, self.request)
-        view = view.__of__(self.portal)
         self.assertEqual(view.humanize_size(244), u'244 bytes')
         self.assertEqual(view.humanize_size(1), u'1 byte')
         self.assertEqual(view.humanize_size(None), u'0 bytes')
@@ -105,32 +112,48 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.getControl(name='form.buttons.recalculate').click()
         self.browser.open(self.portal_url + '/@@histories')
         self.assertIn('<td>2 (0)</td>', self.browser.contents)
-        self.assertIn('<td align="right">3 kB</td>', self.browser.contents)
+        if six.PY2:
+            size = "3 kB"
+        else:
+            size = "4 kB"
+        self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)
         self.doc1.text = RichTextValue(u'Changed!', 'text/plain', 'text/html')
         modified(self.doc1)
+        # Refresh the cache.  Could also be done by clicking on the recalculate
+        # button in the control panel, but this is easier:
         self.statscache.refresh()
         transaction.commit()
         self.browser.reload()
         # We have a item with 3 revisions
         self.assertIn('<td>3 (0)</td>', self.browser.contents)
-        self.assertIn('<td align="right">5 kB</td>', self.browser.contents)
+        if six.PY2:
+            size = "5 kB"
+        else:
+            size = "6 kB"
+        self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)
 
         checkbox = self.browser.getControl(name='delete:list')
         self.assertEqual(checkbox.options, ['check1'])
-        checkbox.value = ['checked']
+        # TODO: Might need this on Plone 5.1 and earlier, or with Py 2.7:
+        # checkbox.value = ['checked']
+        checkbox.value = ['check1']
         # we keep a revision
         self.browser.getControl(name='keepnum').value = '2'
         self.browser.getControl(name='del_histories').click()
+        # The size is not yet recalculated
+        self.assertIn('<td align="right">???</td>', self.browser.contents)
+        # Refresh the cache.
         self.statscache.refresh()
         transaction.commit()
-        self.browser.reload()
+        self.browser.open(self.portal_url + '/@@histories')
 
         # The number of revisions is kept but the payload is purged
         self.assertIn('<td>3 (1)</td>', self.browser.contents)
-        # The size is not recalucated
-        self.assertIn('<td align="right">???</td>', self.browser.contents)
+        # Now the size has been recalucated.
+        self.assertNotIn('<td align="right">???</td>', self.browser.contents)
+        # Remove all revisions.
         self.browser.getControl(name='keepnum').value = '0'
-        self.browser.getControl(name='delete:list').value = ['checked']
+        self.browser.getControl(name='delete:list').value = ['check1']
         self.browser.getControl(name='del_histories').click()
         # No more items with revisions
         self.assertNotIn('name="delete:list"', self.browser.contents)

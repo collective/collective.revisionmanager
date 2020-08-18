@@ -28,7 +28,6 @@ class UpgradeTo1001Tests(unittest.TestCase):
         del cache['summaries']['existing_histories']
         view = api.content.get_view(
             u'revisions-controlpanel', self.portal, self.request)
-        view = view.__of__(self.portal)
         self.assertRaises(LocationError, view)
         # now run the upgrade
         clear_cache(self.portal)
