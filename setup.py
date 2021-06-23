@@ -58,7 +58,6 @@ setup(
         'plone.protect',
         'Products.CMFEditions>=2.2.16',
         'Products.CMFPlone>=4.3',
-        'Products.CMFQuickInstallerTool>=3.0.9',  # use uninstall profile
         'Products.CMFUid',
         'Products.GenericSetup',
         'setuptools',
