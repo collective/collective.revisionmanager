@@ -82,10 +82,10 @@ class HistoriesListView(BrowserPage):
         sizestateid is either 'approximate' or 'inaccurate',
         defined in Products.CMFEditions.ZVCStorageTool.ShadowHistory.getSize
         """
-        return self.context.translate(self.size_states.get(sizestateid))
+        return api.portal.translate(self.size_states.get(sizestateid))
 
     def js_confirmation(self):
-        return self.context.translate(self.js_confirm)
+        return api.portal.translate(self.js_confirm)
 
     def reverse(self):
         return '1' if self.request.get('reverse', '0') == '0' else '0'
