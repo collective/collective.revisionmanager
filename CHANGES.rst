@@ -4,7 +4,9 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixes a bug in Plone 5.2 ('RequestContainer' object has no attribute
+  'translate')
+  [pysailor]
 
 
 1.0.0 (2020-08-18)
