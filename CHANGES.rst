@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.1.0 (unreleased)
 ------------------
 
 - Fixes a bug in Plone 5.2 ('RequestContainer' object has no attribute
