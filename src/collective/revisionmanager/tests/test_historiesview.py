@@ -9,7 +9,7 @@ from collective.revisionmanager.testing import \
 from collective.revisionmanager.testing import \
     COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
 from plone import api
-from plone.app.testing import (SITE_OWNER_NAME, SITE_OWNER_PASSWORD,
+from plone.app.testing import (TEST_USER_NAME, TEST_USER_PASSWORD,
                                TEST_USER_ID, logout, setRoles)
 from plone.app.textfield.value import RichTextValue
 from plone.testing.z2 import Browser
@@ -104,7 +104,7 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.handleErrors = False
         self.browser.addHeader(
             'Authorization',
-            'Basic {}:{}'.format(SITE_OWNER_NAME, SITE_OWNER_PASSWORD,)  # noqa: P101
+            'Basic {}:{}'.format(TEST_USER_NAME, TEST_USER_PASSWORD,)  # noqa: P101
         )
 
     def test_views_functional(self):

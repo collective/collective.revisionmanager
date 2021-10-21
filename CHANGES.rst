@@ -4,6 +4,11 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Allow all Managers to use the full control panel.
+  Until now, for some parts you needed to be Manager in the Zope root.
+  Fixes `issue 30 <https://github.com/collective/collective.revisionmanager/issues/30>`_.
+  [maurits]
+
 - Test with Plone 6 (still also on 4.3, 5.1, 5,2) and on GitHub Actions.
   [maurits]
 
