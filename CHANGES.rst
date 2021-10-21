@@ -4,7 +4,8 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Test with Plone 6 (still also on 4.3, 5.1, 5,2) and on GitHub Actions.
+  [maurits]
 
 
 1.1.0 (2021-09-16)
