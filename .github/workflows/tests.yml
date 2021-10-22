@@ -1,0 +1,70 @@
+name: tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  # Allow to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        config:
+        # [Python version, tox env]
+        - ["2.7",   "4.3-py27"]
+        - ["2.7",   "5.1-py27"]
+        - ["2.7",   "5.2-py27"]
+        - ["3.6",   "5.2-py36"]
+        - ["3.7",   "5.2-py37"]
+        - ["3.8",   "5.2-py38"]
+        - ["3.9",   "6.0-py39"]
+        - ["3.8",   "coverage"]
+
+    runs-on: ubuntu-latest
+    name: ${{ matrix.config[1] }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install lxml compilation dependencies
+      run: |
+          sudo apt-get update
+          sudo apt-get install libxml2-dev libxslt1-dev
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.config[0] }}
+    - name: Pip cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ matrix.config[0] }}-${{ hashFiles('setup.*', 'tox.ini') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.config[0] }}-
+          ${{ runner.os }}-pip-
+    - name: Buildout cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.buildout/eggs
+        key: ${{ runner.os }}-buildout-${{ matrix.config[1] }}-${{ hashFiles('setup.*', 'tox.ini', '*cfg') }}
+        restore-keys: |
+          ${{ runner.os }}-buildout-${{ matrix.config[1] }}-
+          ${{ runner.os }}-buildout-
+    - name: Setup Buildout to cache eggs
+      run: |
+        mkdir -p ~/.buildout/eggs
+        echo "[buildout]" > ~/.buildout/default.cfg
+        echo "eggs-directory = $(realpath ~/.buildout/eggs)" >> ~/.buildout/default.cfg
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox
+    - name: Test
+      run: tox -e ${{ matrix.config[1] }}
+    - name: Coverage
+      if: matrix.config[1] == 'coverage'
+      run: |
+        pip install coveralls coverage-python-version
+        coveralls --service=github
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -32,8 +32,13 @@ class TestSetup(unittest.TestCase):
 
     def test_product_installed(self):
         """Test if collective.revisionmanager is installed."""
-        self.assertTrue(self.installer.isProductInstalled(
-            'collective.revisionmanager'))
+        try:
+            is_installed = self.installer.is_product_installed(
+                'collective.revisionmanager')
+        except AttributeError:
+            is_installed = self.installer.isProductInstalled(
+                'collective.revisionmanager')
+        self.assertTrue(is_installed)
 
     def test_browserlayer(self):
         layers = [l.getName() for l in registered_layers()]
@@ -52,21 +57,31 @@ class TestUninstall(unittest.TestCase):
         self.portal = self.layer['portal']
         if has_get_installer:
             self.installer = get_installer(self.portal)
+            self.installer.uninstall_product('collective.revisionmanager')
         else:
             self.installer = api.portal.get_tool('portal_quickinstaller')
-        self.installer.uninstallProducts(['collective.revisionmanager'])
+            self.installer.uninstallProducts(['collective.revisionmanager'])
 
     def test_product_uninstalled(self):
         """Test if collective.revisionmanager is cleanly uninstalled."""
-        self.assertFalse(self.installer.isProductInstalled(
-            'collective.revisionmanager'))
+        try:
+            is_installed = self.installer.is_product_installed(
+                'collective.revisionmanager')
+        except AttributeError:
+            is_installed = self.installer.isProductInstalled(
+                'collective.revisionmanager')
+        self.assertFalse(is_installed)
 
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
         self.assertNotIn('ICollectiveRevisionmanagerLayer', layers)
 
     def test_persistent_utility_removed(self):
-        from zope.component.interfaces import ComponentLookupError
+        try:
+            from zope.interface.interfaces import ComponentLookupError
+        except ImportError:
+            # Plone 4.3
+            from zope.component.interfaces import ComponentLookupError
         with self.assertRaises(ComponentLookupError):
             sm = self.portal.getSiteManager()
             sm.getUtility(IHistoryStatsCache)

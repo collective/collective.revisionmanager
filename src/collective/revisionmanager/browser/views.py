@@ -2,7 +2,6 @@
 from math import log
 
 from AccessControl import getSecurityManager
-from AccessControl.Permissions import view_management_screens
 from Acquisition import aq_inner
 from collective.revisionmanager import _
 from collective.revisionmanager.interfaces import (IHistoryStatsCache,
@@ -170,9 +169,13 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
         self.statscache = getUtility(IHistoryStatsCache)
 
     def available(self):
-        root = aq_inner(self.context).getPhysicalRoot()
-        sm = getSecurityManager()
-        return sm.checkPermission(view_management_screens, root)
+        # We used to check for the
+        # AccessControl.Permissions.view_management_screens
+        # permission on the *Zope* root, but that seems unneeded.
+        # It is enough to check Manage Portal permission in zcml.
+        # See https://github.com/collective/collective.revisionmanager/issues/30
+        # Let's keep the method though, so people can override it.
+        return True
 
     def summaries(self):
         return self.statscache.get('summaries')

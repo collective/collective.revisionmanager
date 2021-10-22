@@ -26,10 +26,6 @@ class ControlPanelTestCase(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         self.controlpanel = self.portal['portal_controlpanel']
-        if has_get_installer:
-            self.installer = get_installer(self.portal)
-        else:
-            self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_controlpanel_has_view(self):
         request = self.layer['request']
@@ -50,9 +46,13 @@ class ControlPanelTestCase(unittest.TestCase):
 
     @unittest.skipIf(api.env.plone_version() < '5.0', 'FIXME')
     def test_controlpanel_removed_on_uninstall(self):
-
         with api.env.adopt_roles(['Manager']):
-            self.installer.uninstallProducts(products=[PROJECTNAME])
+            if has_get_installer:
+                installer = get_installer(self.portal)
+                installer.uninstall_product(PROJECTNAME)
+            else:
+                installer = api.portal.get_tool('portal_quickinstaller')
+                installer.uninstallProducts(products=[PROJECTNAME])
 
         actions = [a.getAction(self)['id']
                    for a in self.controlpanel.listActions()]
@@ -67,10 +67,6 @@ class RegistryTestCase(unittest.TestCase):
         self.portal = self.layer['portal']
         self.registry = getUtility(IRegistry)
         self.settings = self.registry.forInterface(IRevisionSettingsSchema)
-        if has_get_installer:
-            self.installer = get_installer(self.portal)
-        else:
-            self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_number_versions_to_keep_record_in_registry(self):
         self.assertTrue(hasattr(self.settings, 'number_versions_to_keep'))
@@ -82,7 +78,12 @@ class RegistryTestCase(unittest.TestCase):
 
     def test_records_removed_on_uninstall(self):
         with api.env.adopt_roles(['Manager']):
-            self.installer.uninstallProducts(products=[PROJECTNAME])
+            if has_get_installer:
+                installer = get_installer(self.portal)
+                installer.uninstall_product(PROJECTNAME)
+            else:
+                installer = api.portal.get_tool('portal_quickinstaller')
+                installer.uninstallProducts(products=[PROJECTNAME])
 
         records = [
             IRevisionSettingsSchema.__identifier__ + '.number_versions_to_keep',  # noqa: E501
