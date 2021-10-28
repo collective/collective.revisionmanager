@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
-import six
-import unittest
-
-import transaction
 from collective.revisionmanager.interfaces import IHistoryStatsCache
-from collective.revisionmanager.testing import \
-    COLLECTIVE_REVISIONMANAGER_FUNCTIONAL_TESTING  # noqa: E501
-from collective.revisionmanager.testing import \
-    COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
+from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_FUNCTIONAL_TESTING  # noqa: E501
+from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
 from plone import api
-from plone.app.testing import (TEST_USER_NAME, TEST_USER_PASSWORD,
-                               TEST_USER_ID, logout, setRoles)
+from plone.app.testing import logout
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.textfield.value import RichTextValue
 from plone.testing.z2 import Browser
 from zope.component import getUtility
 from zope.lifecycleevent import modified
+
+import six
+import transaction
+import unittest
 
 
 class TestHistoriesView(unittest.TestCase):

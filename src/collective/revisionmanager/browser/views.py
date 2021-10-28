@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
-from math import log
-
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from collective.revisionmanager import _
-from collective.revisionmanager.interfaces import (IHistoryStatsCache,
-                                                   IRevisionSettingsSchema)
+from collective.revisionmanager.interfaces import IHistoryStatsCache
+from collective.revisionmanager.interfaces import IRevisionSettingsSchema
+from math import log
 from plone import api
 from plone.autoform.form import AutoExtensibleForm
 from plone.batching import Batch
 from plone.protect import CheckAuthenticator
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from z3c.form import button, form
-from zope.component import adapter, getUtility
+from six.moves import zip
+from z3c.form import button
+from z3c.form import form
+from zope.component import adapter
+from zope.component import getUtility
 from zope.interface import implementer
 from zope.publisher.browser import BrowserPage
-from six.moves import zip
 
 
 class HistoriesListView(BrowserPage):

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from zope.component import getUtility
-
 from .interfaces import IHistoryStatsCache
+from zope.component import getUtility
 
 
 def clear_cache(context):

@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
-from time import time
-
-import transaction
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from DateTime.DateTime import DateTime
 from persistent.list import PersistentList
@@ -11,10 +7,15 @@ from plone import api
 from Products.CMFEditions.ZVCStorageTool import Removed
 from Products.CMFUid.interfaces import IUniqueIdGenerator
 from Products.CMFUid.UniqueIdHandlerTool import UID_ATTRIBUTE_NAME
+from time import time
 from ZODB.broken import BrokenModified
 from ZODB.POSException import POSKeyError
 from zope.component import getUtility
 from zope.interface import implementer
+
+import logging
+import transaction
+
 
 log = logging.getLogger(__name__)
 
