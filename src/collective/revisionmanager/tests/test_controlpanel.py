@@ -15,7 +15,7 @@ has_get_installer = True
 
 try:
     from Products.CMFPlone.utils import get_installer
-except ImportError:
+except ImportError:  # pragma: no cover
     has_get_installer = False
 
 
@@ -50,7 +50,7 @@ class ControlPanelTestCase(unittest.TestCase):
             if has_get_installer:
                 installer = get_installer(self.portal)
                 installer.uninstall_product(PROJECTNAME)
-            else:
+            else:  # pragma: no cover
                 installer = api.portal.get_tool('portal_quickinstaller')
                 installer.uninstallProducts(products=[PROJECTNAME])
 
@@ -81,7 +81,7 @@ class RegistryTestCase(unittest.TestCase):
             if has_get_installer:
                 installer = get_installer(self.portal)
                 installer.uninstall_product(PROJECTNAME)
-            else:
+            else:  # pragma: no cover
                 installer = api.portal.get_tool('portal_quickinstaller')
                 installer.uninstallProducts(products=[PROJECTNAME])
 

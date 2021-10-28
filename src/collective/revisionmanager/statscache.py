@@ -40,7 +40,7 @@ class HistoryStatsCache(PersistentMapping):
         for brain in catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid}):
             try:
                 results.append(brain.getObject())
-            except Exception as e:  # noqa B902
+            except Exception as e:  # noqa B902  # pragma: no cover
                 log.info('Could not retrieve object for {}: {}'.format(
                     brain.getPath(), e))
         return results
@@ -62,7 +62,7 @@ class HistoryStatsCache(PersistentMapping):
             for selector in range(length - 1, -1, -1):
                 try:
                     wrapper = htool.retrieve(hid, str(selector)).object
-                except POSKeyError:
+                except POSKeyError:  # pragma: no cover
                     # bad luck - use previously defined fallback
                     pass
 
@@ -75,7 +75,7 @@ class HistoryStatsCache(PersistentMapping):
             for selector in range(length - 1, -1, -1):
                 try:
                     wrapper = htool.retrieve(hid, str(selector)).object
-                except BrokenModified:
+                except BrokenModified:  # pragma: no cover
                     # bad luck - use previously defined fallback
                     pass
         return wrapper

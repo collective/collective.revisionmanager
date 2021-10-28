@@ -13,7 +13,7 @@ has_get_installer = True
 
 try:
     from Products.CMFPlone.utils import get_installer
-except ImportError:
+except ImportError:  # pragma: no cover
     has_get_installer = False
 
 
@@ -27,7 +27,7 @@ class TestSetup(unittest.TestCase):
         self.portal = self.layer['portal']
         if has_get_installer:
             self.installer = get_installer(self.portal)
-        else:
+        else:  # pragma: no cover
             self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_product_installed(self):
@@ -35,7 +35,7 @@ class TestSetup(unittest.TestCase):
         try:
             is_installed = self.installer.is_product_installed(
                 'collective.revisionmanager')
-        except AttributeError:
+        except AttributeError:  # pragma: no cover
             is_installed = self.installer.isProductInstalled(
                 'collective.revisionmanager')
         self.assertTrue(is_installed)
@@ -58,7 +58,7 @@ class TestUninstall(unittest.TestCase):
         if has_get_installer:
             self.installer = get_installer(self.portal)
             self.installer.uninstall_product('collective.revisionmanager')
-        else:
+        else:  # pragma: no cover
             self.installer = api.portal.get_tool('portal_quickinstaller')
             self.installer.uninstallProducts(['collective.revisionmanager'])
 
@@ -67,7 +67,7 @@ class TestUninstall(unittest.TestCase):
         try:
             is_installed = self.installer.is_product_installed(
                 'collective.revisionmanager')
-        except AttributeError:
+        except AttributeError:  # pragma: no cover
             is_installed = self.installer.isProductInstalled(
                 'collective.revisionmanager')
         self.assertFalse(is_installed)
@@ -79,7 +79,7 @@ class TestUninstall(unittest.TestCase):
     def test_persistent_utility_removed(self):
         try:
             from zope.interface.interfaces import ComponentLookupError
-        except ImportError:
+        except ImportError:  # pragma: no cover
             # Plone 4.3
             from zope.component.interfaces import ComponentLookupError
         with self.assertRaises(ComponentLookupError):

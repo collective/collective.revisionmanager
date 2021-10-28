@@ -259,7 +259,7 @@ def mock_retrieve_pke(args):
             if passedargs == args and not kwds:
                 raise POSKeyError('No blob file')
             return m(*passedargs, **kwds)
-            wrapped_m.__name__ = m.__name__
+        wrapped_m.__name__ = m.__name__
         return wrapped_m
     return decorate
 
@@ -273,7 +273,7 @@ def mock_retrieve_pke_all_versions(args):
             if passedargs[0] == args[0] and not kwds:
                 raise POSKeyError('No blob file')
             return m(*passedargs, **kwds)
-            wrapped_m.__name__ = m.__name__
+        wrapped_m.__name__ = m.__name__
         return wrapped_m
     return decorate
 
@@ -287,7 +287,7 @@ def mock_retrieve_with_brokenmodified(args):
             if passedargs == args and not kwds:
                 raise BrokenModified("<persistent broken some.package.portlet.Assignment instance '\x00\x00\x00\x00\x00H\xf3\xc2'")  # noqa: E501
             return m(*passedargs, **kwds)
-            wrapped_m.__name__ = m.__name__
+        wrapped_m.__name__ = m.__name__
         return wrapped_m
     return decorate
 

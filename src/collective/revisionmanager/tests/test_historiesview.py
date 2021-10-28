@@ -42,7 +42,7 @@ class TestHistoriesView(unittest.TestCase):
         html = view()
         self.assertIn('<td>2 (0)</td>', html)
         if six.PY2:
-            size = "3 kB"
+            size = "3 kB"  # pragma: no cover
         else:
             size = "4 kB"
         self.assertIn('<td align="right">{}</td>'.format(size), html)
@@ -56,7 +56,7 @@ class TestHistoriesView(unittest.TestCase):
         self.assertEqual(view.batch[0]['length'], 3)
         self.assertIn('<td>3 (0)</td>', html)
         if six.PY2:
-            size = "5 kB"
+            size = "5 kB"  # pragma: no cover
         else:
             size = "6 kB"
         self.assertIn('<td align="right">{}</td>'.format(size), html)
@@ -114,7 +114,7 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.open(self.portal_url + '/@@histories')
         self.assertIn('<td>2 (0)</td>', self.browser.contents)
         if six.PY2:
-            size = "3 kB"
+            size = "3 kB"  # pragma: no cover
         else:
             size = "4 kB"
         self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)
@@ -128,7 +128,7 @@ class TestViewsFunctional(unittest.TestCase):
         # We have a item with 3 revisions
         self.assertIn('<td>3 (0)</td>', self.browser.contents)
         if six.PY2:
-            size = "5 kB"
+            size = "5 kB"  # pragma: no cover
         else:
             size = "6 kB"
         self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)
