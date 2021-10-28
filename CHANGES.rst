@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.1 (unreleased)
+1.2.0 (2021-10-28)
 ------------------
 
 - Allow all Managers to use the full control panel.
