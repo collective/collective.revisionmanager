@@ -1,0 +1,3 @@
+[tool.isort]
+profile = "plone"
+src_paths = ["collective"]
