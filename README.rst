@@ -15,7 +15,10 @@ collective.revisionmanager
 .. image:: https://img.shields.io/coveralls/collective/collective.revisionmanager/master.svg
     :target: https://coveralls.io/r/collective/collective.revisionmanager
 
-collective.revisionmanager is a Plone add-on that lets you manage Products.CMFEditions histories. It can be used with Plone 5.0 and Plone 4.3. You will need Products.CMFEditions version >= 2.2.16.
+collective.revisionmanager is a Plone add-on that lets you manage Products.CMFEditions histories.
+It can be used with Plone 6.0, 5.2, 5.1, 5.0 (untested) and Plone 4.3.
+You will need Products.CMFEditions version >= 2.2.16.
+This is available by default in the latest bugfix releases of all supported Plone versions.
 
 Features
 --------
@@ -64,7 +67,7 @@ Contribute
 
 - Issue Tracker: https://github.com/collective/collective.revisionmanager/issues
 - Source Code: https://github.com/collective/collective.revisionmanager
-- Documentation: tbd
+- Documentation: https://github.com/collective/collective.revisionmanager/README.rst
 
 License
 -------
