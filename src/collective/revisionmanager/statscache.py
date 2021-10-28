@@ -40,7 +40,7 @@ class HistoryStatsCache(PersistentMapping):
         for brain in catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid}):
             try:
                 results.append(brain.getObject())
-            except Exception as e:
+            except Exception as e:  # noqa B902
                 log.info('Could not retrieve object for {}: {}'.format(
                     brain.getPath(), e))
         return results
@@ -125,7 +125,7 @@ class HistoryStatsCache(PersistentMapping):
                         portal_type=working_copy.getPortalTypeName()
                     ))
             else:
-                di = {'url': None, }
+                di = {'url': None}
                 wrapper = self._save_retrieve(htool, hid, length)
                 if isinstance(wrapper, Removed):
                     di.update({

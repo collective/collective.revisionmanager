@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from AccessControl import getSecurityManager
-from Acquisition import aq_inner
 from collective.revisionmanager import _
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from collective.revisionmanager.interfaces import IRevisionSettingsSchema

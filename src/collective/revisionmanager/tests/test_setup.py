@@ -41,7 +41,7 @@ class TestSetup(unittest.TestCase):
         self.assertTrue(is_installed)
 
     def test_browserlayer(self):
-        layers = [l.getName() for l in registered_layers()]
+        layers = [layer.getName() for layer in registered_layers()]
         self.assertIn('ICollectiveRevisionmanagerLayer', layers)
 
     def test_persistent_utility(self):
@@ -73,7 +73,7 @@ class TestUninstall(unittest.TestCase):
         self.assertFalse(is_installed)
 
     def test_addon_layer_removed(self):
-        layers = [l.getName() for l in registered_layers()]
+        layers = [layer.getName() for layer in registered_layers()]
         self.assertNotIn('ICollectiveRevisionmanagerLayer', layers)
 
     def test_persistent_utility_removed(self):
