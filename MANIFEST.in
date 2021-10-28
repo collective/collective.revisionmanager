@@ -1,4 +1,4 @@
 graft src/collective
 graft docs
-include *.rst
+include *.rst pyproject.toml tox.ini
 global-exclude *.pyc
