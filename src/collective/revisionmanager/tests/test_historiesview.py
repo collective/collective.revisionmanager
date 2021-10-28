@@ -105,7 +105,7 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.handleErrors = False
         self.browser.addHeader(
             'Authorization',
-            'Basic {}:{}'.format(TEST_USER_NAME, TEST_USER_PASSWORD,)  # noqa: P101
+            'Basic {}:{}'.format(TEST_USER_NAME, TEST_USER_PASSWORD)
         )
 
     def test_views_functional(self):

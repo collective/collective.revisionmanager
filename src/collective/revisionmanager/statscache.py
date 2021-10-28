@@ -153,7 +153,7 @@ class HistoryStatsCache(PersistentMapping):
             if self.subtransaction_threshold and \
                     (num_processed % self.subtransaction_threshold == 0):  # noqa: S001,E501 - code-analysis gets the modulo wrong
                 log.info(
-                        'committing subtransaction: {} histories processed.'.format(  # noqa: E501,P101
+                    'committing subtransaction: {} histories processed.'.format(
                         num_processed))
                 transaction.savepoint(optimistic=True)
 
