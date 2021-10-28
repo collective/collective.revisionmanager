@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
-from time import time
-
-import transaction
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from DateTime.DateTime import DateTime
 from persistent.list import PersistentList
@@ -11,10 +7,15 @@ from plone import api
 from Products.CMFEditions.ZVCStorageTool import Removed
 from Products.CMFUid.interfaces import IUniqueIdGenerator
 from Products.CMFUid.UniqueIdHandlerTool import UID_ATTRIBUTE_NAME
+from time import time
 from ZODB.broken import BrokenModified
 from ZODB.POSException import POSKeyError
 from zope.component import getUtility
 from zope.interface import implementer
+
+import logging
+import transaction
+
 
 log = logging.getLogger(__name__)
 
@@ -39,7 +40,7 @@ class HistoryStatsCache(PersistentMapping):
         for brain in catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid}):
             try:
                 results.append(brain.getObject())
-            except Exception as e:
+            except Exception as e:  # noqa B902  # pragma: no cover
                 log.info('Could not retrieve object for {}: {}'.format(
                     brain.getPath(), e))
         return results
@@ -61,7 +62,7 @@ class HistoryStatsCache(PersistentMapping):
             for selector in range(length - 1, -1, -1):
                 try:
                     wrapper = htool.retrieve(hid, str(selector)).object
-                except POSKeyError:
+                except POSKeyError:  # pragma: no cover
                     # bad luck - use previously defined fallback
                     pass
 
@@ -74,7 +75,7 @@ class HistoryStatsCache(PersistentMapping):
             for selector in range(length - 1, -1, -1):
                 try:
                     wrapper = htool.retrieve(hid, str(selector)).object
-                except BrokenModified:
+                except BrokenModified:  # pragma: no cover
                     # bad luck - use previously defined fallback
                     pass
         return wrapper
@@ -124,7 +125,7 @@ class HistoryStatsCache(PersistentMapping):
                         portal_type=working_copy.getPortalTypeName()
                     ))
             else:
-                di = {'url': None, }
+                di = {'url': None}
                 wrapper = self._save_retrieve(htool, hid, length)
                 if isinstance(wrapper, Removed):
                     di.update({
@@ -152,7 +153,7 @@ class HistoryStatsCache(PersistentMapping):
             if self.subtransaction_threshold and \
                     (num_processed % self.subtransaction_threshold == 0):  # noqa: S001,E501 - code-analysis gets the modulo wrong
                 log.info(
-                        'committing subtransaction: {} histories processed.'.format(  # noqa: E501,P101
+                    'committing subtransaction: {} histories processed.'.format(
                         num_processed))
                 transaction.savepoint(optimistic=True)
 

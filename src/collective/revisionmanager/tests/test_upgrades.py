@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-import unittest
-
 from collective.revisionmanager.interfaces import IHistoryStatsCache
-from collective.revisionmanager.testing import \
-    COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
+from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
 from collective.revisionmanager.upgrades import clear_cache
 from plone import api
 from zope.component import getUtility
 from zope.location.interfaces import LocationError
+
+import unittest
 
 
 class UpgradeTo1001Tests(unittest.TestCase):

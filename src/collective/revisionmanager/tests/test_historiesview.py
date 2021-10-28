@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
-import six
-import unittest
-
-import transaction
 from collective.revisionmanager.interfaces import IHistoryStatsCache
-from collective.revisionmanager.testing import \
-    COLLECTIVE_REVISIONMANAGER_FUNCTIONAL_TESTING  # noqa: E501
-from collective.revisionmanager.testing import \
-    COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
+from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_FUNCTIONAL_TESTING  # noqa: E501
+from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
 from plone import api
-from plone.app.testing import (TEST_USER_NAME, TEST_USER_PASSWORD,
-                               TEST_USER_ID, logout, setRoles)
+from plone.app.testing import logout
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.textfield.value import RichTextValue
 from plone.testing.z2 import Browser
 from zope.component import getUtility
 from zope.lifecycleevent import modified
+
+import six
+import transaction
+import unittest
 
 
 class TestHistoriesView(unittest.TestCase):
@@ -41,7 +42,7 @@ class TestHistoriesView(unittest.TestCase):
         html = view()
         self.assertIn('<td>2 (0)</td>', html)
         if six.PY2:
-            size = "3 kB"
+            size = "3 kB"  # pragma: no cover
         else:
             size = "4 kB"
         self.assertIn('<td align="right">{}</td>'.format(size), html)
@@ -55,7 +56,7 @@ class TestHistoriesView(unittest.TestCase):
         self.assertEqual(view.batch[0]['length'], 3)
         self.assertIn('<td>3 (0)</td>', html)
         if six.PY2:
-            size = "5 kB"
+            size = "5 kB"  # pragma: no cover
         else:
             size = "6 kB"
         self.assertIn('<td align="right">{}</td>'.format(size), html)
@@ -104,7 +105,7 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.handleErrors = False
         self.browser.addHeader(
             'Authorization',
-            'Basic {}:{}'.format(TEST_USER_NAME, TEST_USER_PASSWORD,)  # noqa: P101
+            'Basic {}:{}'.format(TEST_USER_NAME, TEST_USER_PASSWORD)
         )
 
     def test_views_functional(self):
@@ -113,7 +114,7 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.open(self.portal_url + '/@@histories')
         self.assertIn('<td>2 (0)</td>', self.browser.contents)
         if six.PY2:
-            size = "3 kB"
+            size = "3 kB"  # pragma: no cover
         else:
             size = "4 kB"
         self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)
@@ -127,7 +128,7 @@ class TestViewsFunctional(unittest.TestCase):
         # We have a item with 3 revisions
         self.assertIn('<td>3 (0)</td>', self.browser.contents)
         if six.PY2:
-            size = "5 kB"
+            size = "5 kB"  # pragma: no cover
         else:
             size = "6 kB"
         self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)

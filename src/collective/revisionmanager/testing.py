@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-import collective.revisionmanager
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
-from plone.app.testing import (FunctionalTesting, IntegrationTesting,
-                               PloneSandboxLayer, applyProfile)
-from plone.testing import z2
+from plone.app.testing import applyProfile
+from plone.app.testing import FunctionalTesting
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import PloneSandboxLayer
+
+import collective.revisionmanager
 
 
 class CollectiveRevisionmanagerLayer(PloneSandboxLayer):

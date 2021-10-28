@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-import unittest
-
 from collective.revisionmanager.interfaces import IHistoryStatsCache
-from collective.revisionmanager.testing import \
-    COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
+from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
 from plone import api
 from plone.browserlayer.utils import registered_layers
+
+import unittest
+
 
 has_get_installer = True
 
 
 try:
     from Products.CMFPlone.utils import get_installer
-except ImportError:
+except ImportError:  # pragma: no cover
     has_get_installer = False
 
 
@@ -27,7 +27,7 @@ class TestSetup(unittest.TestCase):
         self.portal = self.layer['portal']
         if has_get_installer:
             self.installer = get_installer(self.portal)
-        else:
+        else:  # pragma: no cover
             self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_product_installed(self):
@@ -35,13 +35,13 @@ class TestSetup(unittest.TestCase):
         try:
             is_installed = self.installer.is_product_installed(
                 'collective.revisionmanager')
-        except AttributeError:
+        except AttributeError:  # pragma: no cover
             is_installed = self.installer.isProductInstalled(
                 'collective.revisionmanager')
         self.assertTrue(is_installed)
 
     def test_browserlayer(self):
-        layers = [l.getName() for l in registered_layers()]
+        layers = [layer.getName() for layer in registered_layers()]
         self.assertIn('ICollectiveRevisionmanagerLayer', layers)
 
     def test_persistent_utility(self):
@@ -58,7 +58,7 @@ class TestUninstall(unittest.TestCase):
         if has_get_installer:
             self.installer = get_installer(self.portal)
             self.installer.uninstall_product('collective.revisionmanager')
-        else:
+        else:  # pragma: no cover
             self.installer = api.portal.get_tool('portal_quickinstaller')
             self.installer.uninstallProducts(['collective.revisionmanager'])
 
@@ -67,19 +67,19 @@ class TestUninstall(unittest.TestCase):
         try:
             is_installed = self.installer.is_product_installed(
                 'collective.revisionmanager')
-        except AttributeError:
+        except AttributeError:  # pragma: no cover
             is_installed = self.installer.isProductInstalled(
                 'collective.revisionmanager')
         self.assertFalse(is_installed)
 
     def test_addon_layer_removed(self):
-        layers = [l.getName() for l in registered_layers()]
+        layers = [layer.getName() for layer in registered_layers()]
         self.assertNotIn('ICollectiveRevisionmanagerLayer', layers)
 
     def test_persistent_utility_removed(self):
         try:
             from zope.interface.interfaces import ComponentLookupError
-        except ImportError:
+        except ImportError:  # pragma: no cover
             # Plone 4.3
             from zope.component.interfaces import ComponentLookupError
         with self.assertRaises(ComponentLookupError):

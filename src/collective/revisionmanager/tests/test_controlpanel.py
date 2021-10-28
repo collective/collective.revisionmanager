@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
-import unittest
-
 from collective.revisionmanager.config import PROJECTNAME
 from collective.revisionmanager.interfaces import IRevisionSettingsSchema
-from collective.revisionmanager.testing import \
-    COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
+from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
 from plone import api
 from plone.app.testing import logout
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
+
+import unittest
+
 
 has_get_installer = True
 
 
 try:
     from Products.CMFPlone.utils import get_installer
-except ImportError:
+except ImportError:  # pragma: no cover
     has_get_installer = False
 
 
@@ -50,7 +50,7 @@ class ControlPanelTestCase(unittest.TestCase):
             if has_get_installer:
                 installer = get_installer(self.portal)
                 installer.uninstall_product(PROJECTNAME)
-            else:
+            else:  # pragma: no cover
                 installer = api.portal.get_tool('portal_quickinstaller')
                 installer.uninstallProducts(products=[PROJECTNAME])
 
@@ -81,7 +81,7 @@ class RegistryTestCase(unittest.TestCase):
             if has_get_installer:
                 installer = get_installer(self.portal)
                 installer.uninstall_product(PROJECTNAME)
-            else:
+            else:  # pragma: no cover
                 installer = api.portal.get_tool('portal_quickinstaller')
                 installer.uninstallProducts(products=[PROJECTNAME])
 
