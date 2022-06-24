@@ -4,7 +4,7 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed link to Site Setup to work in all supported Plone versions.  [maurits]
 
 
 1.2.0 (2021-10-28)
