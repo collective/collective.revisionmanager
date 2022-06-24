@@ -30,16 +30,16 @@
 
         <div id="content-core">
 
-          <div class="autotabs">
-            <div class="autotoc-nav">
-              <a class="active" href=""
-                 tal:attributes="href string:$portal_url/@@revisions-controlpanel"
-                 i18n:translate="label_revisions_settings">Settings</a>
-              <a href=""
-                 tal:attributes="href string:$portal_url/@@histories"
-                 i18n:translate="label_histories">List histories</a>
+            <div class="autotabs">
+              <nav class="nav nav-tabs autotoc-nav">
+                <a class="nav-link active" aria-current="page"
+                  tal:attributes="href string:$portal_url/@@revisions-controlpanel"
+                  i18n:translate="label_revisions_settings">Settings</a>
+                <a class="nav-link"
+                  tal:attributes="href string:$portal_url/@@histories"
+                  i18n:translate="label_histories">List histories</a>
+              </nav>
             </div>
-          </div>
 
             <form action="."
                   tal:attributes="action request/URL"
