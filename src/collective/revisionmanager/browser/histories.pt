@@ -59,7 +59,7 @@
         define="batchnavigation nocall:context/@@batchnavigation"
         replace="structure python:batchnavigation(batch)" />
 
-  <table class="listing" tal:condition="batch">
+  <table class="listing table table-striped" tal:condition="batch">
 
     <thead>
     <tr>
