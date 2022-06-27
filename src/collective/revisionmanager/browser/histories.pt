@@ -22,7 +22,7 @@
 
         <a href=""
            id="setup-link"
-           tal:attributes="href string:$portal_url/plone_control_panel"
+           tal:attributes="href string:$portal_url/@@overview-controlpanel"
            i18n:translate="">
             Site Setup
         </a>
@@ -33,14 +33,14 @@
         <div id="content-core">
 
           <div class="autotabs">
-            <div class="autotoc-nav">
-              <a href=""
-                 tal:attributes="href string:$portal_url/@@revisions-controlpanel"
-                 i18n:translate="label_revisions_settings">Settings</a>
-              <a class="active" href=""
-                 tal:attributes="href string:$portal_url/@@histories"
-                 i18n:translate="label_histories">List histories</a>
-            </div>
+            <nav class="nav nav-tabs autotoc-nav">
+              <a class="nav-link" aria-current="page"
+                tal:attributes="href string:$portal_url/@@revisions-controlpanel"
+                i18n:translate="label_revisions_settings">Settings</a>
+              <a class="nav-link active"
+                tal:attributes="href string:$portal_url/@@histories"
+                i18n:translate="label_histories">List histories</a>
+            </nav>
           </div>
 
            <form action="."
@@ -59,7 +59,7 @@
         define="batchnavigation nocall:context/@@batchnavigation"
         replace="structure python:batchnavigation(batch)" />
 
-  <table class="listing" tal:condition="batch">
+  <table class="listing table table-striped" tal:condition="batch">
 
     <thead>
     <tr>
