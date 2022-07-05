@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.1 (unreleased)
+1.2.1 (2022-07-05)
 ------------------
 
 - Let the histories table look nicer in Plone 6.  [maurits]
