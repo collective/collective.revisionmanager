@@ -1,0 +1,23 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# Jean-Paul Ladage <j.ladage@zestsoftware.nl>, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: collective.revisionmanager 1.2.2\n"
+"POT-Creation-Date: 2022-09-12 13:39+0000\n"
+"PO-Revision-Date: 2022-09-12 14:30+0200\n"
+"Last-Translator: Jean-Paul Ladage <j.ladage@zestsoftware.nl>\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: nl\n"
+"Language-Name: Nederlands\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+"X-Is-Fallback-For: nl-be nl-nl\n"
+
+#: profiles/default/controlpanel.xml
+msgid "Manage Revisions"
+msgstr "Versiebeheer instellingen"
