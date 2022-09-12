@@ -104,11 +104,11 @@
   <div>
       <label for="keepnum" i18n:translate="label_num_revisions_to_keep">Number of revisions to keep (0 to delete entire history):</label>
       <input type="text" name="keepnum" value="0" />
-      <input i18n:attributes="value" type="submit" name="del_histories" value="Purge selected histories" tal:attributes="onclick string:return window.confirm('${view/js_confirmation}')" onclick="return window.confirm('Are you sure?')" />
+      <input class="btn btn-primary" i18n:attributes="value" type="submit" name="del_histories" value="Purge selected histories" tal:attributes="onclick string:return window.confirm('${view/js_confirmation}')" onclick="return window.confirm('Are you sure?')" />
     </div>
     <div>
       <label for="del_orphans" i18n:translate="label_delete_orphans">Delete all histories without working copy:</label>
-      <input i18n:attributes="value" type="submit" name="del_orphans" value="Delete orphans" tal:attributes="onclick string:return window.confirm('${view/js_confirmation}')" onclick="return window.confirm('Are you sure?')" />
+      <input class="btn btn-secondary" i18n:attributes="value" type="submit" name="del_orphans" value="Delete orphans" tal:attributes="onclick string:return window.confirm('${view/js_confirmation}')" onclick="return window.confirm('Are you sure?')" />
     </div>
 
     <tal:batchnavigation

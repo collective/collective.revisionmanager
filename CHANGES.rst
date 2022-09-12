@@ -4,7 +4,9 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added Dutch translations.  [jladage]
+
+- Use Bootstrap classes on buttons to look nicer in Plone 6. [jladage]
 
 
 1.2.1 (2022-07-05)

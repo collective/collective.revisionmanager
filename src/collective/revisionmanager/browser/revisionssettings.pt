@@ -64,7 +64,7 @@
                                  name="form.buttons.save"
                                  value="Save"
                                  i18n:attributes="value"
-                                 class="standalone" />
+                                 class="standalone btn btn-primary" />
                       </span>
                   </div>
 
@@ -145,7 +145,7 @@
                        name="form.buttons.recalculate"
                        value="Recalculate Statistics"
                        i18n:attributes="value"
-                       class="standalone" />
+                       class="standalone btn btn-primary" />
                   </span>
                 </div>
               </form>
