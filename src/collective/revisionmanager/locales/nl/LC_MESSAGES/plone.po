@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: collective.revisionmanager 1.2.2\n"
-"POT-Creation-Date: 2022-09-12 13:39+0000\n"
+"POT-Creation-Date: 2022-09-13 09:28+0000\n"
 "PO-Revision-Date: 2022-09-12 14:30+0200\n"
 "Last-Translator: Jean-Paul Ladage <j.ladage@zestsoftware.nl>\n"
 "Language-Team: Dutch\n"
@@ -18,6 +18,6 @@ msgstr ""
 "Domain: plone\n"
 "X-Is-Fallback-For: nl-be nl-nl\n"
 
-#: profiles/default/controlpanel.xml
+#: collective/revisionmanager/profiles/default/controlpanel.xml
 msgid "Manage Revisions"
 msgstr "Versiebeheer instellingen"
