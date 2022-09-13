@@ -199,7 +199,7 @@ msgstr "Aantal te bewaren revisies"
 #. Default: "You are not allowed to manage the Zope server."
 #: ./browser/views.py:193
 msgid "text_not_allowed_manage_server"
-mgstr "U heeft onvoldoende rechten voor toegang tot de beheerpagina's van Zope."
+msgstr "U heeft onvoldoende rechten voor toegang tot de beheerpagina's van Zope."
 
 #: ./browser/views.py:29
 msgid "unknown"
