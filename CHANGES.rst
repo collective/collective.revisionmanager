@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.2 (unreleased)
+1.2.2 (2022-09-16)
 ------------------
 
 - Added Dutch translations.  [jladage]
