@@ -1,3 +1,6 @@
+[build-system]
+requires = ["setuptools<69"]
+
 [tool.isort]
 profile = "plone"
 src_paths = ["collective"]
