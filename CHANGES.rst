@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.3 (unreleased)
+1.2.3 (2025-07-15)
 ------------------
 
 - Internal: create a universal wheel and use setuptools<69 for releasing.  [maurits]
