@@ -4,7 +4,7 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Internal: create a universal wheel and use setuptools<69 for releasing.  [maurits]
 
 
 1.2.2 (2022-09-16)
