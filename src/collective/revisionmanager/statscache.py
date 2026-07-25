@@ -25,7 +25,7 @@ class HistoryStatsCache(PersistentMapping):
     subtransaction_threshold = 0
 
     def _unrestricted_query_objects(self, cmf_uid):
-        """ return all catalogued objects with a given cmf_uid -
+        """return all catalogued objects with a given cmf_uid -
         CMFUid's UniqueHandlerTool will only return the first match.
         In theory, cmf_uid should be unique, but it sometimes isn't.
         """
@@ -33,30 +33,30 @@ class HistoryStatsCache(PersistentMapping):
         generator = getUtility(IUniqueIdGenerator)
         uid = generator.convert(cmf_uid)
 
-        catalog = api.portal.get_tool('portal_catalog')
+        catalog = api.portal.get_tool("portal_catalog")
         results = []
         for brain in catalog.unrestrictedSearchResults({UID_ATTRIBUTE_NAME: uid}):
             try:
                 results.append(brain.getObject())
             except Exception as e:  # noqa B902  # pragma: no cover
-                log.info('Could not retrieve object for {}: {}'.format(
-                    brain.getPath(), e))
+                log.info(
+                    "Could not retrieve object for {}: {}".format(brain.getPath(), e)
+                )
         return results
 
     @staticmethod
     def _save_retrieve(htool, hid, length):
-        """ we sometimes encounter inconsistent histories that raise
+        """we sometimes encounter inconsistent histories that raise
         POSKeyErrors because of missing blobs.
         In this case, try wether we can use a previous version for statistics
         """
         try:
             wrapper = htool.retrieve(hid).object
         except POSKeyError as e:
-            log.warning(f'POSKeyError encountered trying to retrieve history {hid}: {e}')  # noqa: E501
-            wrapper = {
-                'path': 'POSKeyError encountered!',
-                'portal_type': '-'
-            }
+            log.warning(
+                f"POSKeyError encountered trying to retrieve history {hid}: {e}"
+            )  # noqa: E501
+            wrapper = {"path": "POSKeyError encountered!", "portal_type": "-"}
             for selector in range(length - 1, -1, -1):
                 try:
                     wrapper = htool.retrieve(hid, str(selector)).object
@@ -65,11 +65,10 @@ class HistoryStatsCache(PersistentMapping):
                     pass
 
         except BrokenModified as e:
-            log.warning(f'BrokenModified encountered trying to retrieve history {hid}: {e}')  # noqa: E501
-            wrapper = {
-                'path': 'BrokenModified encountered!',
-                'portal_type': '-'
-            }
+            log.warning(
+                f"BrokenModified encountered trying to retrieve history {hid}: {e}"
+            )  # noqa: E501
+            wrapper = {"path": "BrokenModified encountered!", "portal_type": "-"}
             for selector in range(length - 1, -1, -1):
                 try:
                     wrapper = htool.retrieve(hid, str(selector)).object
@@ -84,7 +83,7 @@ class HistoryStatsCache(PersistentMapping):
         ZVCStorageTool.zmi_getStorageStatistics is not exactly what we need.
         """
         siteid = api.portal.get().getId()
-        htool = api.portal.get_tool('portal_historiesstorage')
+        htool = api.portal.get_tool("portal_historiesstorage")
         starttime = time()
         # get all history ids (incl. such that were deleted in the portal)
         storage = htool._getShadowStorage(autoAdd=False)
@@ -96,63 +95,71 @@ class HistoryStatsCache(PersistentMapping):
         # collect interesting informations
         histories = []
         for hid in historyids.keys():
-            log.debug(f'processing history {hid}')
+            log.debug(f"processing history {hid}")
             history = htool.getHistory(hid)
             length = len(history)
             not_purged = htool.getHistory(hid, countPurged=False)
             length_purged = length - len(not_purged)
             shadow_storage = htool._getShadowHistory(hid)
             size = 0
-            size_state = 'n/a'
+            size_state = "n/a"
             if shadow_storage is not None:
                 size, size_state = shadow_storage.getSize()
 
             # There might be multiple possible working copies for a
             # given history, e.g. a discussion item will have the same cmf_uid
             # as the document being discussed. Determine all candidates.
-            potential_working_copies = \
-                self._unrestricted_query_objects(hid)
+            potential_working_copies = self._unrestricted_query_objects(hid)
             wcinfos = []
             if potential_working_copies:
                 for working_copy in potential_working_copies:
                     parts = working_copy.getPhysicalPath()
                     start = parts.index(siteid) + 1
-                    wcinfos.append(dict(
-                        url=working_copy.absolute_url(),
-                        path='/{}'.format('/'.join(parts[start:])),
-                        portal_type=working_copy.getPortalTypeName()
-                    ))
+                    wcinfos.append(
+                        dict(
+                            url=working_copy.absolute_url(),
+                            path="/{}".format("/".join(parts[start:])),
+                            portal_type=working_copy.getPortalTypeName(),
+                        )
+                    )
             else:
-                di = {'url': None}
+                di = {"url": None}
                 wrapper = self._save_retrieve(htool, hid, length)
                 if isinstance(wrapper, Removed):
-                    di.update({
-                        'path': 'All revisions have been purged',
-                        'portal_type': '-'})
+                    di.update(
+                        {"path": "All revisions have been purged", "portal_type": "-"}
+                    )
                 elif isinstance(wrapper, dict):
                     di.update(wrapper)
                 else:
                     retrieved = wrapper.object
-                    di.update({
-                        'path': 'no working copy, object id: {}'.format(
-                            retrieved.getId()),
-                        'portal_type': retrieved.getPortalTypeName()})
+                    di.update(
+                        {
+                            "path": "no working copy, object id: {}".format(
+                                retrieved.getId()
+                            ),
+                            "portal_type": retrieved.getPortalTypeName(),
+                        }
+                    )
                 wcinfos.append(di)
             histdata = {
-                'history_id': hid,
-                'length': length,
-                'purged': length_purged,
-                'wcinfos': wcinfos,
-                'size': size,
-                'size_state': size_state,
+                "history_id": hid,
+                "length": length,
+                "purged": length_purged,
+                "wcinfos": wcinfos,
+                "size": size,
+                "size_state": size_state,
             }
             histories.append(histdata)
             num_processed = len(histories)
-            if self.subtransaction_threshold and \
-                    (num_processed % self.subtransaction_threshold == 0):  # noqa: S001,E501 - code-analysis gets the modulo wrong
+            if self.subtransaction_threshold and (
+                num_processed % self.subtransaction_threshold == 0
+            ):  # noqa: S001,E501 - code-analysis gets the modulo wrong
                 log.info(
-                    'committing subtransaction: {} histories processed.'.format(
-                        num_processed))
+                    "committing subtransaction: {} histories processed.".format(
+                        num_processed
+                    )
+                )
                 transaction.savepoint(optimistic=True)
 
         # collect history ids with still existing working copies
@@ -161,58 +168,60 @@ class HistoryStatsCache(PersistentMapping):
         deleted_histories = 0
         deleted_versions = 0
         for histdata in histories:
-            if histdata['wcinfos'][0]['url'] is None:
+            if histdata["wcinfos"][0]["url"] is None:
                 deleted_histories += 1
-                deleted_versions += histdata['length']
+                deleted_versions += histdata["length"]
             else:
                 existing_histories += 1
-                existing_versions += histdata['length']
+                existing_versions += histdata["length"]
 
-        processingtime = f'{time() - starttime:.2f}'
+        processingtime = f"{time() - starttime:.2f}"
         numhistories = existing_histories + deleted_histories
         versions = existing_versions + deleted_versions
 
         if numhistories:
-            total_average = f'{float(versions) / numhistories:.1f}'
+            total_average = f"{float(versions) / numhistories:.1f}"
         else:
-            total_average = 'n/a'
+            total_average = "n/a"
 
         if existing_histories:
-            existing_average = '{:.1f}'.format(
-                float(existing_versions) / existing_histories)
+            existing_average = "{:.1f}".format(
+                float(existing_versions) / existing_histories
+            )
         else:
-            existing_average = 'n/a'
+            existing_average = "n/a"
 
         if deleted_histories:
-            deleted_average = '{:.1f}'.format(
-                float(deleted_versions) / deleted_histories)
+            deleted_average = "{:.1f}".format(
+                float(deleted_versions) / deleted_histories
+            )
         else:
-            deleted_average = 'n/a'
+            deleted_average = "n/a"
 
         return {
-            'histories': histories,
-            'summaries': {
-                'time': processingtime,
-                'total_histories': numhistories,
-                'total_versions': versions,
-                'total_average': total_average,
-                'existing_histories': existing_histories,
-                'existing_versions': existing_versions,
-                'existing_average': existing_average,
-                'deleted_histories': deleted_histories,
-                'deleted_versions': deleted_versions,
-                'deleted_average': deleted_average,
-            }
+            "histories": histories,
+            "summaries": {
+                "time": processingtime,
+                "total_histories": numhistories,
+                "total_versions": versions,
+                "total_average": total_average,
+                "existing_histories": existing_histories,
+                "existing_versions": existing_versions,
+                "existing_average": existing_average,
+                "deleted_histories": deleted_histories,
+                "deleted_versions": deleted_versions,
+                "deleted_average": deleted_average,
+            },
         }
 
     def refresh(self):
-        """ cache fresh statistics from portal_historiesstorage
-        """
+        """cache fresh statistics from portal_historiesstorage"""
         self.clear()
         stats = self._calculate_storage_statistics()
-        self['summaries'] = PersistentMapping(stats['summaries'])
-        self['histories'] = PersistentList([PersistentMapping(d) for d
-                                            in stats['histories']])
+        self["summaries"] = PersistentMapping(stats["summaries"])
+        self["histories"] = PersistentList(
+            [PersistentMapping(d) for d in stats["histories"]]
+        )
         self.last_updated = DateTime()
 
 

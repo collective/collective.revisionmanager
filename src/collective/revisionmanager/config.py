@@ -1,1 +1,1 @@
-PROJECTNAME = 'collective.revisionmanager'
+PROJECTNAME = "collective.revisionmanager"
