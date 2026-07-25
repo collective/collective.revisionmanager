@@ -46,7 +46,7 @@ class HistoryStatsCache(PersistentMapping):
     def _save_retrieve(htool, hid, length):
         """we sometimes encounter inconsistent histories that raise
         POSKeyErrors because of missing blobs.
-        In this case, try wether we can use a previous version for statistics
+        In this case, try whether we can use a previous version for statistics
         """
         try:
             wrapper = htool.retrieve(hid).object
@@ -90,7 +90,7 @@ class HistoryStatsCache(PersistentMapping):
         else:
             historyids = {}
 
-        # collect interesting informations
+        # collect interesting information
         histories = []
         for hid in historyids.keys():
             log.debug(f"processing history {hid}")
