@@ -39,9 +39,7 @@ class HistoryStatsCache(PersistentMapping):
             try:
                 results.append(brain.getObject())
             except Exception as e:  # noqa B902  # pragma: no cover
-                log.info(
-                    "Could not retrieve object for {}: {}".format(brain.getPath(), e)
-                )
+                log.info(f"Could not retrieve object for {brain.getPath()}: {e}")
         return results
 
     @staticmethod
