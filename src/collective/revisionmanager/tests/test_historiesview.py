@@ -16,7 +16,6 @@ from plone.testing.z2 import Browser
 from zope.component import getUtility
 from zope.lifecycleevent import modified
 
-import six
 import transaction
 import unittest
 
