@@ -1,11 +1,12 @@
 """Setup tests for this package."""
 from collective.revisionmanager.interfaces import IHistoryStatsCache
-from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
+from collective.revisionmanager.testing import (  # noqa: E501
+    COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING,
+)
 from plone import api
 from plone.browserlayer.utils import registered_layers
 
 import unittest
-
 
 has_get_installer = True
 

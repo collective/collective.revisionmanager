@@ -3,7 +3,6 @@
 from setuptools import find_packages
 from setuptools import setup
 
-
 long_description = (
     open('README.rst').read() +
     '\n' +

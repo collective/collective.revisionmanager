@@ -1,5 +1,7 @@
 from collective.revisionmanager.interfaces import IHistoryStatsCache
-from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
+from collective.revisionmanager.testing import (
+    COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING,
+)
 from DateTime.DateTime import DateTime
 from logging import DEBUG
 from logging import WARN

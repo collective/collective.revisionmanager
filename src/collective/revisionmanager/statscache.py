@@ -15,7 +15,6 @@ from zope.interface import implementer
 import logging
 import transaction
 
-
 log = logging.getLogger(__name__)
 
 

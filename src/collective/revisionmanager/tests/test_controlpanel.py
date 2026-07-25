@@ -1,13 +1,14 @@
 from collective.revisionmanager.config import PROJECTNAME
 from collective.revisionmanager.interfaces import IRevisionSettingsSchema
-from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
+from collective.revisionmanager.testing import (  # noqa: E501
+    COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING,
+)
 from plone import api
 from plone.app.testing import logout
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 
 import unittest
-
 
 has_get_installer = True
 
