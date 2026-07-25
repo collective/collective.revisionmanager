@@ -3,7 +3,8 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    i18n_domain="collective.revisionmanager">
+    i18n_domain="collective.revisionmanager"
+    >
 
   <five:registerPackage package="." />
   <i18n:registerTranslations directory="locales" />
@@ -15,33 +16,37 @@
   <genericsetup:registerProfile
       name="default"
       title="collective.revisionmanager"
-      directory="profiles/default"
       description="Installs the collective.revisionmanager add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
       />
 
   <genericsetup:registerProfile
       name="uninstall"
       title="collective.revisionmanager: uninstall"
-      directory="profiles/uninstall"
       description="Uninstall collective.revisionmanager."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
       i18n:attributes="title; description"
       />
 
-  <utility factory=".setuphandlers.HiddenProfiles" name="collective.revisionmanager" />
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="collective.revisionmanager"
+      />
 
   <genericsetup:importStep
       name="collective.revisionmanager-postInstall"
       title="collective.revisionmanager post_install import step"
       description="Post install import step from collective.revisionmanager"
-      handler=".setuphandlers.post_install">
-  </genericsetup:importStep>
+      handler=".setuphandlers.post_install"
+      >
+</genericsetup:importStep>
 
   <adapter
+      factory=".browser.views.RevisionsControlPanelAdapter"
       provides=".interfaces.IRevisionSettingsSchema"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      factory=".browser.views.RevisionsControlPanelAdapter"
       />
 
 </configure>

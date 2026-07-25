@@ -1,9 +1,8 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <componentregistry>
-    <utilities>
-        <utility
-            interface="collective.revisionmanager.interfaces.IHistoryStatsCache"
-            factory="collective.revisionmanager.statscache.cache_factory"
-            />
-    </utilities>
+  <utilities>
+    <utility factory="collective.revisionmanager.statscache.cache_factory"
+             interface="collective.revisionmanager.interfaces.IHistoryStatsCache"
+    />
+  </utilities>
 </componentregistry>

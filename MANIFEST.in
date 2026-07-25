@@ -1,4 +1,9 @@
-graft src/collective
-graft docs
-include *.rst pyproject.toml tox.ini
-global-exclude *.pyc
+include *.txt *.rst
+
+recursive-include docs *
+recursive-include src *
+
+global-exclude *pyc
+include pyproject.toml
+recursive-exclude news *
+exclude news

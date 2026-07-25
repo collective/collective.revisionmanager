@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .interfaces import IHistoryStatsCache
 from zope.component import getUtility
 

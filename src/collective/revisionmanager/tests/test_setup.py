@@ -1,12 +1,13 @@
-# -*- coding: utf-8 -*-
 """Setup tests for this package."""
+
 from collective.revisionmanager.interfaces import IHistoryStatsCache
-from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
+from collective.revisionmanager.testing import (  # noqa: E501
+    COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING,
+)
 from plone import api
 from plone.browserlayer.utils import registered_layers
 
 import unittest
-
 
 has_get_installer = True
 
@@ -24,25 +25,27 @@ class TestSetup(unittest.TestCase):
 
     def setUp(self):
         """Custom shared utility setup for tests."""
-        self.portal = self.layer['portal']
+        self.portal = self.layer["portal"]
         if has_get_installer:
             self.installer = get_installer(self.portal)
         else:  # pragma: no cover
-            self.installer = api.portal.get_tool('portal_quickinstaller')
+            self.installer = api.portal.get_tool("portal_quickinstaller")
 
     def test_product_installed(self):
         """Test if collective.revisionmanager is installed."""
         try:
             is_installed = self.installer.is_product_installed(
-                'collective.revisionmanager')
+                "collective.revisionmanager"
+            )
         except AttributeError:  # pragma: no cover
             is_installed = self.installer.isProductInstalled(
-                'collective.revisionmanager')
+                "collective.revisionmanager"
+            )
         self.assertTrue(is_installed)
 
     def test_browserlayer(self):
         layers = [layer.getName() for layer in registered_layers()]
-        self.assertIn('ICollectiveRevisionmanagerLayer', layers)
+        self.assertIn("ICollectiveRevisionmanagerLayer", layers)
 
     def test_persistent_utility(self):
         sm = self.portal.getSiteManager()
@@ -54,27 +57,29 @@ class TestUninstall(unittest.TestCase):
     layer = COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
+        self.portal = self.layer["portal"]
         if has_get_installer:
             self.installer = get_installer(self.portal)
-            self.installer.uninstall_product('collective.revisionmanager')
+            self.installer.uninstall_product("collective.revisionmanager")
         else:  # pragma: no cover
-            self.installer = api.portal.get_tool('portal_quickinstaller')
-            self.installer.uninstallProducts(['collective.revisionmanager'])
+            self.installer = api.portal.get_tool("portal_quickinstaller")
+            self.installer.uninstallProducts(["collective.revisionmanager"])
 
     def test_product_uninstalled(self):
         """Test if collective.revisionmanager is cleanly uninstalled."""
         try:
             is_installed = self.installer.is_product_installed(
-                'collective.revisionmanager')
+                "collective.revisionmanager"
+            )
         except AttributeError:  # pragma: no cover
             is_installed = self.installer.isProductInstalled(
-                'collective.revisionmanager')
+                "collective.revisionmanager"
+            )
         self.assertFalse(is_installed)
 
     def test_addon_layer_removed(self):
         layers = [layer.getName() for layer in registered_layers()]
-        self.assertNotIn('ICollectiveRevisionmanagerLayer', layers)
+        self.assertNotIn("ICollectiveRevisionmanagerLayer", layers)
 
     def test_persistent_utility_removed(self):
         try:
