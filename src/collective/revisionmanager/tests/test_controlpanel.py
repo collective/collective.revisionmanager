@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.revisionmanager.config import PROJECTNAME
 from collective.revisionmanager.interfaces import IRevisionSettingsSchema
 from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
@@ -30,7 +29,7 @@ class ControlPanelTestCase(unittest.TestCase):
     def test_controlpanel_has_view(self):
         request = self.layer['request']
         view = api.content.get_view(
-            u'revisions-controlpanel', self.portal, request)
+            'revisions-controlpanel', self.portal, request)
         self.assertTrue(view())
 
     def test_controlpanel_view_is_protected(self):

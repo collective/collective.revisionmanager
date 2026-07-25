@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
 from collective.revisionmanager.upgrades import clear_cache
@@ -26,7 +25,7 @@ class UpgradeTo1001Tests(unittest.TestCase):
             cache['summaries']['existing_histories']
         del cache['summaries']['existing_histories']
         view = api.content.get_view(
-            u'revisions-controlpanel', self.portal, self.request)
+            'revisions-controlpanel', self.portal, self.request)
         self.assertRaises(LocationError, view)
         # now run the upgrade
         clear_cache(self.portal)

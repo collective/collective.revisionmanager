@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from DateTime.DateTime import DateTime
 from persistent.list import PersistentList
@@ -54,7 +53,7 @@ class HistoryStatsCache(PersistentMapping):
         try:
             wrapper = htool.retrieve(hid).object
         except POSKeyError as e:
-            log.warning('POSKeyError encountered trying to retrieve history {0}: {1}'.format(hid, e))  # noqa: E501
+            log.warning(f'POSKeyError encountered trying to retrieve history {hid}: {e}')  # noqa: E501
             wrapper = {
                 'path': 'POSKeyError encountered!',
                 'portal_type': '-'
@@ -67,7 +66,7 @@ class HistoryStatsCache(PersistentMapping):
                     pass
 
         except BrokenModified as e:
-            log.warning('BrokenModified encountered trying to retrieve history {0}: {1}'.format(hid, e))  # noqa: E501
+            log.warning(f'BrokenModified encountered trying to retrieve history {hid}: {e}')  # noqa: E501
             wrapper = {
                 'path': 'BrokenModified encountered!',
                 'portal_type': '-'
@@ -98,7 +97,7 @@ class HistoryStatsCache(PersistentMapping):
         # collect interesting informations
         histories = []
         for hid in historyids.keys():
-            log.debug('processing history {0}'.format(hid))
+            log.debug(f'processing history {hid}')
             history = htool.getHistory(hid)
             length = len(history)
             not_purged = htool.getHistory(hid, countPurged=False)
@@ -121,7 +120,7 @@ class HistoryStatsCache(PersistentMapping):
                     start = parts.index(siteid) + 1
                     wcinfos.append(dict(
                         url=working_copy.absolute_url(),
-                        path='/{0}'.format('/'.join(parts[start:])),
+                        path='/{}'.format('/'.join(parts[start:])),
                         portal_type=working_copy.getPortalTypeName()
                     ))
             else:
@@ -136,7 +135,7 @@ class HistoryStatsCache(PersistentMapping):
                 else:
                     retrieved = wrapper.object
                     di.update({
-                        'path': 'no working copy, object id: {0}'.format(
+                        'path': 'no working copy, object id: {}'.format(
                             retrieved.getId()),
                         'portal_type': retrieved.getPortalTypeName()})
                 wcinfos.append(di)
@@ -170,23 +169,23 @@ class HistoryStatsCache(PersistentMapping):
                 existing_histories += 1
                 existing_versions += histdata['length']
 
-        processingtime = '{0:.2f}'.format(time() - starttime)
+        processingtime = f'{time() - starttime:.2f}'
         numhistories = existing_histories + deleted_histories
         versions = existing_versions + deleted_versions
 
         if numhistories:
-            total_average = '{0:.1f}'.format(float(versions) / numhistories)
+            total_average = f'{float(versions) / numhistories:.1f}'
         else:
             total_average = 'n/a'
 
         if existing_histories:
-            existing_average = '{0:.1f}'.format(
+            existing_average = '{:.1f}'.format(
                 float(existing_versions) / existing_histories)
         else:
             existing_average = 'n/a'
 
         if deleted_histories:
-            deleted_average = '{0:.1f}'.format(
+            deleted_average = '{:.1f}'.format(
                 float(deleted_versions) / deleted_histories)
         else:
             deleted_average = 'n/a'

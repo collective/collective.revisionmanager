@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.revisionmanager import _
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from collective.revisionmanager.interfaces import IRevisionSettingsSchema
@@ -9,7 +8,6 @@ from plone.batching import Batch
 from plone.protect import CheckAuthenticator
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from six.moves import zip
 from z3c.form import button
 from z3c.form import form
 from zope.component import adapter
@@ -24,9 +22,9 @@ class HistoriesListView(BrowserPage):
 
     # i18n
     size_states = {
-        'approximate': _(u'approximate'),
-        'inaccurate': _(u'inaccurate'),
-        None: _(u'unknown')
+        'approximate': _('approximate'),
+        'inaccurate': _('inaccurate'),
+        None: _('unknown')
     }
     js_confirm = _('Are you sure?')
 
@@ -164,7 +162,7 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
     template = ViewPageTemplateFile('revisionssettings.pt')
 
     def __init__(self, *args, **kw):
-        super(RevisionsControlPanel, self).__init__(*args, **kw)
+        super().__init__(*args, **kw)
         self.statscache = getUtility(IHistoryStatsCache)
 
     def available(self):
@@ -182,7 +180,7 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
     def last_updated(self):
         return self.statscache.last_updated
 
-    @button.buttonAndHandler(_(u'Save'), name='save')
+    @button.buttonAndHandler(_('Save'), name='save')
     def handle_save_action(self, action):
         data, errors = self.extractData()
         if errors:
@@ -190,8 +188,8 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
             return
         CheckAuthenticator(self.request)
         if not self.available():
-            msg = _(u'text_not_allowed_manage_server',
-                    default=u'You are not allowed to manage the Zope server.')
+            msg = _('text_not_allowed_manage_server',
+                    default='You are not allowed to manage the Zope server.')
             api.portal.show_message(msg, self.request, type='error')
             return
         value = data.get('number_versions_to_keep', -1)
@@ -201,12 +199,12 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
         cache = getUtility(IHistoryStatsCache)
         cache.subtransaction_threshold = value
 
-    @button.buttonAndHandler(_(u'Recalculate Statistics'), name='recalculate')
+    @button.buttonAndHandler(_('Recalculate Statistics'), name='recalculate')
     def handle_recalculate_stats(self, action):
         CheckAuthenticator(self.request)
         if not self.available():
-            msg = _(u'text_not_allowed_manage_server',
-                    default=u'You are not allowed to manage the Zope server.')
+            msg = _('text_not_allowed_manage_server',
+                    default='You are not allowed to manage the Zope server.')
             api.portal.show_message(msg, self.request, type='error')
             return
         self.statscache.refresh()
@@ -214,7 +212,7 @@ class RevisionsControlPanel(AutoExtensibleForm, form.EditForm):
 
 @implementer(IRevisionSettingsSchema)
 @adapter(IPloneSiteRoot)
-class RevisionsControlPanelAdapter(object):
+class RevisionsControlPanelAdapter:
     """ Plone style schema adapter for CMFEditions configuration settings
     """
 

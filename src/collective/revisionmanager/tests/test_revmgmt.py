@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING
 from DateTime.DateTime import DateTime

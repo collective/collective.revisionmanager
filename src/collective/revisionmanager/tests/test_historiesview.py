@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.revisionmanager.interfaces import IHistoryStatsCache
 from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_FUNCTIONAL_TESTING  # noqa: E501
 from collective.revisionmanager.testing import COLLECTIVE_REVISIONMANAGER_INTEGRATION_TESTING  # noqa: E501
@@ -29,37 +28,31 @@ class TestHistoriesView(unittest.TestCase):
         self.doc1 = api.content.create(
             container=self.portal,
             type='Document',
-            title=u'Some Document',
+            title='Some Document',
         )
-        self.doc1.text = RichTextValue(u'One two', 'text/plain', 'text/html')
+        self.doc1.text = RichTextValue('One two', 'text/plain', 'text/html')
         modified(self.doc1)
         self.statscache = getUtility(IHistoryStatsCache)
         self.statscache.refresh()
 
     def test_view_displays_info_on_revisions(self):
         view = api.content.get_view(
-            u'histories', self.portal, self.request)
+            'histories', self.portal, self.request)
         html = view()
         self.assertIn('<td>2 (0)</td>', html)
-        if six.PY2:
-            size = "3 kB"  # pragma: no cover
-        else:
-            size = "4 kB"
-        self.assertIn('<td align="right">{}</td>'.format(size), html)
+        size = "4 kB"
+        self.assertIn(f'<td align="right">{size}</td>', html)
         self.assertIn(
             '<a href="http://nohost/plone/some-document">/some-document</a>',
             html)
-        self.doc1.text = RichTextValue(u'Changed!', 'text/plain', 'text/html')
+        self.doc1.text = RichTextValue('Changed!', 'text/plain', 'text/html')
         modified(self.doc1)
         self.statscache.refresh()
         html = view()
         self.assertEqual(view.batch[0]['length'], 3)
         self.assertIn('<td>3 (0)</td>', html)
-        if six.PY2:
-            size = "5 kB"  # pragma: no cover
-        else:
-            size = "6 kB"
-        self.assertIn('<td align="right">{}</td>'.format(size), html)
+        size = "6 kB"
+        self.assertIn(f'<td align="right">{size}</td>', html)
 
     def test_view_is_protected(self):
         from AccessControl import Unauthorized
@@ -69,13 +62,13 @@ class TestHistoriesView(unittest.TestCase):
 
     def test_humanize(self):
         view = api.content.get_view(
-            u'histories', self.portal, self.request)
-        self.assertEqual(view.humanize_size(244), u'244 bytes')
-        self.assertEqual(view.humanize_size(1), u'1 byte')
-        self.assertEqual(view.humanize_size(None), u'0 bytes')
-        self.assertEqual(view.humanize_size(6666666), u'6.4 MB')
-        self.assertEqual(view.humanize_size(6666666666), u'6.21 GB')
-        self.assertEqual(view.humanize_size(988772635482736), u'899.28 TB')
+            'histories', self.portal, self.request)
+        self.assertEqual(view.humanize_size(244), '244 bytes')
+        self.assertEqual(view.humanize_size(1), '1 byte')
+        self.assertEqual(view.humanize_size(None), '0 bytes')
+        self.assertEqual(view.humanize_size(6666666), '6.4 MB')
+        self.assertEqual(view.humanize_size(6666666666), '6.21 GB')
+        self.assertEqual(view.humanize_size(988772635482736), '899.28 TB')
 
 
 class TestViewsFunctional(unittest.TestCase):
@@ -90,9 +83,9 @@ class TestViewsFunctional(unittest.TestCase):
         self.doc1 = api.content.create(
             container=self.portal,
             type='Document',
-            title=u'Some Document',
+            title='Some Document',
         )
-        self.doc1.text = RichTextValue(u'One two', 'text/plain', 'text/html')
+        self.doc1.text = RichTextValue('One two', 'text/plain', 'text/html')
         self.browser = Browser(self.layer['app'])
         self.browser.handleErrors = False
         modified(self.doc1)
@@ -105,7 +98,7 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.handleErrors = False
         self.browser.addHeader(
             'Authorization',
-            'Basic {}:{}'.format(TEST_USER_NAME, TEST_USER_PASSWORD)
+            f'Basic {TEST_USER_NAME}:{TEST_USER_PASSWORD}'
         )
 
     def test_views_functional(self):
@@ -113,12 +106,9 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.getControl(name='form.buttons.recalculate').click()
         self.browser.open(self.portal_url + '/@@histories')
         self.assertIn('<td>2 (0)</td>', self.browser.contents)
-        if six.PY2:
-            size = "3 kB"  # pragma: no cover
-        else:
-            size = "4 kB"
-        self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)
-        self.doc1.text = RichTextValue(u'Changed!', 'text/plain', 'text/html')
+        size = "4 kB"
+        self.assertIn(f'<td align="right">{size}</td>', self.browser.contents)
+        self.doc1.text = RichTextValue('Changed!', 'text/plain', 'text/html')
         modified(self.doc1)
         # Refresh the cache.  Could also be done by clicking on the recalculate
         # button in the control panel, but this is easier:
@@ -127,11 +117,8 @@ class TestViewsFunctional(unittest.TestCase):
         self.browser.reload()
         # We have a item with 3 revisions
         self.assertIn('<td>3 (0)</td>', self.browser.contents)
-        if six.PY2:
-            size = "5 kB"  # pragma: no cover
-        else:
-            size = "6 kB"
-        self.assertIn('<td align="right">{}</td>'.format(size), self.browser.contents)
+        size = "6 kB"
+        self.assertIn(f'<td align="right">{size}</td>', self.browser.contents)
 
         checkbox = self.browser.getControl(name='delete:list')
         self.assertEqual(checkbox.options, ['check1'])
