@@ -1,8 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layers>
-  <layer
-      name="collective.revisionmanager"
-      interface="collective.revisionmanager.interfaces.ICollectiveRevisionmanagerLayer"
-      remove="True"
-      />
+  <layer interface="collective.revisionmanager.interfaces.ICollectiveRevisionmanagerLayer"
+         name="collective.revisionmanager"
+         remove="True"
+  />
 </layers>

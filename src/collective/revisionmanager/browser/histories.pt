@@ -1,134 +1,233 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      xml:lang="en" lang="en"
+      lang="en"
+      xml:lang="en"
       tal:omit-tag=""
-      i18n:domain="collective.revisionmanager">
+      i18n:domain="collective.revisionmanager"
+>
 
-<metal:block use-macro="context/prefs_main_template/macros/master">
+  <metal:block use-macro="context/prefs_main_template/macros/master">
 
-<body>
+    <body>
 
-    <metal:content fill-slot="prefs_configlet_content">
+      <metal:content fill-slot="prefs_configlet_content">
 
-  <div class="documentEditable">
+        <div class="documentEditable">
 
-      <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+          <div metal:use-macro="context/global_statusmessage/macros/portal_message">
         Portal status message
-      </div>
-
-      <div id="content">
-
-        <a href=""
-           id="setup-link"
-           tal:attributes="href string:$portal_url/@@overview-controlpanel"
-           i18n:translate="">
-            Site Setup
-        </a>
-
-        <h1 class="documentFirstHeading"
-            i18n:translate="heading_histstorage_contents">Histories Storage Contents</h1>
-
-        <div id="content-core">
-
-          <div class="autotabs">
-            <nav class="nav nav-tabs autotoc-nav">
-              <a class="nav-link" aria-current="page"
-                tal:attributes="href string:$portal_url/@@revisions-controlpanel"
-                i18n:translate="label_revisions_settings">Settings</a>
-              <a class="nav-link active"
-                tal:attributes="href string:$portal_url/@@histories"
-                i18n:translate="label_histories">List histories</a>
-            </nav>
           </div>
 
-           <form action="."
-                  metal:define-macro="master"
-                  tal:attributes="action request/URL;"
-                  method="post"
-                  class="default"
-                  enctype="multipart/form-data"
-                  id="zc.page.browser_form">
+          <div id="content">
 
-    <a href="#" id="checkAll" i18n:translate="">Select all</a>
+            <a id="setup-link"
+               href=""
+               tal:attributes="
+                 href string:$portal_url/@@overview-controlpanel;
+               "
+               i18n:translate=""
+            >
+            Site Setup
+            </a>
 
-    <div tal:define="batch view/batch;">
-  <p tal:condition="not:batch">--</p>
-    <tal:batchnavigation
-        define="batchnavigation nocall:context/@@batchnavigation"
-        replace="structure python:batchnavigation(batch)" />
+            <h1 class="documentFirstHeading"
+                i18n:translate="heading_histstorage_contents"
+            >Histories Storage Contents</h1>
 
-  <table class="listing table table-striped" tal:condition="batch">
+            <div id="content-core">
 
-    <thead>
-    <tr>
-        <th align="left"><a href="" i18n:translate="heading_history_id" tal:attributes="href string:${request/URL}?sortby=history_id&reverse=${view/reverse}">history id</a></th>
-        <th align="left"><a href="" i18n:translate="heading_versions" tal:attributes="href string:${request/URL}?sortby=length&reverse=${view/reverse}">versions (purged)</a></th>
-        <th align="left"><a href="" i18n:translate="heading_size" tal:attributes="href string:${request/URL}?sortby=size&reverse=${view/reverse}">size</a></th>
-        <th align="left"><a href="" i18n:translate="heading_size_state" tal:attributes="href string:${request/URL}?sortby=size_state&reverse=${view/reverse}">size state</a></th>
-        <th align="left"><a href="" i18n:translate="heading_portal_type" tal:attributes="href string:${request/URL}?sortby=portal_type&reverse=${view/reverse}">portal type</a></th>
-        <th align="left"><a href="" i18n:translate="heading_current_path" tal:attributes="href string:${request/URL}?sortby=wcinfos&reverse=${view/reverse}">current path (counting from the portals root)</a></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr tal:repeat="histData batch">
-        <td>
-            <label>
-            <input type="checkbox" name="delete:list" tal:attributes="value string:check${histData/history_id}" />
-            <span tal:omit-tag="" tal:content="histData/history_id">history id</span>
-            </label>
-        </td>
-        <td tal:content="string:${histData/length} (${histData/purged})">length (purged)</td>
-        <td align="right" tal:content="python:view.humanize_size(histData['size'])">size</td>
-        <td align="right" tal:content="python:view.size_state(histData['size_state'])">size state</td>
-        <tal:wc define="wcinfos python:list(histData['wcinfos']);
-                        multi python:len(wcinfos) > 1">
-        <td>
-          <tal:wcinfos repeat="wcinfo wcinfos">
-            <tal:portaltype content="wcinfo/portal_type">portal_type</tal:portaltype>
-            <br tal:condition="multi"/>
-          </tal:wcinfos>
-        </td>
-        <td>
-          <tal:wcinfos repeat="wcinfo wcinfos">
-            <a tal:attributes="href wcinfo/url"
-              tal:content="wcinfo/path">current path</a>
-            <br tal:condition="multi"/>
-          </tal:wcinfos>
-        </td>
-      </tal:wc>
-      </tr>
-    </tbody>
-  </table>
-  <div>
-      <label for="keepnum" i18n:translate="label_num_revisions_to_keep">Number of revisions to keep (0 to delete entire history):</label>
-      <input type="text" name="keepnum" value="0" />
-      <input class="btn btn-primary" i18n:attributes="value" type="submit" name="del_histories" value="Purge selected histories" tal:attributes="onclick string:return window.confirm('${view/js_confirmation}')" onclick="return window.confirm('Are you sure?')" />
-    </div>
-    <div>
-      <label for="del_orphans" i18n:translate="label_delete_orphans">Delete all histories without working copy:</label>
-      <input class="btn btn-secondary" i18n:attributes="value" type="submit" name="del_orphans" value="Delete orphans" tal:attributes="onclick string:return window.confirm('${view/js_confirmation}')" onclick="return window.confirm('Are you sure?')" />
-    </div>
+              <div class="autotabs">
+                <nav class="nav nav-tabs autotoc-nav">
+                  <a class="nav-link"
+                     aria-current="page"
+                     tal:attributes="
+                       href string:$portal_url/@@revisions-controlpanel;
+                     "
+                     i18n:translate="label_revisions_settings"
+                  >Settings</a>
+                  <a class="nav-link active"
+                     tal:attributes="
+                       href string:$portal_url/@@histories;
+                     "
+                     i18n:translate="label_histories"
+                  >List histories</a>
+                </nav>
+              </div>
 
-    <tal:batchnavigation
-        define="batchnavigation nocall:context/@@batchnavigation"
-        replace="structure python:batchnavigation(batch)" />
-    </div>
+              <form class="default"
+                    id="zc.page.browser_form"
+                    action="."
+                    enctype="multipart/form-data"
+                    metal:define-macro="master"
+                    method="post"
+                    tal:attributes="
+                      action request/URL;
+                    "
+              >
+
+                <a id="checkAll"
+                   href="#"
+                   i18n:translate=""
+                >Select all</a>
+
+                <div tal:define="
+                       batch view/batch;
+                     ">
+                  <p tal:condition="not:batch">--</p>
+                  <tal:batchnavigation define="
+                                         batchnavigation nocall:context/@@batchnavigation;
+                                       "
+                                       replace="structure python:batchnavigation(batch)"
+                  />
+
+                  <table class="listing table table-striped"
+                         tal:condition="batch"
+                  >
+
+                    <thead>
+                      <tr>
+                        <th align="left"><a href=""
+                             tal:attributes="
+                               href string:${request/URL}?sortby=history_id&reverse=${view/reverse};
+                             "
+                             i18n:translate="heading_history_id"
+                          >history id</a></th>
+                        <th align="left"><a href=""
+                             tal:attributes="
+                               href string:${request/URL}?sortby=length&reverse=${view/reverse};
+                             "
+                             i18n:translate="heading_versions"
+                          >versions (purged)</a></th>
+                        <th align="left"><a href=""
+                             tal:attributes="
+                               href string:${request/URL}?sortby=size&reverse=${view/reverse};
+                             "
+                             i18n:translate="heading_size"
+                          >size</a></th>
+                        <th align="left"><a href=""
+                             tal:attributes="
+                               href string:${request/URL}?sortby=size_state&reverse=${view/reverse};
+                             "
+                             i18n:translate="heading_size_state"
+                          >size state</a></th>
+                        <th align="left"><a href=""
+                             tal:attributes="
+                               href string:${request/URL}?sortby=portal_type&reverse=${view/reverse};
+                             "
+                             i18n:translate="heading_portal_type"
+                          >portal type</a></th>
+                        <th align="left"><a href=""
+                             tal:attributes="
+                               href string:${request/URL}?sortby=wcinfos&reverse=${view/reverse};
+                             "
+                             i18n:translate="heading_current_path"
+                          >current path (counting from the portals root)</a></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr tal:repeat="histData batch">
+                        <td>
+                          <label>
+                            <input name="delete:list"
+                                   type="checkbox"
+                                   tal:attributes="
+                                     value string:check${histData/history_id};
+                                   "
+                            />
+                            <span tal:content="histData/history_id"
+                                  tal:omit-tag=""
+                            >history id</span>
+                          </label>
+                        </td>
+                        <td tal:content="string:${histData/length} (${histData/purged})">length (purged)</td>
+                        <td align="right"
+                            tal:content="python:view.humanize_size(histData['size'])"
+                        >size</td>
+                        <td align="right"
+                            tal:content="python:view.size_state(histData['size_state'])"
+                        >size state</td>
+                        <tal:wc define="
+                                  wcinfos python:list(histData['wcinfos']);
+                                  multi python:len(wcinfos) > 1;
+                                ">
+                          <td>
+                            <tal:wcinfos repeat="wcinfo wcinfos">
+                              <tal:portaltype content="wcinfo/portal_type">portal_type</tal:portaltype>
+                              <br tal:condition="multi" />
+                            </tal:wcinfos>
+                          </td>
+                          <td>
+                            <tal:wcinfos repeat="wcinfo wcinfos">
+                              <a tal:content="wcinfo/path"
+                                 tal:attributes="
+                                   href wcinfo/url;
+                                 "
+                              >current path</a>
+                              <br tal:condition="multi" />
+                            </tal:wcinfos>
+                          </td>
+                        </tal:wc>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div>
+                    <label for="keepnum"
+                           i18n:translate="label_num_revisions_to_keep"
+                    >Number of revisions to keep (0 to delete entire history):</label>
+                    <input name="keepnum"
+                           type="text"
+                           value="0"
+                    />
+                    <input class="btn btn-primary"
+                           name="del_histories"
+                           onclick="return window.confirm('Are you sure?')"
+                           type="submit"
+                           value="Purge selected histories"
+                           tal:attributes="
+                             onclick string:return window.confirm('${view/js_confirmation}');
+                           "
+                           i18n:attributes="value"
+                    />
+                  </div>
+                  <div>
+                    <label for="del_orphans"
+                           i18n:translate="label_delete_orphans"
+                    >Delete all histories without working copy:</label>
+                    <input class="btn btn-secondary"
+                           name="del_orphans"
+                           onclick="return window.confirm('Are you sure?')"
+                           type="submit"
+                           value="Delete orphans"
+                           tal:attributes="
+                             onclick string:return window.confirm('${view/js_confirmation}');
+                           "
+                           i18n:attributes="value"
+                    />
+                  </div>
+
+                  <tal:batchnavigation define="
+                                         batchnavigation nocall:context/@@batchnavigation;
+                                       "
+                                       replace="structure python:batchnavigation(batch)"
+                  />
+                </div>
 
                 <input tal:replace="structure context/@@authenticator/authenticator" />
 
-            </form>
+              </form>
 
-        <script type="text/javascript"
-                src="++resource++collective.revisionmanager/revisionmanager.js"></script>
+              <script src="++resource++collective.revisionmanager/revisionmanager.js"
+                      type="text/javascript"
+              ></script>
 
+            </div>
+
+          </div>
         </div>
+      </metal:content>
+    </body>
 
-        </div>
-        </div>
-    </metal:content>
-</body>
-
-</metal:block>
+  </metal:block>
 </html>
